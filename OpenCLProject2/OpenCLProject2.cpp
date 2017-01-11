@@ -140,7 +140,9 @@ struct ocl_args_d_t
     float            compilerVersion;   // hold the device OpenCL C version (default. 1.2)
     
     // Objects that are specific for algorithm implemented in this sample
-    cl_mem           srcA;              // hold first source buffer
+	cl_mem           srcScalar;              // hold first sclar buffer
+	cl_mem           srcC;              // hold third source buffer
+	cl_mem           srcA;              // hold first source buffer
     cl_mem           srcB;              // hold second source buffer
     cl_mem           dstMem;            // hold destination buffer
 };
@@ -154,7 +156,9 @@ ocl_args_d_t::ocl_args_d_t():
         platformVersion(OPENCL_VERSION_1_2),
         deviceVersion(OPENCL_VERSION_1_2),
         compilerVersion(OPENCL_VERSION_1_2),
-        srcA(NULL),
+		srcScalar(NULL),
+		srcC(NULL),
+		srcA(NULL),
         srcB(NULL),
         dstMem(NULL)
 {
@@ -458,7 +462,7 @@ int GetPlatformAndDeviceVersion (cl_platform_id platformId, ocl_args_d_t *ocl)
 /*
  * Generate random value for input buffers
  */
-void generateInput(cl_int* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
+void generateInput(cl_float* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
 {
     srand(12345);
 
@@ -466,7 +470,7 @@ void generateInput(cl_int* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
     cl_uint array_size = arrayWidth * arrayHeight;
     for (cl_uint i = 0; i < array_size; ++i)
     {
-        inputArray[i] = rand();
+        inputArray[i] = (cl_float) (rand() % 1000);
     }
 }
 
@@ -618,43 +622,89 @@ Finish:
  * Create OpenCL buffers from host memory
  * These buffers will be used later by the OpenCL kernel
  */
-int CreateBufferArguments(ocl_args_d_t *ocl, cl_int* inputA, cl_int* inputB, cl_int* outputC, cl_uint arrayWidth, cl_uint arrayHeight)
+int CreateBufferArguments(ocl_args_d_t *ocl, cl_float* inputA, cl_float* inputB, cl_float* outputC, cl_uint arrayWidth, cl_uint arrayHeight)
 {
-    cl_int err = CL_SUCCESS;
+	cl_int err = CL_SUCCESS;
 
-    // Create new OpenCL buffer objects
-    // As these buffer are used only for read by the kernel, you are recommended to create it with flag CL_MEM_READ_ONLY.
-    // Always set minimal read/write flags for buffers, it may lead to better performance because it allows runtime
-    // to better organize data copying.
-    // You use CL_MEM_COPY_HOST_PTR here, because the buffers should be populated with bytes at inputA and inputB.
+	// Create new OpenCL buffer objects
+	// As these buffer are used only for read by the kernel, you are recommended to create it with flag CL_MEM_READ_ONLY.
+	// Always set minimal read/write flags for buffers, it may lead to better performance because it allows runtime
+	// to better organize data copying.
+	// You use CL_MEM_COPY_HOST_PTR here, because the buffers should be populated with bytes at inputA and inputB.
 
-    ocl->srcA = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, inputA, &err);
-    if (CL_SUCCESS != err)
-    {
-        LogError("Error: clCreateBuffer for srcA returned %s\n", TranslateOpenCLError(err));
-        return err;
-    }
+	ocl->srcA = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, inputA, &err);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clCreateBuffer for srcA returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
 
-    ocl->srcB = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, inputB, &err);
-    if (CL_SUCCESS != err)
-    {
-        LogError("Error: clCreateBuffer for srcB returned %s\n", TranslateOpenCLError(err));
-        return err;
-    }
+	ocl->srcB = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, inputB, &err);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clCreateBuffer for srcB returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
 
-    // If the output buffer is created directly on top of output buffer using CL_MEM_USE_HOST_PTR,
-    // then, depending on the OpenCL runtime implementation and hardware capabilities, 
-    // it may save you not necessary data copying.
-    // As it is known that output buffer will be write only, you explicitly declare it using CL_MEM_WRITE_ONLY.
-    ocl->dstMem = clCreateBuffer(ocl->context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, outputC, &err);
-    if (CL_SUCCESS != err)
-    {
-        LogError("Error: clCreateBuffer for dstMem returned %s\n", TranslateOpenCLError(err));
-        return err;
-    }
+	// If the output buffer is created directly on top of output buffer using CL_MEM_USE_HOST_PTR,
+	// then, depending on the OpenCL runtime implementation and hardware capabilities, 
+	// it may save you not necessary data copying.
+	// As it is known that output buffer will be write only, you explicitly declare it using CL_MEM_WRITE_ONLY.
+	ocl->dstMem = clCreateBuffer(ocl->context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, outputC, &err);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clCreateBuffer for dstMem returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
 
 
-    return CL_SUCCESS;
+	return CL_SUCCESS;
+}
+
+int CreateBufferArguments2(ocl_args_d_t *ocl, cl_float* inputScalar, cl_float* inputA, cl_float* inputB, cl_float* outputC, cl_uint arrayWidth, cl_uint arrayHeight)
+{
+	cl_int err = CL_SUCCESS;
+
+	// Create new OpenCL buffer objects
+	// As these buffer are used only for read by the kernel, you are recommended to create it with flag CL_MEM_READ_ONLY.
+	// Always set minimal read/write flags for buffers, it may lead to better performance because it allows runtime
+	// to better organize data copying.
+	// You use CL_MEM_COPY_HOST_PTR here, because the buffers should be populated with bytes at inputA and inputB.
+
+	ocl->srcScalar = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, inputScalar, &err);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clCreateBuffer for srcC returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
+
+	ocl->srcA = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, inputA, &err);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clCreateBuffer for srcA returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
+
+	ocl->srcB = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, inputB, &err);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clCreateBuffer for srcB returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
+
+	// If the output buffer is created directly on top of output buffer using CL_MEM_USE_HOST_PTR,
+	// then, depending on the OpenCL runtime implementation and hardware capabilities, 
+	// it may save you not necessary data copying.
+	// As it is known that output buffer will be write only, you explicitly declare it using CL_MEM_WRITE_ONLY.
+	ocl->dstMem = clCreateBuffer(ocl->context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, outputC, &err);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clCreateBuffer for dstMem returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
+
+
+	return CL_SUCCESS;
 }
 
 
@@ -663,30 +713,64 @@ int CreateBufferArguments(ocl_args_d_t *ocl, cl_int* inputA, cl_int* inputB, cl_
  */
 cl_uint SetKernelArguments(ocl_args_d_t *ocl)
 {
-    cl_int err = CL_SUCCESS;
+	cl_int err = CL_SUCCESS;
 
-    err  =  clSetKernelArg(ocl->kernel, 0, sizeof(cl_mem), (void *)&ocl->srcA);
-    if (CL_SUCCESS != err)
-    {
-        LogError("error: Failed to set argument srcA, returned %s\n", TranslateOpenCLError(err));
-        return err;
-    }
+	err = clSetKernelArg(ocl->kernel, 0, sizeof(cl_mem), (void *)&ocl->srcA);
+	if (CL_SUCCESS != err)
+	{
+		LogError("error: Failed to set argument srcA, returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
 
-    err  = clSetKernelArg(ocl->kernel, 1, sizeof(cl_mem), (void *)&ocl->srcB);
-    if (CL_SUCCESS != err)
-    {
-        LogError("Error: Failed to set argument srcB, returned %s\n", TranslateOpenCLError(err));
-        return err;
-    }
+	err = clSetKernelArg(ocl->kernel, 1, sizeof(cl_mem), (void *)&ocl->srcB);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: Failed to set argument srcB, returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
 
-    err  = clSetKernelArg(ocl->kernel, 2, sizeof(cl_mem), (void *)&ocl->dstMem);
-    if (CL_SUCCESS != err)
-    {
-        LogError("Error: Failed to set argument dstMem, returned %s\n", TranslateOpenCLError(err));
-        return err;
-    }
+	err = clSetKernelArg(ocl->kernel, 2, sizeof(cl_mem), (void *)&ocl->dstMem);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: Failed to set argument dstMem, returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
 
-    return err;
+	return err;
+}
+cl_uint SetKernelArguments2(ocl_args_d_t *ocl)
+{
+	cl_int err = CL_SUCCESS;
+
+	err = clSetKernelArg(ocl->kernel, 0, sizeof(cl_mem), (void *)&ocl->srcScalar);
+	if (CL_SUCCESS != err)
+	{
+		LogError("error: Failed to set argument srcScalar, returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
+
+	err = clSetKernelArg(ocl->kernel, 1, sizeof(cl_mem), (void *)&ocl->srcA);
+	if (CL_SUCCESS != err)
+	{
+		LogError("error: Failed to set argument srcA, returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
+
+	err = clSetKernelArg(ocl->kernel, 2, sizeof(cl_mem), (void *)&ocl->srcB);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: Failed to set argument srcB, returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
+
+	err = clSetKernelArg(ocl->kernel, 3, sizeof(cl_mem), (void *)&ocl->dstMem);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: Failed to set argument dstMem, returned %s\n", TranslateOpenCLError(err));
+		return err;
+	}
+
+	return err;
 }
 
 
@@ -724,14 +808,14 @@ cl_uint ExecuteAddKernel(ocl_args_d_t *ocl, cl_uint width, cl_uint height)
 /*
  * "Read" the result buffer (mapping the buffer to the host memory address)
  */
-bool ReadAndVerify(ocl_args_d_t *ocl, cl_uint width, cl_uint height, cl_int *inputA, cl_int *inputB)
+bool ReadAndVerify(ocl_args_d_t *ocl, cl_uint width, cl_uint height, cl_float *inputA, cl_float *inputB)
 {
     cl_int err = CL_SUCCESS;
     bool result = true;
 
     // Enqueue a command to map the buffer object (ocl->dstMem) into the host address space and returns a pointer to it
     // The map operation is blocking
-    cl_int *resultPtr = (cl_int *)clEnqueueMapBuffer(ocl->commandQueue, ocl->dstMem, true, CL_MAP_READ, 0, sizeof(cl_uint) * width * height, 0, NULL, NULL, &err);
+	cl_float *resultPtr = (cl_float *)clEnqueueMapBuffer(ocl->commandQueue, ocl->dstMem, true, CL_MAP_READ, 0, sizeof(cl_uint) * width * height, 0, NULL, NULL, &err);
 
     if (CL_SUCCESS != err)
     {
@@ -753,7 +837,7 @@ bool ReadAndVerify(ocl_args_d_t *ocl, cl_uint width, cl_uint height, cl_int *inp
     {
         if (resultPtr[k] != inputA[k] + inputB[k])
         {
-            LogError("Verification failed at %d: (%d + %d = %d)\n", k, inputA[k], inputB[k], resultPtr[k]);
+            LogError("Verification failed at %d: (%f + %f = %f)\n", k, inputA[k], inputB[k], resultPtr[k]);
             result = false;
         }
     }
@@ -798,9 +882,10 @@ int _tmain(int argc, TCHAR* argv[])
     // allocate working buffers. 
     // the buffer should be aligned with 4K page and size should fit 64-byte cached line
     cl_uint optimizedSize = ((sizeof(cl_int) * arrayWidth * arrayHeight - 1)/64 + 1) * 64;
-    cl_int* inputA  = (cl_int*)_aligned_malloc(optimizedSize, 4096);
-    cl_int* inputB  = (cl_int*)_aligned_malloc(optimizedSize, 4096);
-    cl_int* outputC = (cl_int*)_aligned_malloc(optimizedSize, 4096);
+	cl_float* inputScalar = (cl_float*)_aligned_malloc(optimizedSize, 4096); 
+	cl_float* inputA = (cl_float*)_aligned_malloc(optimizedSize, 4096);
+	cl_float* inputB  = (cl_float*)_aligned_malloc(optimizedSize, 4096);
+	cl_float* outputC = (cl_float*)_aligned_malloc(optimizedSize, 4096);
     if (NULL == inputA || NULL == inputB || NULL == outputC)
     {
         LogError("Error: _aligned_malloc failed to allocate buffers.\n");
@@ -808,12 +893,13 @@ int _tmain(int argc, TCHAR* argv[])
     }
 
     //random input
-    generateInput(inputA, arrayWidth, arrayHeight);
-    generateInput(inputB, arrayWidth, arrayHeight);
+    generateInput(inputScalar, arrayWidth, arrayHeight);
+	generateInput(inputA, arrayWidth, arrayHeight);
+	generateInput(inputB, arrayWidth, arrayHeight);
 
     // Create OpenCL buffers from host memory
     // These buffers will be used later by the OpenCL kernel
-    if (CL_SUCCESS != CreateBufferArguments(&ocl, inputA, inputB, outputC, arrayWidth, arrayHeight))
+    if (CL_SUCCESS != CreateBufferArguments2(&ocl, inputScalar, inputA, inputB, outputC, arrayWidth, 1))
     {
         return -1;
     }
@@ -827,7 +913,7 @@ int _tmain(int argc, TCHAR* argv[])
     // Program consists of kernels.
     // Each kernel can be called (enqueued) from the host part of OpenCL application.
     // To call the kernel, you need to create it from existing program.
-    ocl.kernel = clCreateKernel(ocl.program, "Add", &err);
+    ocl.kernel = clCreateKernel(ocl.program, "SAXPY_1D", &err);
     if (CL_SUCCESS != err)
     {
         LogError("Error: clCreateKernel returned %s\n", TranslateOpenCLError(err));
@@ -835,7 +921,7 @@ int _tmain(int argc, TCHAR* argv[])
     }
 
     // Passing arguments into OpenCL kernel.
-    if (CL_SUCCESS != SetKernelArguments(&ocl))
+    if (CL_SUCCESS != SetKernelArguments2(&ocl))
     {
         return -1;
     }
