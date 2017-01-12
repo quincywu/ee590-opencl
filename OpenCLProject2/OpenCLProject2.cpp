@@ -1138,7 +1138,7 @@ int saxpy_1d()
 			LogInfo("Sequential ref code counter time %f ms.\n",
 				1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
 			
-			LogInfo("Average of 1D for sequential = %f\n", runSum / runNum);
+			LogInfo("Average of 1D for sequential = %f ms\n", runSum / runNum);
 		}
 	}
 	_aligned_free(inputScalar);
@@ -1248,7 +1248,7 @@ int saxpy_2d()
 			runNum++;
 			LogInfo("NDRange performance counter time %f ms.\n",
 				1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
-			LogInfo("Average = %f\n", runSum / runNum);
+			LogInfo("Average of 2D in kernel = %f ms\n", runSum / runNum);
 		}
 
 	}
@@ -1276,7 +1276,7 @@ int saxpy_2d()
 			runNum++;
 			LogInfo("Sequential ref code performance counter time %f ms.\n",
 				1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
-			LogInfo("Average = %f\n", runSum / runNum);
+			LogInfo("Average of 2D in sequential = %f\n", runSum / runNum);
 		}
 	}
 
