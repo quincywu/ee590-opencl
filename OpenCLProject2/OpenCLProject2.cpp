@@ -893,9 +893,12 @@ int _tmain(int argc, TCHAR* argv[])
     }
 
     //random input
-    generateInput(inputScalar, arrayWidth, arrayHeight);
-	generateInput(inputA, arrayWidth, arrayHeight);
-	generateInput(inputB, arrayWidth, arrayHeight);
+    generateInput(inputScalar, 1, 1);
+	generateInput(inputA, arrayWidth, 1);
+	generateInput(inputB, arrayWidth, 1);
+	//generateInput(inputScalar, arrayWidth, arrayHeight);
+	//generateInput(inputA, arrayWidth, arrayHeight);
+	//generateInput(inputB, arrayWidth, arrayHeight);
 
     // Create OpenCL buffers from host memory
     // These buffers will be used later by the OpenCL kernel
