@@ -1084,63 +1084,45 @@ int saxpy_1d()
 	// clEnqueueNDRangeKernel is just enqueue new command in OpenCL command queue and doesn't wait until it ends.
 	// clFinish waits until all commands in command queue are finished, that suits your need to measure time.
 	bool queueProfilingEnable = true;
+	if (queueProfilingEnable)
+		QueryPerformanceCounter(&performanceCountNDRangeStart);
+	// Execute (enqueue) the kernel
+	if (CL_SUCCESS != ExecuteAddKernel(&ocl, arrayWidth, arrayHeight2))
+	{
+		return -1;
+	}
+	if (queueProfilingEnable)
+		QueryPerformanceCounter(&performanceCountNDRangeStop);
 
-	float runSum = 0;
-	float runNum = 0;
+	// The last part of this function: getting processed results back.
+	// use map-unmap sequence to update original memory area with output buffer.
+	//ReadAndVerify(&ocl, arrayWidth, arrayHeight, inputA, inputB);
+	ReadAndVerify(&ocl, arrayWidth, arrayHeight2, inputScalar, inputA, inputB);
 
-	for (unsigned int i = 0; i < 100; ++i) {
-		if (queueProfilingEnable)
-			QueryPerformanceCounter(&performanceCountNDRangeStart);
-		// Execute (enqueue) the kernel
-		if (CL_SUCCESS != ExecuteAddKernel(&ocl, arrayWidth, arrayHeight2))
-		{
-			return -1;
-		}
-		if (queueProfilingEnable)
-			QueryPerformanceCounter(&performanceCountNDRangeStop);
-
-		// The last part of this function: getting processed results back.
-		// use map-unmap sequence to update original memory area with output buffer.
-		//ReadAndVerify(&ocl, arrayWidth, arrayHeight, inputA, inputB);
-		ReadAndVerify(&ocl, arrayWidth, arrayHeight2, inputScalar, inputA, inputB);
-
-		// retrieve performance counter frequency
-		if (queueProfilingEnable)
-		{
-			QueryPerformanceFrequency(&perfFrequency);
-			runSum += 1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart;
-			runNum++; 
-			LogInfo("NDRange performance counter time %f ms.\n",
-				1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
-			
-			LogInfo("Average of 1D for kernel = %f\n", runSum / runNum);
-		}
+	// retrieve performance counter frequency
+	if (queueProfilingEnable)
+	{
+		QueryPerformanceFrequency(&perfFrequency);
+		LogInfo("NDRange performance counter time %f ms.\n",
+			1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
 	}
 
 	//sequential ref code
-	runSum = 0;
-	runNum = 0;
-
-	for (unsigned int i = 0; i < 100; ++i) {
-		if (queueProfilingEnable)
-			QueryPerformanceCounter(&performanceCountNDRangeStart);
-		for (unsigned int i = 0; i < arrayWidth; ++i) {
-			outputC[i] = inputScalar[0] * inputA[i] + inputB[i];
-		}
-		if (queueProfilingEnable)
-			QueryPerformanceCounter(&performanceCountNDRangeStop);
-
-		if (queueProfilingEnable)
-		{
-			QueryPerformanceFrequency(&perfFrequency);
-			runSum += 1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart;
-			runNum++;
-			LogInfo("Sequential ref code counter time %f ms.\n",
-				1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
-			
-			LogInfo("Average of 1D for sequential = %f\n", runSum / runNum);
-		}
+	if (queueProfilingEnable)
+		QueryPerformanceCounter(&performanceCountNDRangeStart);
+	for (unsigned int i = 0; i < arrayWidth; ++i) {
+		outputC[i] = inputScalar[0] * inputA[i] + inputB[i];
 	}
+	if (queueProfilingEnable)
+		QueryPerformanceCounter(&performanceCountNDRangeStop);
+
+	if (queueProfilingEnable)
+	{
+		QueryPerformanceFrequency(&perfFrequency);
+		LogInfo("Sequential ref code counter time %f ms.\n",
+			1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
+	}
+
 	_aligned_free(inputScalar);
 	_aligned_free(inputA);
 	_aligned_free(inputB);
@@ -1289,9 +1271,9 @@ int saxpy_2d()
 }
 
 int _tmain(int argc, TCHAR* argv[]) {
-	saxpy_1d();
+	//saxpy_1d();
 
-	//saxpy_2d();
+	saxpy_2d();
 
 	return 0;
 }

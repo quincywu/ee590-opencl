@@ -40,12 +40,22 @@ __kernel void SAXPY_1D(__global float* pscalar, __global float* pX, __global flo
     pC[id] = pscalar[0] * pX[id] + pY[id];
 }
 
-__kernel void SAXPY_2D(__global float* pscalar, __global float* pX, __global float* pY, __global float* pC)
+__kernel void SAXPY_2D(__global float* pA, __global float* pX, __global float* pY, __global float* pC)
 {
-    /*const float x     = get_global_id(0);
-    const float width = get_global_size(0);
+    const int x     = get_global_id(0);
+	const int y     = get_global_id(1);
+    const int width = get_global_size(0);
+	const int height = get_global_size(1);
 
-    const int id = width + x;
+    const int id = y * width + x;
 
-    pC[id] = pscalar[0] * pX[id] + pY[id];*/
+	//AX
+	int sum = 0;
+	for(unsigned int i = 0; i < width; ++i){ 
+		sum += pA[y * width + i] * pX[i * height + x];
+	}
+
+	pC[id] = sum + pY[id];
+
+
 }
