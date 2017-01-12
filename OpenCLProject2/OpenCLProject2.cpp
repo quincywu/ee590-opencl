@@ -671,21 +671,21 @@ int CreateBufferArguments2(ocl_args_d_t *ocl, cl_float* inputScalar, cl_float* i
 	// to better organize data copying.
 	// You use CL_MEM_COPY_HOST_PTR here, because the buffers should be populated with bytes at inputA and inputB.
 
-	ocl->srcScalar = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, inputScalar, &err);
+	ocl->srcScalar = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float) * arrayWidth * arrayHeight, inputScalar, &err);
 	if (CL_SUCCESS != err)
 	{
 		LogError("Error: clCreateBuffer for srcC returned %s\n", TranslateOpenCLError(err));
 		return err;
 	}
 
-	ocl->srcA = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, inputA, &err);
+	ocl->srcA = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float) * arrayWidth * arrayHeight, inputA, &err);
 	if (CL_SUCCESS != err)
 	{
 		LogError("Error: clCreateBuffer for srcA returned %s\n", TranslateOpenCLError(err));
 		return err;
 	}
 
-	ocl->srcB = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, inputB, &err);
+	ocl->srcB = clCreateBuffer(ocl->context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float) * arrayWidth * arrayHeight, inputB, &err);
 	if (CL_SUCCESS != err)
 	{
 		LogError("Error: clCreateBuffer for srcB returned %s\n", TranslateOpenCLError(err));
@@ -696,7 +696,7 @@ int CreateBufferArguments2(ocl_args_d_t *ocl, cl_float* inputScalar, cl_float* i
 	// then, depending on the OpenCL runtime implementation and hardware capabilities, 
 	// it may save you not necessary data copying.
 	// As it is known that output buffer will be write only, you explicitly declare it using CL_MEM_WRITE_ONLY.
-	ocl->dstMem = clCreateBuffer(ocl->context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * arrayWidth * arrayHeight, outputC, &err);
+	ocl->dstMem = clCreateBuffer(ocl->context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float) * arrayWidth * arrayHeight, outputC, &err);
 	if (CL_SUCCESS != err)
 	{
 		LogError("Error: clCreateBuffer for dstMem returned %s\n", TranslateOpenCLError(err));
@@ -808,14 +808,14 @@ cl_uint ExecuteAddKernel(ocl_args_d_t *ocl, cl_uint width, cl_uint height)
 /*
  * "Read" the result buffer (mapping the buffer to the host memory address)
  */
-bool ReadAndVerify(ocl_args_d_t *ocl, cl_uint width, cl_uint height, cl_float *inputA, cl_float *inputB)
+bool ReadAndVerify(ocl_args_d_t *ocl, cl_uint width, cl_uint height, cl_float *inputScalar, cl_float *inputA, cl_float *inputB)
 {
     cl_int err = CL_SUCCESS;
     bool result = true;
 
     // Enqueue a command to map the buffer object (ocl->dstMem) into the host address space and returns a pointer to it
     // The map operation is blocking
-	cl_float *resultPtr = (cl_float *)clEnqueueMapBuffer(ocl->commandQueue, ocl->dstMem, true, CL_MAP_READ, 0, sizeof(cl_uint) * width * height, 0, NULL, NULL, &err);
+	cl_float *resultPtr = (cl_float *)clEnqueueMapBuffer(ocl->commandQueue, ocl->dstMem, true, CL_MAP_READ, 0, sizeof(cl_float) * width * height, 0, NULL, NULL, &err);
 
     if (CL_SUCCESS != err)
     {
@@ -835,7 +835,7 @@ bool ReadAndVerify(ocl_args_d_t *ocl, cl_uint width, cl_uint height, cl_float *i
     unsigned int size = width * height;
     for (unsigned int k = 0; k < size; ++k)
     {
-        if (resultPtr[k] != inputA[k] + inputB[k])
+        if (resultPtr[k] != inputScalar[0] * inputA[k] + inputB[k])
         {
             LogError("Verification failed at %d: (%f + %f = %f)\n", k, inputA[k], inputB[k], resultPtr[k]);
             result = false;
@@ -848,6 +848,9 @@ bool ReadAndVerify(ocl_args_d_t *ocl, cl_uint width, cl_uint height, cl_float *i
     {
         LogError("Error: clEnqueueUnmapMemObject returned %s\n", TranslateOpenCLError(err));
     }
+
+	if (CL_SUCCESS == err)
+		LogInfo("Finished verifing\n");
 
     return result;
 }
@@ -870,8 +873,12 @@ int _tmain(int argc, TCHAR* argv[])
     LARGE_INTEGER performanceCountNDRangeStart;
     LARGE_INTEGER performanceCountNDRangeStop;
 
-    cl_uint arrayWidth  = 1024;
-    cl_uint arrayHeight = 1024;
+	cl_uint arrayWidth = 4096;
+	cl_uint arrayHeight = 4096;
+    cl_uint arrayHeight2 = 1;
+
+	cl_uint arrayWidth2 = 2048;
+	cl_uint arrayHeight3 = 2048;
 
     //initialize Open CL objects (context, queue, etc.)
     if (CL_SUCCESS != SetupOpenCL(&ocl, deviceType))
@@ -881,12 +888,12 @@ int _tmain(int argc, TCHAR* argv[])
 
     // allocate working buffers. 
     // the buffer should be aligned with 4K page and size should fit 64-byte cached line
-    cl_uint optimizedSize = ((sizeof(cl_int) * arrayWidth * arrayHeight - 1)/64 + 1) * 64;
+    cl_uint optimizedSize = ((sizeof(cl_float) * arrayWidth * arrayHeight2 - 1)/64 + 1) * 64;
 	cl_float* inputScalar = (cl_float*)_aligned_malloc(optimizedSize, 4096); 
 	cl_float* inputA = (cl_float*)_aligned_malloc(optimizedSize, 4096);
 	cl_float* inputB  = (cl_float*)_aligned_malloc(optimizedSize, 4096);
 	cl_float* outputC = (cl_float*)_aligned_malloc(optimizedSize, 4096);
-    if (NULL == inputA || NULL == inputB || NULL == outputC)
+    if (NULL == inputScalar || NULL == inputA || NULL == inputB || NULL == outputC)
     {
         LogError("Error: _aligned_malloc failed to allocate buffers.\n");
         return -1;
@@ -939,11 +946,11 @@ int _tmain(int argc, TCHAR* argv[])
     // because this call doesn't guarantees that kernel is finished.
     // clEnqueueNDRangeKernel is just enqueue new command in OpenCL command queue and doesn't wait until it ends.
     // clFinish waits until all commands in command queue are finished, that suits your need to measure time.
-    bool queueProfilingEnable = false;
+    bool queueProfilingEnable = true;
     if (queueProfilingEnable)
         QueryPerformanceCounter(&performanceCountNDRangeStart);
     // Execute (enqueue) the kernel
-    if (CL_SUCCESS != ExecuteAddKernel(&ocl, arrayWidth, arrayHeight))
+    if (CL_SUCCESS != ExecuteAddKernel(&ocl, arrayWidth, arrayHeight2))
     {
         return -1;
     }
@@ -952,7 +959,8 @@ int _tmain(int argc, TCHAR* argv[])
 
     // The last part of this function: getting processed results back.
     // use map-unmap sequence to update original memory area with output buffer.
-    ReadAndVerify(&ocl, arrayWidth, arrayHeight, inputA, inputB);
+    //ReadAndVerify(&ocl, arrayWidth, arrayHeight, inputA, inputB);
+	ReadAndVerify(&ocl, arrayWidth, arrayHeight2, inputScalar, inputA, inputB);
 
     // retrieve performance counter frequency
     if (queueProfilingEnable)
@@ -961,6 +969,22 @@ int _tmain(int argc, TCHAR* argv[])
         LogInfo("NDRange performance counter time %f ms.\n",
             1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
     }
+
+	//sequential ref code
+	if (queueProfilingEnable)
+		QueryPerformanceCounter(&performanceCountNDRangeStart);
+	for (unsigned int i = 0; i < arrayWidth; ++i) {
+		outputC[i] = inputScalar[0] * inputA[i] + inputB[i];
+	}
+	if (queueProfilingEnable)
+		QueryPerformanceCounter(&performanceCountNDRangeStop);
+	
+	if (queueProfilingEnable)
+	{
+		QueryPerformanceFrequency(&perfFrequency);
+		LogInfo("NDRange performance counter time %f ms.\n",
+			1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
+	}
 
     _aligned_free(inputA);
     _aligned_free(inputB);
