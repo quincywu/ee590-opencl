@@ -1,0 +1,34 @@
+﻿  Preprocessing: ex2akernel.cl
+  Setting target instruction set architecture to: Default (Advanced Vector Extension 2 (AVX2))
+  OpenCL Intel CPU device was found!
+  Device name: Intel(R) Core(TM) i5-6500T CPU @ 2.50GHz
+  Device version: OpenCL 2.0 (Build 10094)
+  Device vendor: Intel(R) Corporation
+  Device profile: FULL_PROFILE
+  Compilation started
+  Compilation done
+  Linking started
+  Linking done
+  Device build started
+  Device build done
+  Kernel <myEx2akernel> was successfully vectorized (8)
+  Done.
+  myEx2akernel info:
+  	Maximum work-group size: 8192
+  	Compiler work-group size: (0, 0, 0)
+  	Local memory size: 0
+  	Preferred multiple of work-group size: 128
+  	Minimum amount of private memory: 0
+  
+  Build succeeded!
+  
+  Ex2a_host.cpp
+Ex2a_host.cpp(110): warning C4996: 'clCreateCommandQueue': was declared deprecated
+  C:\Program Files (x86)\Intel\OpenCL SDK\6.1\include\CL\cl.h(1428): note: see declaration of 'clCreateCommandQueue'
+Ex2a_host.cpp(352): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
+Ex2a_host.cpp(443): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
+  ex2a.vcxproj -> c:\Users\quincywu\documents\visual studio 2015\Projects\ex2a\Debug\ex2a.exe
+  ex2a.vcxproj -> c:\Users\quincywu\documents\visual studio 2015\Projects\ex2a\Debug\ex2a.pdb (Full PDB)
+  ex2akernel.cl
+          1 file(s) copied.
