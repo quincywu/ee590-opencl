@@ -1096,21 +1096,24 @@ int saxpy_1d()
 
 	err = clWaitForEvents(1, &prof_event);
 
+	cl_ulong start_time, end_time;
+	size_t return_bytes;
+
+	// opencl profiling timing start
+	err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
+		&start_time, &return_bytes);
+
+	// opencl timing stop
+	err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
+		&end_time, &return_bytes);
 
 	float runSum = 0;
 	float runNum = 0;
 
-	cl_ulong start_time, end_time;
-	size_t return_bytes;
-
-	for (unsigned int i = 0; i < 100; ++i) {
+	for (unsigned int i = 0; i < 1; ++i) {
 		// window performance timing start
 		if (queueProfilingEnable)
 			QueryPerformanceCounter(&performanceCountNDRangeStart);
-
-		// opencl profiling timing start
-		err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
-			&start_time, &return_bytes);
 
 		// Execute (enqueue) the kernel
 		if (CL_SUCCESS != ExecuteAddKernel(&ocl, arrayWidth, arrayHeight2))
@@ -1122,9 +1125,7 @@ int saxpy_1d()
 		if (queueProfilingEnable)
 			QueryPerformanceCounter(&performanceCountNDRangeStop);
 
-		// opencl timing stop
-		err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
-			&end_time, &return_bytes);
+		
 
 		// The last part of this function: getting processed results back.
 		// use map-unmap sequence to update original memory area with output buffer.
@@ -1141,11 +1142,11 @@ int saxpy_1d()
 			// window performance timing display
 			LogInfo("NDRange performance counter time %f ms.\n",
 				1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
-			
-			// opencl profiling timing display
-			LogInfo("Opencl profiling timing %f\n", (double)(end_time - start_time)/1000000); //nano 
 
-			LogInfo("Average of 1D for kernel = %f\n", runSum / runNum);
+			// opencl profiling timing display
+			LogInfo("Opencl profiling timing %f ms.\n", (double)(end_time - start_time) / 1000000); //nano 
+
+			LogInfo("Average of 1D for kernel = %f ms.\n", runSum / runNum);
 		}
 	}
 
@@ -1264,9 +1265,35 @@ int saxpy_2d()
 	// clEnqueueNDRangeKernel is just enqueue new command in OpenCL command queue and doesn't wait until it ends.
 	// clFinish waits until all commands in command queue are finished, that suits your need to measure time.
 	bool queueProfilingEnable = true;
+
+	// opencl timing 
+	cl_event prof_event;
+	cl_command_queue comm;
+	size_t globalWorkSize[2] = { arrayWidth, arrayHeight };
+
+	comm = clCreateCommandQueue(ocl.context, ocl.device, CL_QUEUE_PROFILING_ENABLE, &err);
+
+	err = clEnqueueNDRangeKernel(comm, ocl.kernel, 2, NULL, globalWorkSize, NULL, 0, NULL, &prof_event);
+
+	clFinish(comm);
+
+	err = clWaitForEvents(1, &prof_event);
+
+	cl_ulong start_time, end_time;
+	size_t return_bytes;
+
+	// opencl profiling timing start
+	err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
+		&start_time, &return_bytes);
+
+	// opencl timing stop
+	err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
+		&end_time, &return_bytes);
+
+
 	float runSum = 0;
 	float runNum = 0;
-	for (unsigned int i = 0; i < 100; ++i) {
+	for (unsigned int i = 0; i < 1; ++i) {
 
 		if (queueProfilingEnable)
 			QueryPerformanceCounter(&performanceCountNDRangeStart);
@@ -1284,8 +1311,14 @@ int saxpy_2d()
 			QueryPerformanceFrequency(&perfFrequency);
 			runSum += 1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart;
 			runNum++;
+			
+			// window timing display
 			LogInfo("NDRange performance counter time %f ms.\n",
 				1000.0f*(float)(performanceCountNDRangeStop.QuadPart - performanceCountNDRangeStart.QuadPart) / (float)perfFrequency.QuadPart);
+
+			// opencl profiling timing display
+			LogInfo("Opencl profiling timing for 2D %f ms.\n", (double)(end_time - start_time) / 1000000); //nano 
+
 			LogInfo("Average of 2D in kernel = %f ms\n", runSum / runNum);
 		}
 
@@ -1327,9 +1360,9 @@ int saxpy_2d()
 }
 
 int _tmain(int argc, TCHAR* argv[]) {
-	saxpy_1d();
+	//saxpy_1d();
 
-	//saxpy_2d();
+	saxpy_2d();
 
 	return 0;
 }
