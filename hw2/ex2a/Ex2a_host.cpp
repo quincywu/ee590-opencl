@@ -85,7 +85,7 @@ int main(int argc, char** argv)
 
 	// allocate working buffers. 
 	// the buffer should be aligned with 4K page and size should fit 64-byte cached line
-	cl_uint optimizedSize = ((sizeof(cl_float4) * vector_size - 1) / 64 + 1) * 64;
+	///////////////////////////////cl_uint optimizedSize = ((sizeof(cl_float4) * vector_size - 1) / 64 + 1) * 64;
 
 	// TODO: allocate aligned memory for struct pointer
 #define NUM_STRUCTS 1
@@ -97,9 +97,9 @@ int main(int argc, char** argv)
 	p_str1->ui2 = {11, 22 };
 
 	//hw2
-	cl_float4* inputA = (cl_float4*)_aligned_malloc(optimizedSize, 4096);
-	cl_float4* inputB = (cl_float4*)_aligned_malloc(optimizedSize, 4096);
-	cl_float* outputC = (cl_float*)_aligned_malloc(optimizedSize, 4096);
+	cl_float4* inputA = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
+	cl_float4* inputB = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
+	cl_float* outputC = (cl_float*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
 	if ( NULL == inputA || NULL == inputB || NULL == outputC)
 	{
 		LogError("Error: _aligned_malloc failed to allocate buffers.\n");
@@ -232,11 +232,11 @@ int main(int argc, char** argv)
 	}
 
 	//hw2
-	cl_mem buffer_inputA = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, &inputA, &err);
-	cl_mem buffer_inputB = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, &inputB, &err);
+	cl_mem buffer_inputA = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, inputA, &err);
+	cl_mem buffer_inputB = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, inputB, &err);
 
 	//output buffer
-	cl_mem buffer_outputC = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float) * vector_size, &outputC, &err);
+	cl_mem buffer_outputC = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float) * vector_size, outputC, &err);
 
 
 	// Setting the arguments to our compute kernel in order to execute it. 
@@ -358,6 +358,40 @@ int main(int argc, char** argv)
 	printf("\nRead output memory \n");
 	printf(SEPARATOR);
 
+	//hw2
+	bool result = true;
+	
+	cl_float *resultPtr = (cl_float *)clEnqueueMapBuffer(commands, buffer_outputC, true, CL_MAP_READ, 0, sizeof(cl_float) * vector_size, 0, NULL, NULL, &err);
+	
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clEnqueueMapBuffer returned %s\n", TranslateOpenCLError(err));
+		return false;
+	}
+
+	// Call clFinish to guarantee that output region is updated
+	err = clFinish(ocl->commandQueue);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clFinish returned %s\n", TranslateOpenCLError(err));
+	}
+	
+	for (unsigned int i = 0; i < vector_size; ++i) { 
+		if(resultPtr[i] != inputA[i].x * inputB[i].x + inputA[i].y * inputB[i].y + inputA[i].z * inputB[i].z + inputA[i].w * inputB[i].w) {
+		
+			LogError("Verification failed at %d, resultPtr=%f, inputA[i]=%.2v4hlf, inputY=%.2v4hlf\n", i, resultPtr[i], inputA[i], inputB[i]);
+			result = false;
+		}
+
+	}
+	
+	// Unmapped the output buffer before releasing it
+	err = clEnqueueUnmapMemObject(command, buffer_outputC, resultPtr, 0, NULL, NULL);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clEnqueueUnmapMemObject returned %s\n", TranslateOpenCLError(err));
+	}
+	
 
 	// TODO: release memory object and host memory
 
