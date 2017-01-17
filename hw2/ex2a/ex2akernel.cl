@@ -25,7 +25,6 @@ __kernel void hw2_1_1kernel(__global float4* fl4a, __global float4* fl4b, __glob
 	const int id = get_global_id(0);
 
 	printf("id=%d\n", id);
-	printf("id=%d\n", get_global_id(1));
 
 	pC[id] = fl4a[id].x * fl4b[id].x; 
 	pC[id] += fl4a[id].y * fl4b[id].y; 
@@ -33,10 +32,50 @@ __kernel void hw2_1_1kernel(__global float4* fl4a, __global float4* fl4b, __glob
 	pC[id] += fl4a[id].w * fl4b[id].w; 
 
 
-	printf("fl4a =%.2v4hlf, fl4b=%.2v4hlf, fl4a+fl4b =%.2v4hlf\n", fl4a[id], fl4b[id], fl4a[id].x * fl4b[id].x + fl4a[id].y * fl4b[id].y + fl4a[id].z * fl4b[id].z + fl4a[id].w * fl4b[id].w);
+	printf("fl4a =%.2v4hlf, fl4b=%.2v4hlf, fl4a+fl4b =%.2f\n", fl4a[id], fl4b[id], fl4a[id].x * fl4b[id].x + fl4a[id].y * fl4b[id].y + fl4a[id].z * fl4b[id].z + fl4a[id].w * fl4b[id].w);
 }
 
-__kernel void hw2_1_2kernel(float4 fl4a, float4 fl4b)
+__kernel void hw2_1_2kernel(__global float4* fl4a, __global float4* fl4b, __global float* pC)
 {
-	printf("fl4a =%.2v4hlf, fl4b=%.2v4hlf, fl4a+fl4b =%.2v4hlf\n", fl4a, fl4b, dot(fl4a, fl4b));
+	const int id = get_global_id(0);
+
+	printf("id=%d\n", id);
+
+	pC[id] = dot(fl4a[id], fl4b[id]);
+
+	printf("fl4a =%.2v4hlf, fl4b=%.2v4hlf, fl4a+fl4b =%.2f\n", fl4a[id], fl4b[id], dot(fl4a[id], fl4b[id]));
+
+}
+
+__kernel void hw2_2_1kernel(__global float16* fl16a, __global float16* fl16b, __global float16* fl16c, __global float16* pD)
+{
+	const int id = get_global_id(0);
+
+	//a*b+c
+	pD[id] = fma(fl16a[id], fl16b[id], fl16c[id]);
+	
+	printf("fl16a =%.2v16hlf, fl16b=%.2v16hlf, fl16c=%.2v16hlf, fma =%.2v16hlf\n", fl16a[id], fl16b[id], fl16c[id], pD[id]);
+
+}
+
+__kernel void hw2_2_2kernel(__global float16* fl16a, __global float16* fl16b, __global float16* fl16c, __global float16* pD)
+{
+	const int id = get_global_id(0);
+
+	//a*b+c
+	pD[id] = mad(fl16a[id], fl16b[id], fl16c[id]);
+	
+	printf("fl16a =%.2v16hlf, fl16b=%.2v16hlf, fl16c=%.2v16hlf, mad =%.2v16hlf\n", fl16a[id], fl16b[id], fl16c[id], pD[id]);
+
+}
+
+__kernel void hw2_2_3kernel(__global float16* fl16a, __global float16* fl16b, __global float16* fl16c, __global float16* pD)
+{
+	const int id = get_global_id(0);
+
+	//a*b+c
+	pD[id] = (fl16a[id] * fl16b[id]) + fl16c[id];
+	
+	printf("fl16a =%.2v16hlf, fl16b=%.2v16hlf, fl16c=%.2v16hlf, manually =%.2v16hlf\n", fl16a[id], fl16b[id], fl16c[id], pD[id]);
+
 }

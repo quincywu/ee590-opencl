@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Ex2a_host.cpp" />
+    <ClCompile Include="fma.cpp" />
     <ClCompile Include="ocl_utils.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -25,7 +25,6 @@ __kernel void hw2_1_1kernel(__global float4* fl4a, __global float4* fl4b, __glob
 	const int id = get_global_id(0);
 
 	printf("id=%d\n", id);
-	printf("id=%d\n", get_global_id(1));
 
 	pC[id] = fl4a[id].x * fl4b[id].x; 
 	pC[id] += fl4a[id].y * fl4b[id].y; 
@@ -33,10 +32,17 @@ __kernel void hw2_1_1kernel(__global float4* fl4a, __global float4* fl4b, __glob
 	pC[id] += fl4a[id].w * fl4b[id].w; 
 
 
-	printf("fl4a =%.2v4hlf, fl4b=%.2v4hlf, fl4a+fl4b =%.2v4hlf\n", fl4a[id], fl4b[id], fl4a[id].x * fl4b[id].x + fl4a[id].y * fl4b[id].y + fl4a[id].z * fl4b[id].z + fl4a[id].w * fl4b[id].w);
+	printf("fl4a =%.2v4hlf, fl4b=%.2v4hlf, fl4a+fl4b =%.2f\n", fl4a[id], fl4b[id], fl4a[id].x * fl4b[id].x + fl4a[id].y * fl4b[id].y + fl4a[id].z * fl4b[id].z + fl4a[id].w * fl4b[id].w);
 }
 
-__kernel void hw2_1_2kernel(float4 fl4a, float4 fl4b)
+__kernel void hw2_1_2kernel(__global float4* fl4a, __global float4* fl4b, __global float* pC)
 {
-	printf("fl4a =%.2v4hlf, fl4b=%.2v4hlf, fl4a+fl4b =%.2v4hlf\n", fl4a, fl4b, dot(fl4a, fl4b));
+	const int id = get_global_id(0);
+
+	printf("id=%d\n", id);
+
+	pC[id] = dot(fl4a[id], fl4b[id]);
+
+	printf("fl4a =%.2v4hlf, fl4b=%.2v4hlf, fl4a+fl4b =%.2f\n", fl4a[id], fl4b[id], dot(fl4a[id], fl4b[id]));
+
 }

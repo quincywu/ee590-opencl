@@ -12,8 +12,11 @@
   Device build started
   Device build done
   Kernel <myEx2akernel> was successfully vectorized (8)
-  Kernel <hw2_1_1kernel> was successfully vectorized (8)
-  Kernel <hw2_1_2kernel> was successfully vectorized (8)
+  Kernel <hw2_1_1kernel> was not vectorized
+  Kernel <hw2_1_2kernel> was not vectorized
+  Kernel <hw2_2_1kernel> was not vectorized
+  Kernel <hw2_2_2kernel> was not vectorized
+  Kernel <hw2_2_3kernel> was not vectorized
   Done.
   myEx2akernel info:
   	Maximum work-group size: 8192
@@ -36,6 +39,51 @@
   	Preferred multiple of work-group size: 128
   	Minimum amount of private memory: 0
   
+  hw2_2_1kernel info:
+  	Maximum work-group size: 8192
+  	Compiler work-group size: (0, 0, 0)
+  	Local memory size: 0
+  	Preferred multiple of work-group size: 128
+  	Minimum amount of private memory: 0
+  
+  hw2_2_2kernel info:
+  	Maximum work-group size: 8192
+  	Compiler work-group size: (0, 0, 0)
+  	Local memory size: 0
+  	Preferred multiple of work-group size: 128
+  	Minimum amount of private memory: 0
+  
+  hw2_2_3kernel info:
+  	Maximum work-group size: 8192
+  	Compiler work-group size: (0, 0, 0)
+  	Local memory size: 0
+  	Preferred multiple of work-group size: 128
+  	Minimum amount of private memory: 0
+  
   Build succeeded!
   
-LINK : fatal error LNK1168: cannot open C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw2\ex2a\Debug\ex2a.exe for writing
+  fma.cpp
+fma.cpp(397): warning C4838: conversion from 'int' to 'std::size_t' requires a narrowing conversion
+fma.cpp(442): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+fma.cpp(490): warning C4018: '<': signed/unsigned mismatch
+fma.cpp(153): warning C4996: 'clCreateCommandQueue': was declared deprecated
+  C:\Program Files (x86)\Intel\OpenCL SDK\6.1\include\CL\cl.h(1428): note: see declaration of 'clCreateCommandQueue'
+fma.cpp(632): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
+fma.cpp(723): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
+  Ex2a_host.cpp
+Ex2a_host.cpp(338): warning C4838: conversion from 'int' to 'std::size_t' requires a narrowing conversion
+Ex2a_host.cpp(381): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+Ex2a_host.cpp(429): warning C4018: '<': signed/unsigned mismatch
+Ex2a_host.cpp(147): warning C4996: 'clCreateCommandQueue': was declared deprecated
+  C:\Program Files (x86)\Intel\OpenCL SDK\6.1\include\CL\cl.h(1428): note: see declaration of 'clCreateCommandQueue'
+Ex2a_host.cpp(569): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
+Ex2a_host.cpp(660): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
+  Generating Code...
+fma.obj : error LNK2005: "struct s1 * p_str1" (?p_str1@@3PAUs1@@A) already defined in Ex2a_host.obj
+fma.obj : error LNK2005: "struct _cl_platform_id * __cdecl get_intel_platform(void)" (?get_intel_platform@@YAPAU_cl_platform_id@@XZ) already defined in Ex2a_host.obj
+fma.obj : error LNK2005: "char * __cdecl read_source(char const *)" (?read_source@@YAPADPBD@Z) already defined in Ex2a_host.obj
+fma.obj : error LNK2005: "void __cdecl build_fail_log(struct _cl_program *,struct _cl_device_id *)" (?build_fail_log@@YAXPAU_cl_program@@PAU_cl_device_id@@@Z) already defined in Ex2a_host.obj
+fma.obj : error LNK2005: "int __cdecl ReadBinaryFile(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,char * *,bool)" (?ReadBinaryFile@@YAHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAPAD_N@Z) already defined in Ex2a_host.obj
+C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw2\ex2a\Debug\ex2a.exe : fatal error LNK1169: one or more multiply defined symbols found

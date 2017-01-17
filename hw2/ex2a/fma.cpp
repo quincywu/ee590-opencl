@@ -47,7 +47,7 @@ int ReadBinaryFile(const std::string filename, char** data, bool isSVM = false);
 /*
 * Generate random value for input buffers
 */
-void generateInput(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
+void generateInput(cl_float16* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
 {
 	srand(12345);
 
@@ -55,11 +55,14 @@ void generateInput(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeigh
 	cl_uint array_size = arrayWidth * arrayHeight;
 	for (cl_uint i = 0; i < array_size; ++i)
 	{
-		inputArray[i] = { (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000) };
+		inputArray[i] = { (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000),
+			(cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), 
+			(cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), 
+			(cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000) };
 	}
 }
 
-int main_1(int argc, char** argv)
+int main(int argc, char** argv)
 {
 	cl_int err;                             // error code returned from api calls 
 	cl_platform_id   platform = NULL;   // platform id 
@@ -69,9 +72,10 @@ int main_1(int argc, char** argv)
 	cl_program       program = NULL;   // compute program 
 	cl_kernel        kernel = NULL;   // compute kernel 
 
-	//hw2
-	cl_kernel        kernel1_1 = NULL;   // compute kernel 
-	cl_kernel        kernel1_2 = NULL;   // compute kernel 
+									  //hw2
+	cl_kernel        kernel2_1 = NULL;   // compute kernel 
+	cl_kernel        kernel2_2 = NULL;   // compute kernel 
+	cl_kernel        kernel2_3 = NULL;   // compute kernel 
 	cl_event		 prof_event;
 
 
@@ -99,10 +103,11 @@ int main_1(int argc, char** argv)
 	p_str1->ui2 = { 11, 22 };
 
 	//hw2
-	cl_float4* inputA = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
-	cl_float4* inputB = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
-	cl_float* outputC = (cl_float*)_aligned_malloc(sizeof(cl_float) * vector_size, 4096);
-	if (NULL == inputA || NULL == inputB || NULL == outputC)
+	cl_float16* inputA = (cl_float16*)_aligned_malloc(sizeof(cl_float16) * vector_size, 4096);
+	cl_float16* inputB = (cl_float16*)_aligned_malloc(sizeof(cl_float16) * vector_size, 4096);
+	cl_float16* inputC = (cl_float16*)_aligned_malloc(sizeof(cl_float16) * vector_size, 4096);
+	cl_float16* outputD = (cl_float16*)_aligned_malloc(sizeof(cl_float16) * vector_size, 4096);
+	if (NULL == inputA || NULL == inputB || NULL == inputC || NULL == outputD)
 	{
 		LogError("Error: _aligned_malloc failed to allocate buffers.\n");
 		return -1;
@@ -110,6 +115,7 @@ int main_1(int argc, char** argv)
 
 	generateInput(inputA, vector_size, 1);
 	generateInput(inputB, vector_size, 1);
+	generateInput(inputC, vector_size, 1);
 
 	// Getting the compute device for the processor graphic (GPU) on our platform by function 
 	printf("Selected device: GPU\n");
@@ -207,10 +213,11 @@ int main_1(int argc, char** argv)
 
 	// TODO: specify correct kernel function name
 	//kernel = clCreateKernel(program, "myEx2akernel", &err);
-	//kernel1_1 = clCreateKernel(program, "hw2_1_1kernel", &err);
-	kernel1_2 = clCreateKernel(program, "hw2_1_2kernel", &err);
+	kernel2_1 = clCreateKernel(program, "hw2_2_1kernel", &err);
+	//kernel2_2 = clCreateKernel(program, "hw2_2_2kernel", &err);
+	//kernel2_3 = clCreateKernel(program, "hw2_2_3kernel", &err);
 
-	if (CL_SUCCESS != err || NULL == kernel1_2)
+	if (CL_SUCCESS != err || NULL == kernel2_1)
 	{
 		printf("Error: Failed to create compute kernel!\n");
 		clReleaseProgram(program);
@@ -234,11 +241,12 @@ int main_1(int argc, char** argv)
 	}
 
 	//hw2
-	cl_mem buffer_inputA = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, inputA, &err);
-	cl_mem buffer_inputB = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, inputB, &err);
+	cl_mem buffer_inputA = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float16) * vector_size, inputA, &err);
+	cl_mem buffer_inputB = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float16) * vector_size, inputB, &err);
+	cl_mem buffer_inputC = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float16) * vector_size, inputC, &err);
 
 	//output buffer
-	cl_mem buffer_outputC = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float) * vector_size, outputC, &err);
+	cl_mem buffer_outputD = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float16) * vector_size, outputD, &err);
 
 
 	// Setting the arguments to our compute kernel in order to execute it. 
@@ -254,69 +262,120 @@ int main_1(int argc, char** argv)
 
 	if ((CL_SUCCESS != err))
 	{
-		LogError("Error: Failed to set kernel arg0 '%s'.\n", TranslateOpenCLError(err));
-		return err;
+	LogError("Error: Failed to set kernel arg0 '%s'.\n", TranslateOpenCLError(err));
+	return err;
 	}
 
 	err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &buffer_structbuf);
 
 	if ((CL_SUCCESS != err))
 	{
-		LogError("Error: Failed to set kernel arg1 '%s'.\n", TranslateOpenCLError(err));
-		return err;
+	LogError("Error: Failed to set kernel arg1 '%s'.\n", TranslateOpenCLError(err));
+	return err;
 	}*/
 
 	//hw2
 	cl_float4 cl_fl4b = { 5.0f, 6.0f, 7.0f, 8.0f };
 
 
-	if (kernel1_1) {
-		err = clSetKernelArg(kernel1_1, 0, sizeof(cl_mem), (void *)&buffer_inputA);
+	if (kernel2_1) {
+		err = clSetKernelArg(kernel2_1, 0, sizeof(cl_mem), (void *)&buffer_inputA);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel1_1 arg0 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set kernel2_1 arg0 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 
-		err = clSetKernelArg(kernel1_1, 1, sizeof(cl_mem), (void *)&buffer_inputB);
+		err = clSetKernelArg(kernel2_1, 1, sizeof(cl_mem), (void *)&buffer_inputB);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel1_1 arg1 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set kernel2_1 arg1 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 
-		err = clSetKernelArg(kernel1_1, 2, sizeof(cl_mem), (void *)&buffer_outputC);
+		err = clSetKernelArg(kernel2_1, 1, sizeof(cl_mem), (void *)&buffer_inputC);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel1_1 arg2 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set kernel2_1 arg2 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+
+		err = clSetKernelArg(kernel2_1, 2, sizeof(cl_mem), (void *)&buffer_outputD);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set kernel2_1 arg3 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 	}
-	if (kernel1_2) {
-		err = clSetKernelArg(kernel1_2, 0, sizeof(cl_mem), (void *)&buffer_inputA);
+
+	if (kernel2_2) {
+		err = clSetKernelArg(kernel2_2, 0, sizeof(cl_mem), (void *)&buffer_inputA);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel1_2 arg0 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set kernel2_2 arg0 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 
-		err = clSetKernelArg(kernel1_2, 1, sizeof(cl_mem), (void *)&buffer_inputB);
+		err = clSetKernelArg(kernel2_2, 1, sizeof(cl_mem), (void *)&buffer_inputB);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel1_2 arg1 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set kernel2_2 arg1 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 
-		err = clSetKernelArg(kernel1_2, 2, sizeof(cl_mem), (void *)&buffer_outputC);
+		err = clSetKernelArg(kernel2_2, 2, sizeof(cl_mem), (void *)&buffer_inputC);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel1_2 arg2 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set kernel2_2 arg2 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+
+		err = clSetKernelArg(kernel2_2, 2, sizeof(cl_mem), (void *)&buffer_outputD);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set kernel2_2 arg3 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+	}
+
+	if (kernel2_3) {
+		err = clSetKernelArg(kernel2_3, 0, sizeof(cl_mem), (void *)&buffer_inputA);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set kernel2_3 arg0 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+
+		err = clSetKernelArg(kernel2_3, 1, sizeof(cl_mem), (void *)&buffer_inputB);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set kernel2_3 arg1 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+
+		err = clSetKernelArg(kernel2_3, 2, sizeof(cl_mem), (void *)&buffer_inputC);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set kernel2_3 arg2 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+
+		err = clSetKernelArg(kernel2_3, 2, sizeof(cl_mem), (void *)&buffer_outputD);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set kernel2_3 arg3 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 	}
@@ -352,14 +411,16 @@ int main_1(int argc, char** argv)
 
 	for (unsigned int i = 0; i < iterations; ++i) {
 		//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
-		//err = clEnqueueNDRangeKernel(commands, kernel1_1, dim, NULL, global, local, 0, NULL, &prof_event);
-		err = clEnqueueNDRangeKernel(commands, kernel1_2, dim, NULL, global, local, 0, NULL, &prof_event);
+		err = clEnqueueNDRangeKernel(commands, kernel2_1, dim, NULL, global, local, 0, NULL, &prof_event);
+		//err = clEnqueueNDRangeKernel(commands, kernel2_2, dim, NULL, global, local, 0, NULL, &prof_event);
+		//err = clEnqueueNDRangeKernel(commands, kernel2_3, dim, NULL, global, local, 0, NULL, &prof_event);
 		if (CL_SUCCESS != err)
 		{
 			printf("Error: Failed to execute kernel!\n");
 			//clReleaseKernel(kernel);
-			//clReleaseKernel(kernel1_1);
-			clReleaseKernel(kernel1_2);
+			clReleaseKernel(kernel2_1);
+			//clReleaseKernel(kernel2_2);
+			//clReleaseKernel(kernel2_3);
 			clReleaseProgram(program);
 			clReleaseCommandQueue(commands);
 			clReleaseContext(context);
@@ -395,9 +456,9 @@ int main_1(int argc, char** argv)
 
 	//hw2
 	bool result = true;
-	
-	cl_float *resultPtr = (cl_float *)clEnqueueMapBuffer(commands, buffer_outputC, true, CL_MAP_READ, 0, sizeof(cl_float) * vector_size, 0, NULL, NULL, &err);
-	
+
+	cl_float *resultPtr = (cl_float *)clEnqueueMapBuffer(commands, buffer_outputD, true, CL_MAP_READ, 0, sizeof(cl_float) * vector_size, 0, NULL, NULL, &err);
+
 	if (CL_SUCCESS != err)
 	{
 		LogError("Error: clEnqueueMapBuffer returned %s\n", TranslateOpenCLError(err));
@@ -410,7 +471,7 @@ int main_1(int argc, char** argv)
 	{
 		LogError("Error: clFinish returned %s\n", TranslateOpenCLError(err));
 	}
-	
+
 	//timing and verification
 	LARGE_INTEGER perfFrequency;
 	LARGE_INTEGER performanceCountNDRangeStart;
@@ -427,11 +488,10 @@ int main_1(int argc, char** argv)
 
 		// sequential host ref. code
 		for (unsigned int i = 0; i < vector_size; ++i) {
-			if (resultPtr[i] != inputA[i].x * inputB[i].x + inputA[i].y * inputB[i].y + inputA[i].z * inputB[i].z + inputA[i].w * inputB[i].w) {
-
-				LogError("Verification failed at %d, resultPtr=%f, inputA[i]=%.2v4hlf, inputB=%.2v4hlf\n", i, resultPtr[i], inputA[i], inputB[i]);
+			//if (resultPtr[i] != (inputA[i].s * inputB[i].s) + inputC[i].s) {
+				LogError("Verification failed at %d, resultPtr=%.2v16hlf, inputA[i]=%.2v16hlf, inputB=%.2v16hlf, inputC=%.2v16hlf\n", i, resultPtr[i], inputA[i], inputB[i]);
 				result = false;
-			}
+			//}
 		}
 
 		if (windowqueueProfilingEnable)
@@ -452,27 +512,30 @@ int main_1(int argc, char** argv)
 
 
 	// Unmapped the output buffer before releasing it
-	err = clEnqueueUnmapMemObject(commands, buffer_outputC, resultPtr, 0, NULL, NULL);
+	err = clEnqueueUnmapMemObject(commands, buffer_outputD, resultPtr, 0, NULL, NULL);
 	if (CL_SUCCESS != err)
 	{
 		LogError("Error: clEnqueueUnmapMemObject returned %s\n", TranslateOpenCLError(err));
 	}
-	
+
 
 	// TODO: release memory object and host memory
 	err = clReleaseMemObject(buffer_inputA);
 	err = clReleaseMemObject(buffer_inputB);
-	err = clReleaseMemObject(buffer_outputC);
+	err = clReleaseMemObject(buffer_inputC);
+	err = clReleaseMemObject(buffer_outputD);
 	err = clReleaseMemObject(buffer_structbuf);
 
 
 	_aligned_free(inputA);
 	_aligned_free(inputB);
-	_aligned_free(outputC);
+	_aligned_free(inputC);
+	_aligned_free(outputD);
 
 	//clReleaseKernel(kernel);
-	//clReleaseKernel(kernel1_1);
-	clReleaseKernel(kernel1_2);
+	clReleaseKernel(kernel2_1);
+	//clReleaseKernel(kernel2_2);
+	//clReleaseKernel(kernel2_3);
 	clReleaseProgram(program);
 	clReleaseCommandQueue(commands);
 	clReleaseContext(context);
