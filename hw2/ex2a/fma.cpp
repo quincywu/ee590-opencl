@@ -457,7 +457,7 @@ int main(int argc, char** argv)
 	//hw2
 	bool result = true;
 
-	cl_float *resultPtr = (cl_float *)clEnqueueMapBuffer(commands, buffer_outputD, true, CL_MAP_READ, 0, sizeof(cl_float) * vector_size, 0, NULL, NULL, &err);
+	cl_float16 *resultPtr = (cl_float16 *)clEnqueueMapBuffer(commands, buffer_outputD, true, CL_MAP_READ, 0, sizeof(cl_float16) * vector_size, 0, NULL, NULL, &err);
 
 	if (CL_SUCCESS != err)
 	{
@@ -488,7 +488,7 @@ int main(int argc, char** argv)
 
 		// sequential host ref. code
 		for (unsigned int i = 0; i < vector_size; ++i) {
-			//if (resultPtr[i] != (inputA[i].s * inputB[i].s) + inputC[i].s) {
+			//if (resultPtr[i].s != (inputA[i].s * inputB[i].s) + inputC[i].s) {
 				LogError("Verification failed at %d, resultPtr=%.2v16hlf, inputA[i]=%.2v16hlf, inputB=%.2v16hlf, inputC=%.2v16hlf\n", i, resultPtr[i], inputA[i], inputB[i]);
 				result = false;
 			//}
