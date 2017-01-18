@@ -29,6 +29,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="crossproduct.cpp" />
     <ClCompile Include="Ex2a_host.cpp" />
     <ClCompile Include="fma.cpp" />
     <ClCompile Include="ocl_utils.cpp" />

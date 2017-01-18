@@ -15,13 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Ex2a_host.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ocl_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fma.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ex2a_host.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crossproduct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
