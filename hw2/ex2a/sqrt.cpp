@@ -49,18 +49,6 @@ void generateInput2(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeig
 	}
 }
 
-void generateInput3(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
-{
-	srand(1234);
-
-	// random initialization of input
-	cl_uint array_size = arrayWidth * arrayHeight;
-	for (cl_uint i = 0; i < array_size; ++i)
-	{
-		inputArray[i] = { (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), 0 };
-	}
-}
-
 int main(int argc, char** argv)
 {
 	cl_int err;                             // error code returned from api calls 
@@ -72,8 +60,9 @@ int main(int argc, char** argv)
 	cl_kernel        kernel = NULL;   // compute kernel 
 
 									  //hw2
-	cl_kernel        kernel3_1 = NULL;   // compute kernel 
-	cl_kernel        kernel3_2 = NULL;   // compute kernel 
+	cl_kernel        kernel4_1 = NULL;   // compute kernel 
+	cl_kernel        kernel4_2 = NULL;   // compute kernel 
+	cl_kernel        kernel4_3 = NULL;   // compute kernel 
 	cl_event		 prof_event;
 
 
@@ -200,10 +189,11 @@ int main(int argc, char** argv)
 
 	// TODO: specify correct kernel function name
 	//kernel = clCreateKernel(program, "myEx2akernel", &err);
-	//kernel3_1 = clCreateKernel(program, "hw2_3_1kernel", &err);
-	kernel3_2 = clCreateKernel(program, "hw2_3_2kernel", &err);
+	kernel4_1 = clCreateKernel(program, "hw2_4_1kernel", &err);
+	//kernel4_2 = clCreateKernel(program, "hw2_4_2kernel", &err);
+	//kernel4_3 = clCreateKernel(program, "hw2_4_3kernel", &err);
 
-	if (CL_SUCCESS != err || NULL == kernel3_2)
+	if (CL_SUCCESS != err || NULL == kernel4_2)
 	{
 		printf("Error: Failed to create compute kernel!\n");
 		clReleaseProgram(program);
@@ -259,54 +249,38 @@ int main(int argc, char** argv)
 	cl_float4 cl_fl4b = { 5.0f, 6.0f, 7.0f, 8.0f };
 
 
-	if (kernel3_1) {
-		err = clSetKernelArg(kernel3_1, 0, sizeof(cl_mem), (void *)&buffer_inputA);
+	if (kernel4_1) {
+		err = clSetKernelArg(kernel4_1, 0, sizeof(cl_mem), (void *)&buffer_inputA);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel3_1 arg0 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set kernel4_1 arg0 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 
-		err = clSetKernelArg(kernel3_1, 1, sizeof(cl_mem), (void *)&buffer_inputB);
+		err = clSetKernelArg(kernel4_1, 1, sizeof(cl_mem), (void *)&buffer_outputD);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel3_1 arg1 '%s'.\n", TranslateOpenCLError(err));
-			return err;
-		}
-
-		err = clSetKernelArg(kernel3_1, 2, sizeof(cl_mem), (void *)&buffer_outputD);
-
-		if ((CL_SUCCESS != err))
-		{
-			LogError("Error: Failed to set kernel3_1 arg2 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set kernel4_1 arg1 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 	}
 
-	if (kernel3_2) {
-		err = clSetKernelArg(kernel3_2, 0, sizeof(cl_mem), (void *)&buffer_inputA);
+	if (kernel4_2) {
+		err = clSetKernelArg(kernel4_2, 0, sizeof(cl_mem), (void *)&buffer_inputA);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel3_2 arg0 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set kernel4_2 arg0 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 
-		err = clSetKernelArg(kernel3_2, 1, sizeof(cl_mem), (void *)&buffer_inputB);
+		err = clSetKernelArg(kernel4_2, 1, sizeof(cl_mem), (void *)&buffer_outputD);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel3_2 arg1 '%s'.\n", TranslateOpenCLError(err));
-			return err;
-		}
-
-		err = clSetKernelArg(kernel3_2, 2, sizeof(cl_mem), (void *)&buffer_outputD);
-
-		if ((CL_SUCCESS != err))
-		{
-			LogError("Error: Failed to set kernel3_2 arg2 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set kernel4_2 arg1 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 	}
@@ -342,15 +316,17 @@ int main(int argc, char** argv)
 
 	for (unsigned int i = 0; i < iterations; ++i) {
 		//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
-		//err = clEnqueueNDRangeKernel(commands, kernel3_1, dim, NULL, global, local, 0, NULL, &prof_event);
-		err = clEnqueueNDRangeKernel(commands, kernel3_2, dim, NULL, global, local, 0, NULL, &prof_event);
+		err = clEnqueueNDRangeKernel(commands, kernel4_1, dim, NULL, global, local, 0, NULL, &prof_event);
+		//err = clEnqueueNDRangeKernel(commands, kernel4_2, dim, NULL, global, local, 0, NULL, &prof_event);
+		//err = clEnqueueNDRangeKernel(commands, kernel4_2, dim, NULL, global, local, 0, NULL, &prof_event);
 
 		if (CL_SUCCESS != err)
 		{
 			printf("Error: Failed to execute kernel!\n");
 			//clReleaseKernel(kernel);
-			//clReleaseKernel(kernel3_1);
-			clReleaseKernel(kernel3_2);
+			clReleaseKernel(kernel4_1);
+			//clReleaseKernel(kernel4_2);
+			//clReleaseKernel(kernel4_2);
 			clReleaseProgram(program);
 			clReleaseCommandQueue(commands);
 			clReleaseContext(context);
@@ -465,8 +441,9 @@ int main(int argc, char** argv)
 	_aligned_free(outputD);
 
 	//clReleaseKernel(kernel);
-	//clReleaseKernel(kernel3_1);
-	clReleaseKernel(kernel3_2);
+	clReleaseKernel(kernel4_1);
+	//clReleaseKernel(kernel4_2);
+	//clReleaseKernel(kernel4_2);
 	clReleaseProgram(program);
 	clReleaseCommandQueue(commands);
 	clReleaseContext(context);

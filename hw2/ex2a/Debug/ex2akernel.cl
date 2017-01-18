@@ -87,7 +87,7 @@ __kernel void hw2_3_1kernel(__global float4* fl4a, __global float4* fl4b, __glob
 	//aXb, cross product
 	pC[id] = cross(fl4a[id], fl4b[id]);
 	
-	printf("fl16a =%.2v16hlf, fl16b=%.2v16hlf, manually =%.2v16hlf\n", fl4a[id], fl4b[id], pC[id]);
+	//printf("fl16a =%.2v4hlf, fl16b=%.2v4hlf, manually =%.2v4hlf\n", fl4a[id], fl4b[id], pC[id]);
 
 }
 
@@ -96,8 +96,11 @@ __kernel void hw2_3_2kernel(__global float4* fl4a, __global float4* fl4b, __glob
 	const int id = get_global_id(0);
 
 	//aXb, cross product
-	pC[id] = fl4a[id]+ fl4b[id];
+	pC[id].x = (fl4a[id].y * fl4b[id].z) - (fl4a[id].z * fl4b[id].y);
+	pC[id].y = (fl4a[id].z * fl4b[id].x) - (fl4a[id].x * fl4b[id].z);
+	pC[id].z = (fl4a[id].x * fl4b[id].y) - (fl4a[id].y * fl4b[id].x); 
+	pC[id].w = 0.0f;
 	
-	printf("fl16a =%.2v16hlf, fl16b=%.2v16hlf, manually =%.2v16hlf\n", fl4a[id], fl4b[id], pC[id]);
+	//printf("fl16a =%.2v4hlf, fl16b=%.2v4hlf, manually =%.2v4hlf\n", fl4a[id], fl4b[id], pC[id]);
 
 }

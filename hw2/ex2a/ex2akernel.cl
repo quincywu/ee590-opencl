@@ -87,7 +87,7 @@ __kernel void hw2_3_1kernel(__global float4* fl4a, __global float4* fl4b, __glob
 	//aXb, cross product
 	pC[id] = cross(fl4a[id], fl4b[id]);
 	
-	printf("fl16a =%.2v16hlf, fl16b=%.2v16hlf, manually =%.2v16hlf\n", fl4a[id], fl4b[id], pC[id]);
+	//printf("fl4a =%.2v4hlf, fl4b=%.2v4hlf, cross =%.2v4hlf\n", fl4a[id], fl4b[id], pC[id]);
 
 }
 
@@ -96,8 +96,44 @@ __kernel void hw2_3_2kernel(__global float4* fl4a, __global float4* fl4b, __glob
 	const int id = get_global_id(0);
 
 	//aXb, cross product
-	pC[id] = fl4a[id]+ fl4b[id];
+	pC[id].x = (fl4a[id].y * fl4b[id].z) - (fl4a[id].z * fl4b[id].y);
+	pC[id].y = (fl4a[id].z * fl4b[id].x) - (fl4a[id].x * fl4b[id].z);
+	pC[id].z = (fl4a[id].x * fl4b[id].y) - (fl4a[id].y * fl4b[id].x); 
+	pC[id].w = 0.0f;
 	
-	printf("fl16a =%.2v16hlf, fl16b=%.2v16hlf, manually =%.2v16hlf\n", fl4a[id], fl4b[id], pC[id]);
+	//printf("fl4a =%.2v4hlf, fl4b=%.2v4hlf, manually =%.2v4hlf\n", fl4a[id], fl4b[id], pC[id]);
+
+}
+
+__kernel void hw2_4_1kernel(__global float4* fl4a, __global float* pC)
+{
+	const int id = get_global_id(0);
+
+	// Returns length of vector p computed as: half_sqrt(p.x2 + p.y2 + ...)
+	pC[id] = fast_length(fl4a[id]);
+	
+	printf("fl4a =%.2v4hlf, fast_length =%.2f\n", fl4a[id], pC[id]);
+
+}
+
+__kernel void hw2_4_2kernel(__global float4* fl4a, __global float* pC)
+{
+	const int id = get_global_id(0);
+
+	// native_sqrt
+	pC[id] = native_sqrt(fl4a[id]);
+	
+	printf("fl4a =%.2v4hlf, native_sqrt =%.2f\n", fl4a[id], pC[id]);
+
+}
+
+__kernel void hw2_4_3kernel(__global float4* fl4a, __global float* pC)
+{
+	const int id = get_global_id(0);
+
+	// sqrt
+	pC[id] = sqrt(fl4a[id]);
+	
+	printf("fl4a =%.2v4hlf, sqrt =%.2f\n", fl4a[id], pC[id]);
 
 }
