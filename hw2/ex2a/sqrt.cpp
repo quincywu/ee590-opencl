@@ -187,11 +187,11 @@ int main(int argc, char** argv)
 
 	// TODO: specify correct kernel function name
 	//kernel = clCreateKernel(program, "myEx2akernel", &err);
-	kernel4_1 = clCreateKernel(program, "hw2_4_1kernel", &err);
-	//kernel4_2 = clCreateKernel(program, "hw2_4_2kernel", &err);
+	//kernel4_1 = clCreateKernel(program, "hw2_4_1kernel", &err);
+	kernel4_2 = clCreateKernel(program, "hw2_4_2kernel", &err);
 	//kernel4_3 = clCreateKernel(program, "hw2_4_3kernel", &err);
 
-	if (CL_SUCCESS != err || NULL == kernel4_1)
+	if (CL_SUCCESS != err || NULL == kernel4_2)
 	{
 		printf("Error: Failed to create compute kernel!\n");
 		clReleaseProgram(program);
@@ -243,7 +243,6 @@ int main(int argc, char** argv)
 	}*/
 
 	//hw2
-	cl_float4 cl_fl4b = { 5.0f, 6.0f, 7.0f, 8.0f };
 
 
 	if (kernel4_1) {
@@ -313,17 +312,17 @@ int main(int argc, char** argv)
 
 	for (unsigned int i = 0; i < iterations; ++i) {
 		//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
-		err = clEnqueueNDRangeKernel(commands, kernel4_1, dim, NULL, global, local, 0, NULL, &prof_event);
-		//err = clEnqueueNDRangeKernel(commands, kernel4_2, dim, NULL, global, local, 0, NULL, &prof_event);
-		//err = clEnqueueNDRangeKernel(commands, kernel4_2, dim, NULL, global, local, 0, NULL, &prof_event);
+		//err = clEnqueueNDRangeKernel(commands, kernel4_1, dim, NULL, global, local, 0, NULL, &prof_event);
+		err = clEnqueueNDRangeKernel(commands, kernel4_2, dim, NULL, global, local, 0, NULL, &prof_event);
+		//err = clEnqueueNDRangeKernel(commands, kernel4_3, dim, NULL, global, local, 0, NULL, &prof_event);
 
 		if (CL_SUCCESS != err)
 		{
 			printf("Error: Failed to execute kernel!\n");
 			//clReleaseKernel(kernel);
-			clReleaseKernel(kernel4_1);
-			//clReleaseKernel(kernel4_2);
-			//clReleaseKernel(kernel4_2);
+			//clReleaseKernel(kernel4_1);
+			clReleaseKernel(kernel4_2);
+			//clReleaseKernel(kernel4_3);
 			clReleaseProgram(program);
 			clReleaseCommandQueue(commands);
 			clReleaseContext(context);
@@ -391,8 +390,9 @@ int main(int argc, char** argv)
 
 		// sequential host ref. code
 		for (unsigned int i = 0; i < vector_size; ++i) {
-			if (resultPtr[i] - sqrt( pow(inputA[i].x, 2) + pow(inputA[i].y, 2) + pow(inputA[i].z, 2) + pow(inputA[i].w, 2) ) < 0.0001 ) {
-				LogError("Verification failed at %d, resultPtr=%.2f, sqrt_result=%.2f, inputA[i]=%.2v4hlf \n\n", i, resultPtr[i], sqrt(pow(inputA[i].x, 2) + pow(inputA[i].y, 2) + pow(inputA[i].z, 2) + pow(inputA[i].w, 2)), inputA[i].s);
+			if (resultPtr[i] != sqrt(inputA[i].x * inputA[i].x + inputA[i].y * inputA[i].y + inputA[i].z * inputA[i].z + inputA[i].w * inputA[i].w) ) {
+				//LogError("this is float=%.10f\n", resultPtr[i] - sqrt(pow(inputA[i].x, 2) + pow(inputA[i].y, 2) + pow(inputA[i].z, 2) + pow(inputA[i].w, 2)));
+				LogError("Verification failed at %d, resultPtr=%.2f, sqrt_result=%.2f, inputA[i]={%.2f,%.2f,%.2f,%.2f} \n\n", i, resultPtr[i], sqrt(pow(inputA[i].x, 2) + pow(inputA[i].y, 2) + pow(inputA[i].z, 2) + pow(inputA[i].w, 2)), inputA[i].x, inputA[i].y, inputA[i].z, inputA[i].w);
 				result = false;
 			}
 		}
@@ -433,8 +433,8 @@ int main(int argc, char** argv)
 	_aligned_free(outputD);
 
 	//clReleaseKernel(kernel);
-	clReleaseKernel(kernel4_1);
-	//clReleaseKernel(kernel4_2);
+	//clReleaseKernel(kernel4_1);
+	clReleaseKernel(kernel4_2);
 	//clReleaseKernel(kernel4_2);
 	clReleaseProgram(program);
 	clReleaseCommandQueue(commands);

@@ -123,7 +123,7 @@ __kernel void hw2_4_2kernel(__global float4* fl4a, __global float4* pC)
 	// native_sqrt
 	pC[id] = native_sqrt(fl4a[id]);
 	
-	printf("fl4a =%.2v4hlf, native_sqrt =%.2f\n", fl4a[id], pC[id]);
+	//printf("fl4a =%.2v4hlf, native_sqrt =%.2f\n", fl4a[id], pC[id]);
 
 }
 
@@ -134,6 +134,6 @@ __kernel void hw2_4_3kernel(__global float4* fl4a, __global float4* pC)
 	// sqrt
 	pC[id] = sqrt(fl4a[id]);
 	
-	printf("fl4a =%.2v4hlf, sqrt =%.2f\n", fl4a[id], pC[id]);
+	//printf("fl4a =%.2v4hlf, sqrt =%.2f\n", fl4a[id], pC[id]);
 
 }
