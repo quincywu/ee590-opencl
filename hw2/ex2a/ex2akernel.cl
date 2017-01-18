@@ -112,11 +112,11 @@ __kernel void hw2_4_1kernel(__global float4* fl4a, __global float* pC)
 	// Returns length of vector p computed as: half_sqrt(p.x2 + p.y2 + ...)
 	pC[id] = fast_length(fl4a[id]);
 	
-	printf("fl4a =%.2v4hlf, fast_length =%.2f\n", fl4a[id], pC[id]);
+	//printf("fl4a =%.2v4hlf, fast_length =%.2f\n", fl4a[id], pC[id]);
 
 }
 
-__kernel void hw2_4_2kernel(__global float4* fl4a, __global float* pC)
+__kernel void hw2_4_2kernel(__global float4* fl4a, __global float4* pC)
 {
 	const int id = get_global_id(0);
 
@@ -127,7 +127,7 @@ __kernel void hw2_4_2kernel(__global float4* fl4a, __global float* pC)
 
 }
 
-__kernel void hw2_4_3kernel(__global float4* fl4a, __global float* pC)
+__kernel void hw2_4_3kernel(__global float4* fl4a, __global float4* pC)
 {
 	const int id = get_global_id(0);
 

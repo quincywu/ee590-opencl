@@ -33,6 +33,7 @@
     <ClCompile Include="Ex2a_host.cpp" />
     <ClCompile Include="fma.cpp" />
     <ClCompile Include="ocl_utils.cpp" />
+    <ClCompile Include="sqrt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Intel_OpenCL_Build_Rules Include="ex2akernel.cl" />

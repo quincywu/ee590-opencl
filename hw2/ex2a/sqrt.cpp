@@ -37,7 +37,7 @@ int ReadBinaryFile(const std::string filename, char** data, bool isSVM = false);
 /*
 * Generate random value for input buffers
 */
-void generateInput2(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
+void generateInput4(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
 {
 	srand(12345);
 
@@ -45,7 +45,7 @@ void generateInput2(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeig
 	cl_uint array_size = arrayWidth * arrayHeight;
 	for (cl_uint i = 0; i < array_size; ++i)
 	{
-		inputArray[i] = { (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), 0 };
+		inputArray[i] = { (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000), (cl_float)(rand() % 1000) };
 	}
 }
 
@@ -82,16 +82,14 @@ int main(int argc, char** argv)
 	
 	//hw2
 	cl_float4* inputA = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
-	cl_float4* inputB = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
-	cl_float4* outputD = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
-	if (NULL == inputA || NULL == inputB || NULL == outputD)
+	cl_float* outputD = (cl_float*)_aligned_malloc(sizeof(cl_float) * vector_size, 4096);
+	if (NULL == inputA || NULL == outputD)
 	{
 		LogError("Error: _aligned_malloc failed to allocate buffers.\n");
 		return -1;
 	}
 
-	generateInput2(inputA, vector_size, 1);
-	generateInput3(inputB, vector_size, 1);
+	generateInput4(inputA, vector_size, 1);
 
 	// Getting the compute device for the processor graphic (GPU) on our platform by function 
 	printf("Selected device: GPU\n");
@@ -193,7 +191,7 @@ int main(int argc, char** argv)
 	//kernel4_2 = clCreateKernel(program, "hw2_4_2kernel", &err);
 	//kernel4_3 = clCreateKernel(program, "hw2_4_3kernel", &err);
 
-	if (CL_SUCCESS != err || NULL == kernel4_2)
+	if (CL_SUCCESS != err || NULL == kernel4_1)
 	{
 		printf("Error: Failed to create compute kernel!\n");
 		clReleaseProgram(program);
@@ -215,9 +213,8 @@ int main(int argc, char** argv)
 
 	//hw2
 	cl_mem buffer_inputA = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, inputA, &err);
-	cl_mem buffer_inputB = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, inputB, &err);
 	//output buffer
-	cl_mem buffer_outputD = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, outputD, &err);
+	cl_mem buffer_outputD = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float) * vector_size, outputD, &err);
 
 
 	// Setting the arguments to our compute kernel in order to execute it. 
@@ -363,7 +360,7 @@ int main(int argc, char** argv)
 	//hw2
 	bool result = true;
 
-	cl_float4 *resultPtr = (cl_float4 *)clEnqueueMapBuffer(commands, buffer_outputD, true, CL_MAP_READ, 0, sizeof(cl_float4) * vector_size, 0, NULL, NULL, &err);
+	cl_float *resultPtr = (cl_float *)clEnqueueMapBuffer(commands, buffer_outputD, true, CL_MAP_READ, 0, sizeof(cl_float) * vector_size, 0, NULL, NULL, &err);
 
 	if (CL_SUCCESS != err)
 	{
@@ -394,11 +391,8 @@ int main(int argc, char** argv)
 
 		// sequential host ref. code
 		for (unsigned int i = 0; i < vector_size; ++i) {
-			if (resultPtr[i].x != (inputA[i].y * inputB[i].z) - (inputA[i].z * inputB[i].y) &&
-				resultPtr[i].y != (inputA[i].z * inputB[i].x) - (inputA[i].x * inputB[i].z) &&
-				resultPtr[i].z != (inputA[i].x * inputB[i].y) - (inputA[i].y * inputB[i].x) &&
-				resultPtr[i].w != 0 ) {
-				LogError("Verification failed at %d, resultPtr=%.2v4hlf\n, inputA[i]=%.2v4hlf\n, inputB=%.2v4hlf\n\n", i, resultPtr[i], inputA[i], inputB[i]);
+			if (resultPtr[i] - sqrt( pow(inputA[i].x, 2) + pow(inputA[i].y, 2) + pow(inputA[i].z, 2) + pow(inputA[i].w, 2) ) < 0.0001 ) {
+				LogError("Verification failed at %d, resultPtr=%.2f, sqrt_result=%.2f, inputA[i]=%.2v4hlf \n\n", i, resultPtr[i], sqrt(pow(inputA[i].x, 2) + pow(inputA[i].y, 2) + pow(inputA[i].z, 2) + pow(inputA[i].w, 2)), inputA[i].s);
 				result = false;
 			}
 		}
@@ -430,13 +424,11 @@ int main(int argc, char** argv)
 
 	// TODO: release memory object and host memory
 	err = clReleaseMemObject(buffer_inputA);
-	err = clReleaseMemObject(buffer_inputB);
 	
 	err = clReleaseMemObject(buffer_outputD);
 
 
 	_aligned_free(inputA);
-	_aligned_free(inputB);
 	
 	_aligned_free(outputD);
 

@@ -27,6 +27,9 @@
     <ClCompile Include="crossproduct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sqrt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Intel_OpenCL_Build_Rules Include="ex2akernel.cl">
