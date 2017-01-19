@@ -200,10 +200,10 @@ int main_3(int argc, char** argv)
 
 	// TODO: specify correct kernel function name
 	//kernel = clCreateKernel(program, "myEx2akernel", &err);
-	//kernel3_1 = clCreateKernel(program, "hw2_3_1kernel", &err);
-	kernel3_2 = clCreateKernel(program, "hw2_3_2kernel", &err);
+	kernel3_1 = clCreateKernel(program, "hw2_3_1kernel", &err);
+	//kernel3_2 = clCreateKernel(program, "hw2_3_2kernel", &err);
 
-	if (CL_SUCCESS != err || NULL == kernel3_2)
+	if (CL_SUCCESS != err || NULL == kernel3_1)
 	{
 		printf("Error: Failed to create compute kernel!\n");
 		clReleaseProgram(program);
@@ -328,6 +328,13 @@ int main_3(int argc, char** argv)
 	size_t global[] = { vector_size, 0, 0 };
 	size_t local[] = { 1, 0, 0 };
 
+	//choosing best local size
+	bool findingBestLocalSize = true;
+	bool first_itr = true;
+	cl_float best_time = 0.0f, current_time;
+	unsigned int counter = 0;
+	int ideal_local_size = 1;
+
 	//opencl profiling timing
 	bool openclqueueProfilingEnable = true;
 	cl_ulong start_time, end_time;
@@ -338,44 +345,64 @@ int main_3(int argc, char** argv)
 	float runNum = 0;
 
 	if (openclqueueProfilingEnable)
-		iterations = 25;
+		iterations = 50;
 
-	for (unsigned int i = 0; i < iterations; ++i) {
-		//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
-		//err = clEnqueueNDRangeKernel(commands, kernel3_1, dim, NULL, global, local, 0, NULL, &prof_event);
-		err = clEnqueueNDRangeKernel(commands, kernel3_2, dim, NULL, global, local, 0, NULL, &prof_event);
+	if (!findingBestLocalSize) // so the loop only excecute once
+		counter = vector_size - 2;
 
-		if (CL_SUCCESS != err)
-		{
-			printf("Error: Failed to execute kernel!\n");
-			//clReleaseKernel(kernel);
-			//clReleaseKernel(kernel3_1);
-			clReleaseKernel(kernel3_2);
-			clReleaseProgram(program);
-			clReleaseCommandQueue(commands);
-			clReleaseContext(context);
-			return EXIT_FAILURE;
+	for (; counter < 512 - 1; ++counter) { // then local[0] would be less than global size
+		local[0] = (size_t)(counter + 1);
+		LogInfo("%d %d %d\n", local[0], local[1], local[2]);
+		if (global[0] % local[0] == 0) {
+			for (unsigned int i = 0; i < iterations; ++i) {
+				//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
+				if (kernel3_1) err = clEnqueueNDRangeKernel(commands, kernel3_1, dim, NULL, global, local, 0, NULL, &prof_event);
+				if (kernel3_2) err = clEnqueueNDRangeKernel(commands, kernel3_2, dim, NULL, global, local, 0, NULL, &prof_event);
+
+				if (CL_SUCCESS != err)
+				{
+					printf("Error: Failed to execute kernel!\n");
+					//clReleaseKernel(kernel);
+					if (kernel3_1) clReleaseKernel(kernel3_1);
+					if (kernel3_2) clReleaseKernel(kernel3_2);
+					clReleaseProgram(program);
+					clReleaseCommandQueue(commands);
+					clReleaseContext(context);
+					return EXIT_FAILURE;
+				}
+
+				err = clFinish(commands);
+				err = clWaitForEvents(1, &prof_event);
+				if (err != CL_SUCCESS)
+				{
+					printf("Error: clEnqueueNDRangeKernel failed to finish\n");
+					return EXIT_FAILURE;
+				}
+
+				err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
+					&start_time, &return_bytes);
+				err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
+					&end_time, &return_bytes);
+				runSum += (double)(end_time - start_time) / 1000000; //nano
+				runNum++;
+
+			}
+
+			current_time = runSum / runNum;
+			runSum = 0;
+			runNum = 0;
 		}
-
-		err = clFinish(commands);
-		err = clWaitForEvents(1, &prof_event);
-		if (err != CL_SUCCESS)
-		{
-			printf("Error: clEnqueueNDRangeKernel failed to finish\n");
-			return EXIT_FAILURE;
+		if (current_time < best_time || first_itr) { //current time is faster therefore better local size
+			best_time = current_time;
+			ideal_local_size = local[0];
+			first_itr = false;
 		}
-
-		err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
-			&start_time, &return_bytes);
-		err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
-			&end_time, &return_bytes);
-		runSum += (double)(end_time - start_time) / 1000000; //nano
-		runNum++;
-
+		LogInfo("Best local size is %d, best time is %f, current_time is %f.\n", ideal_local_size, best_time, current_time);
 	}
+
 	//opencl profiling timing 
 	if (openclqueueProfilingEnable)
-		LogInfo("After %d iterations, average running time for kernel is %f ms.\n", iterations, runSum / runNum);
+		LogInfo("After %d iterations, average running time for kernel is %f ms.\n", iterations, current_time);
 
 	printf("\n");
 	printf("\n***** NDRange is finished ***** \n");

@@ -49,7 +49,7 @@ void generateInput4(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeig
 	}
 }
 
-int main(int argc, char** argv)
+int main_4(int argc, char** argv)
 {
 	cl_int err;                             // error code returned from api calls 
 	cl_platform_id   platform = NULL;   // platform id 
@@ -79,11 +79,12 @@ int main(int argc, char** argv)
 	// allocate working buffers. 
 	// the buffer should be aligned with 4K page and size should fit 64-byte cached line
 	///////////////////////////////cl_uint optimizedSize = ((sizeof(cl_float4) * vector_size - 1) / 64 + 1) * 64;
-	
+
 	//hw2
 	cl_float4* inputA = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
 	cl_float* outputD = (cl_float*)_aligned_malloc(sizeof(cl_float) * vector_size, 4096);
-	if (NULL == inputA || NULL == outputD)
+	cl_float* outputE = (cl_float*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
+	if (NULL == inputA || NULL == outputD || NULL == outputE)
 	{
 		LogError("Error: _aligned_malloc failed to allocate buffers.\n");
 		return -1;
@@ -187,11 +188,11 @@ int main(int argc, char** argv)
 
 	// TODO: specify correct kernel function name
 	//kernel = clCreateKernel(program, "myEx2akernel", &err);
-	//kernel4_1 = clCreateKernel(program, "hw2_4_1kernel", &err);
-	kernel4_2 = clCreateKernel(program, "hw2_4_2kernel", &err);
+	kernel4_1 = clCreateKernel(program, "hw2_4_1kernel", &err);
+	//kernel4_2 = clCreateKernel(program, "hw2_4_2kernel", &err);
 	//kernel4_3 = clCreateKernel(program, "hw2_4_3kernel", &err);
 
-	if (CL_SUCCESS != err || NULL == kernel4_2)
+	if (CL_SUCCESS != err || NULL == kernel4_1)
 	{
 		printf("Error: Failed to create compute kernel!\n");
 		clReleaseProgram(program);
@@ -215,6 +216,7 @@ int main(int argc, char** argv)
 	cl_mem buffer_inputA = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, inputA, &err);
 	//output buffer
 	cl_mem buffer_outputD = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float) * vector_size, outputD, &err);
+	cl_mem buffer_outputE = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, outputE, &err);
 
 
 	// Setting the arguments to our compute kernel in order to execute it. 
@@ -272,7 +274,24 @@ int main(int argc, char** argv)
 			return err;
 		}
 
-		err = clSetKernelArg(kernel4_2, 1, sizeof(cl_mem), (void *)&buffer_outputD);
+		err = clSetKernelArg(kernel4_2, 1, sizeof(cl_mem), (void *)&buffer_outputE);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set kernel4_2 arg1 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+	}
+	if (kernel4_3) {
+		err = clSetKernelArg(kernel4_3, 0, sizeof(cl_mem), (void *)&buffer_inputA);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set kernel4_2 arg0 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+
+		err = clSetKernelArg(kernel4_3, 1, sizeof(cl_mem), (void *)&buffer_outputE);
 
 		if ((CL_SUCCESS != err))
 		{
@@ -289,14 +308,17 @@ int main(int argc, char** argv)
 	printf("Executing NDRange \n");
 
 	// TODO: define NDRange
-	//int dim = 2;
-	//size_t global[] = { 8, 8, 0 };
-	//size_t local[] = { 1, 1, 0 };
-
 	//hw2
 	int dim = 1;
 	size_t global[] = { vector_size, 0, 0 };
 	size_t local[] = { 1, 0, 0 };
+
+	//choosing best local size
+	bool findingBestLocalSize = true;
+	bool first_itr = true;
+	cl_float best_time = 0.0f, current_time;
+	unsigned int counter = 0;
+	int ideal_local_size = 1;
 
 	//opencl profiling timing
 	bool openclqueueProfilingEnable = true;
@@ -308,46 +330,66 @@ int main(int argc, char** argv)
 	float runNum = 0;
 
 	if (openclqueueProfilingEnable)
-		iterations = 25;
+		iterations = 50;
 
-	for (unsigned int i = 0; i < iterations; ++i) {
-		//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
-		//err = clEnqueueNDRangeKernel(commands, kernel4_1, dim, NULL, global, local, 0, NULL, &prof_event);
-		err = clEnqueueNDRangeKernel(commands, kernel4_2, dim, NULL, global, local, 0, NULL, &prof_event);
-		//err = clEnqueueNDRangeKernel(commands, kernel4_3, dim, NULL, global, local, 0, NULL, &prof_event);
+	if (!findingBestLocalSize) // so the loop only excecute once
+		counter = vector_size - 2;
 
-		if (CL_SUCCESS != err)
-		{
-			printf("Error: Failed to execute kernel!\n");
-			//clReleaseKernel(kernel);
-			//clReleaseKernel(kernel4_1);
-			clReleaseKernel(kernel4_2);
-			//clReleaseKernel(kernel4_3);
-			clReleaseProgram(program);
-			clReleaseCommandQueue(commands);
-			clReleaseContext(context);
-			return EXIT_FAILURE;
+	//CL_DEVICE_MAX_WORK_GROUP_SIZE
+	for (; counter < 512 - 1; ++counter) { // then local[0] would be less than global size
+		local[0] = (size_t)(counter + 1);
+		LogInfo("%d %d %d\n", local[0], local[1], local[2]);
+		if (global[0] % local[0] == 0) {
+			for (unsigned int i = 0; i < iterations; ++i) {
+				if (kernel4_1) err = clEnqueueNDRangeKernel(commands, kernel4_1, dim, NULL, global, local, 0, NULL, &prof_event);
+				if (kernel4_2) err = clEnqueueNDRangeKernel(commands, kernel4_2, dim, NULL, global, local, 0, NULL, &prof_event);
+				if (kernel4_3) err = clEnqueueNDRangeKernel(commands, kernel4_3, dim, NULL, global, local, 0, NULL, &prof_event);
+
+				if (CL_SUCCESS != err)
+				{
+					printf("Error: Failed to execute kernel!\n");
+					//clReleaseKernel(kernel);
+					if (kernel4_1) clReleaseKernel(kernel4_1);
+					if (kernel4_2) clReleaseKernel(kernel4_2);
+					if (kernel4_3) clReleaseKernel(kernel4_3);
+					clReleaseProgram(program);
+					clReleaseCommandQueue(commands);
+					clReleaseContext(context);
+					return EXIT_FAILURE;
+				}
+
+				err = clFinish(commands);
+				err = clWaitForEvents(1, &prof_event);
+				if (err != CL_SUCCESS)
+				{
+					printf("Error: clEnqueueNDRangeKernel failed to finish\n");
+					return EXIT_FAILURE;
+				}
+
+				err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
+					&start_time, &return_bytes);
+				err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
+					&end_time, &return_bytes);
+				runSum += (double)(end_time - start_time) / 1000000; //nano
+				runNum++;
+
+			}
+
+			current_time = runSum / runNum;
+			runSum = 0;
+			runNum = 0;
 		}
-
-		err = clFinish(commands);
-		err = clWaitForEvents(1, &prof_event);
-		if (err != CL_SUCCESS)
-		{
-			printf("Error: clEnqueueNDRangeKernel failed to finish\n");
-			return EXIT_FAILURE;
+		if (current_time < best_time || first_itr ) { //current time is faster therefore better local size
+			best_time = current_time;
+			ideal_local_size = local[0];
+			first_itr = false;
 		}
-
-		err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
-			&start_time, &return_bytes);
-		err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
-			&end_time, &return_bytes);
-		runSum += (double)(end_time - start_time) / 1000000; //nano
-		runNum++;
-
+		LogInfo("Best local size is %d, best time is %f, current_time is %f.\n", ideal_local_size, best_time, current_time);
 	}
+
 	//opencl profiling timing 
 	if (openclqueueProfilingEnable)
-		LogInfo("After %d iterations, average running time for kernel is %f ms.\n", iterations, runSum / runNum);
+		LogInfo("After %d iterations, average running time for kernel is %f ms.\n", iterations, current_time);
 
 	printf("\n");
 	printf("\n***** NDRange is finished ***** \n");
@@ -358,8 +400,13 @@ int main(int argc, char** argv)
 
 	//hw2
 	bool result = true;
+	cl_float *resultPtr;
+	cl_float4 *resultPtr2;
 
-	cl_float *resultPtr = (cl_float *)clEnqueueMapBuffer(commands, buffer_outputD, true, CL_MAP_READ, 0, sizeof(cl_float) * vector_size, 0, NULL, NULL, &err);
+	if(kernel4_1)
+		resultPtr = (cl_float *)clEnqueueMapBuffer(commands, buffer_outputD, true, CL_MAP_READ, 0, sizeof(cl_float) * vector_size, 0, NULL, NULL, &err);
+	if(kernel4_2 || kernel4_3)
+		resultPtr2 = (cl_float4 *)clEnqueueMapBuffer(commands, buffer_outputE, true, CL_MAP_READ, 0, sizeof(cl_float4) * vector_size, 0, NULL, NULL, &err);
 
 	if (CL_SUCCESS != err)
 	{
@@ -389,11 +436,23 @@ int main(int argc, char** argv)
 			QueryPerformanceCounter(&performanceCountNDRangeStart);
 
 		// sequential host ref. code
-		for (unsigned int i = 0; i < vector_size; ++i) {
-			if (resultPtr[i] != sqrt(inputA[i].x * inputA[i].x + inputA[i].y * inputA[i].y + inputA[i].z * inputA[i].z + inputA[i].w * inputA[i].w) ) {
-				//LogError("this is float=%.10f\n", resultPtr[i] - sqrt(pow(inputA[i].x, 2) + pow(inputA[i].y, 2) + pow(inputA[i].z, 2) + pow(inputA[i].w, 2)));
-				LogError("Verification failed at %d, resultPtr=%.2f, sqrt_result=%.2f, inputA[i]={%.2f,%.2f,%.2f,%.2f} \n\n", i, resultPtr[i], sqrt(pow(inputA[i].x, 2) + pow(inputA[i].y, 2) + pow(inputA[i].z, 2) + pow(inputA[i].w, 2)), inputA[i].x, inputA[i].y, inputA[i].z, inputA[i].w);
-				result = false;
+		if (kernel4_1) {
+			for (unsigned int i = 0; i < vector_size; ++i) {
+				if ((float)abs((cl_float)resultPtr[i] - (cl_float)sqrt(inputA[i].x * inputA[i].x + inputA[i].y * inputA[i].y + inputA[i].z * inputA[i].z + inputA[i].w * inputA[i].w)) > (float)0.001f) {
+					LogError("this is float=%.10f\n", abs((cl_float)resultPtr[i] - (cl_float)sqrt(inputA[i].x * inputA[i].x + inputA[i].y * inputA[i].y + inputA[i].z * inputA[i].z + inputA[i].w * inputA[i].w)));
+					LogError("Verification failed at %d, resultPtr=%.4f, sqrt_result=%.4f, inputA[i]={%.4f,%.4f,%.4f,%.4f} \n\n", i, resultPtr[i], sqrt(pow(inputA[i].x, 2) + pow(inputA[i].y, 2) + pow(inputA[i].z, 2) + pow(inputA[i].w, 2)), inputA[i].x, inputA[i].y, inputA[i].z, inputA[i].w);
+					result = false;
+				}
+			}
+		}else {
+			for (unsigned int i = 0; i < vector_size; ++i) {
+				if (abs(resultPtr2[i].x - sqrt(inputA[i].x)) > 0.001f ||
+					abs(resultPtr2[i].y - sqrt(inputA[i].y)) > 0.001f || 
+					abs(resultPtr2[i].z - sqrt(inputA[i].z)) > 0.001f || 
+					abs(resultPtr2[i].w - sqrt(inputA[i].w)) > 0.001f ) {
+					LogError("Verification failed at %d, resultPtr2={%.4f,%.4f,%.4f,%.4f}, inputA[i]={%.4f,%.4f,%.4f,%.4f} \n\n", i, resultPtr2[i].x, resultPtr2[i].y, resultPtr2[i].z, resultPtr2[i].w, inputA[i].x, inputA[i].y, inputA[i].z, inputA[i].w);
+					result = false;
+				}
 			}
 		}
 
@@ -415,7 +474,10 @@ int main(int argc, char** argv)
 
 
 	// Unmapped the output buffer before releasing it
-	err = clEnqueueUnmapMemObject(commands, buffer_outputD, resultPtr, 0, NULL, NULL);
+	if (kernel4_1)
+		err = clEnqueueUnmapMemObject(commands, buffer_outputD, resultPtr, 0, NULL, NULL);
+	if (kernel4_2 || kernel4_3)
+		err = clEnqueueUnmapMemObject(commands, buffer_outputE, resultPtr2, 0, NULL, NULL);
 	if (CL_SUCCESS != err)
 	{
 		LogError("Error: clEnqueueUnmapMemObject returned %s\n", TranslateOpenCLError(err));
@@ -424,18 +486,24 @@ int main(int argc, char** argv)
 
 	// TODO: release memory object and host memory
 	err = clReleaseMemObject(buffer_inputA);
-	
-	err = clReleaseMemObject(buffer_outputD);
+	if (kernel4_1)
+		err = clReleaseMemObject(buffer_outputD);
+	if (kernel4_2 || kernel4_3)
+		err = clReleaseMemObject(buffer_outputD);
 
 
 	_aligned_free(inputA);
 	
 	_aligned_free(outputD);
+	_aligned_free(outputE);
 
 	//clReleaseKernel(kernel);
-	//clReleaseKernel(kernel4_1);
-	clReleaseKernel(kernel4_2);
-	//clReleaseKernel(kernel4_2);
+	if (kernel4_1)
+		clReleaseKernel(kernel4_1);
+	if (kernel4_2)
+		clReleaseKernel(kernel4_2);
+	if (kernel4_3)
+		clReleaseKernel(kernel4_3);
 	clReleaseProgram(program);
 	clReleaseCommandQueue(commands);
 	clReleaseContext(context);
