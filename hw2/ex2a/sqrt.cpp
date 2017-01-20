@@ -49,7 +49,7 @@ void generateInput4(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeig
 	}
 }
 
-int main_4(int argc, char** argv)
+int main(int argc, char** argv)
 {
 	cl_int err;                             // error code returned from api calls 
 	cl_platform_id   platform = NULL;   // platform id 
@@ -330,7 +330,7 @@ int main_4(int argc, char** argv)
 	float runNum = 0;
 
 	if (openclqueueProfilingEnable)
-		iterations = 50;
+		iterations = 500;
 
 	if (!findingBestLocalSize) // so the loop only excecute once
 		counter = vector_size - 2;
@@ -384,7 +384,7 @@ int main_4(int argc, char** argv)
 			ideal_local_size = local[0];
 			first_itr = false;
 		}
-		LogInfo("Best local size is %d, best time is %f, current_time is %f.\n", ideal_local_size, best_time, current_time);
+		//LogInfo("Best local size is %d, best time is %f, current_time is %f.\n", ideal_local_size, best_time, current_time);
 	}
 
 	//opencl profiling timing 

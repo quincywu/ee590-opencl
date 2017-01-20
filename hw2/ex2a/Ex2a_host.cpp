@@ -59,7 +59,7 @@ void generateInput(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeigh
 	}
 }
 
-int main(int argc, char** argv)
+int main_1(int argc, char** argv)
 {
 	cl_int err;                             // error code returned from api calls 
 	cl_platform_id   platform = NULL;   // platform id 
