@@ -1,0 +1,1 @@
+{"overview": {"kernelName": "mmult_v1","confCount": 1,"iteration": 20,"bestConf": {"name": "G(512,512,0) - L(2,128,0)","median": "14.7083"},"worstConf": {"name": "G(512,512,0) - L(2,128,0)","median": "14.7083"}},"configurations": "mmult_v1_1901214407_Files/data/data1.ajax"}

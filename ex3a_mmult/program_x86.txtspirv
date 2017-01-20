@@ -1,0 +1,72 @@
+; SPIR-V
+; Version: 1.0
+; Generator: Unknown(14); 0
+; Bound: 47
+; Schema: 0
+               OpCapability Addresses
+               OpCapability Linkage
+               OpCapability Kernel
+          %1 = OpExtInstImport "OpenCL.std"
+               OpMemoryModel Physical32 OpenCL
+               OpEntryPoint Kernel %10 "mmult_v1"
+               OpSource OpenCL_C 102000
+               OpName %5 "__spirv_BuiltInGlobalInvocationId"
+               OpName %11 "N"
+               OpName %12 "A"
+               OpName %13 "B"
+               OpName %14 "C"
+               OpName %26 "k.0"
+               OpName %29 "tem.0"
+               OpDecorate %5 BuiltIn GlobalInvocationId
+               OpDecorate %5 Constant
+               OpDecorate %5 LinkageAttributes "__spirv_BuiltInGlobalInvocationId" Import
+          %2 = OpTypeInt 32 0
+          %3 = OpTypeVector %2 3
+          %4 = OpTypePointer UniformConstant %3
+          %6 = OpTypeVoid
+          %7 = OpTypeFloat 32
+          %8 = OpTypePointer CrossWorkgroup %7
+          %9 = OpTypeFunction %6 %2 %8 %8 %8
+         %30 = OpTypeBool
+         %24 = OpConstant %2 0
+         %27 = OpConstant %7 0
+         %42 = OpConstant %2 1
+          %5 = OpVariable %4 UniformConstant
+         %10 = OpFunction %6 None %9
+         %11 = OpFunctionParameter %2
+         %12 = OpFunctionParameter %8
+         %13 = OpFunctionParameter %8
+         %14 = OpFunctionParameter %8
+         %15 = OpLabel
+         %20 = OpLoad %3 %5 Aligned 0
+         %21 = OpCompositeExtract %2 %20 0
+         %22 = OpLoad %3 %5 Aligned 0
+         %23 = OpCompositeExtract %2 %22 1
+               OpBranch %16
+         %16 = OpLabel
+         %26 = OpPhi %2 %24 %15 %25 %18
+         %29 = OpPhi %7 %27 %15 %28 %18
+         %31 = OpSLessThan %30 %26 %11
+               OpBranchConditional %31 %17 %19
+         %17 = OpLabel
+         %32 = OpIMul %2 %21 %11
+         %33 = OpIAdd %2 %32 %26
+         %34 = OpInBoundsPtrAccessChain %8 %12 %33
+         %35 = OpLoad %7 %34 Aligned 4
+         %36 = OpIMul %2 %26 %11
+         %37 = OpIAdd %2 %36 %23
+         %38 = OpInBoundsPtrAccessChain %8 %13 %37
+         %39 = OpLoad %7 %38 Aligned 4
+         %40 = OpFMul %7 %35 %39
+         %28 = OpFAdd %7 %29 %40
+               OpBranch %18
+         %18 = OpLabel
+         %25 = OpIAdd %2 %26 %42
+               OpBranch %16
+         %19 = OpLabel
+         %44 = OpIMul %2 %21 %11
+         %45 = OpIAdd %2 %44 %23
+         %46 = OpInBoundsPtrAccessChain %8 %14 %45
+               OpStore %46 %29 Aligned 4
+               OpReturn
+               OpFunctionEnd

@@ -1,0 +1,36 @@
+[General]
+ActiveTab=ex3a_mmult
+
+[KBSession]
+KBTabs\2\TabFile=ex3a_mmult
+KBTabs\2\TabName=ex3a_mmult
+KBTabs\2\KBCache="&mmult_v1$N;A;B;C$int;float*;float*;float*$__private;__global;__global;__global$NONE;NONE;NONE;NONE"
+KBTabs\2\KBVarsByKernel="mmult_v1#N&3&512;A&0&buffer_A;B&0&buffer_B;C&0&buffer_C"
+KBTabs\2\KBRefsByKernel="mmult_v1#N&;A&;B&;C&"
+KBTabs\2\KBGroupSizes=512#512#0#2#128#0
+KBTabs\2\KBIterations=20
+KBTabs\2\KBConfigurationNames=config_0
+KBTabs\2\KBSelectedKernel=mmult_v1
+KBTabs\2\TabCode="__kernel //__attribute__ ((dsdfsdfsad(16,1,1)))\r\nvoid mmult_v1 (int N, __global float* A, __global float* B, __global float* C) { \r\n\tint i, j, k;\r\n    i = get_global_id(0);\r\n    j = get_global_id(1);\r\n    // C(i, j) = sum(over k) A(i,k) * B(k,j)\r\n\tfloat tem = 0.0f;\r\n    for (k = 0; k < N; k++) { \r\n      tem += A[i*N+k] * B[k*N+j];\r\n    }\r\n\tC[i*N+j] = tem;\r\n}\r\n"
+KBTabs\2\KBFacadeVisible=true
+KBTabs\2\IsValidation=false
+KBTabs\2\KBServerActive=true
+KBTabs\2\Artifacts="C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program.ir;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program_mmult_v1.gen;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program.ll;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program_x64.ll;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program_x64.spir;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program_x86.ll;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program_x86.spir;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program_x86.spirv;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program_x64.spirv;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program_x86.txtspirv;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\program_x64.txtspirv;"
+KBTabs\2\Reports="C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\ex3a_mmult\\LastRunResults/mmult_v1.cbreport;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\LastRunResults/mmult_v1.cbreport;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\LastRunResults/mmult_v1.cbreport;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\LastRunResults/mmult_v1.cbreport;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\LastRunResults/mmult_v1.cbreport;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\LastRunResults/mmult_v1.cbreport;C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\ex3a_mmult\\LastRunResults/mmult_v1.cbreport"
+KBTabs\2\CLFiles=C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\ex3a_mmult\\program.cl
+KBTabs\2\IsBinary=false
+KBTabs\2\TabOpt6=
+KBTabs\2\TabOpt7=2
+KBTabs\2\TabOpt10=(local) EE-361PC21
+KBTabs\2\TabOpt17=Intel(R) OpenCL
+KBTabs\2\TabOpt18=GPU: Intel(R) HD Graphics 530
+KBTabs\2\TabOpt1=true
+KBTabs\2\TabOpt3=false
+KBTabs\2\TabOpt9=Current Operating System
+KBTabs\2\TabOpt11=
+KBTabs\2\TabOpt4=false
+KBTabs\2\TabOpt13=5010
+KBTabs\2\TabOpt14=5999
+KBTabs\2\TabOpt15=true
+KBTabs\2\TabOpt16=20000
+KBTabs\size=2

@@ -1,0 +1,2 @@
+{"data": [
+{"Gx": "512","Gy": "512","Gz": "0","Lx": "2","Ly": "128","Lz": "0","executionMedian": "14.7083","validationStatus": null,"variables": [{"name": "buffer_A","dataType": "float*","path": ""},{"name": "buffer_B","dataType": "float*","path": ""},{"name": "buffer_C","dataType": "float*","path": "C:/Users/quincywu/Documents/Intel/CodeBuilderSessions/ex3a_mmult/1901214407/execution/C_config_0_512_2__512_128.dat"}]}]}
