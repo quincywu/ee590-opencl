@@ -389,7 +389,7 @@ int main_4(int argc, char** argv)
 
 	//opencl profiling timing 
 	if (openclqueueProfilingEnable)
-		LogInfo("After %d iterations, average running time for kernel is %f ms.\n", iterations, current_time);
+		LogInfo("After %d iterations, average running time for kernel is %f ms.\n", iterations, best_time);
 
 	printf("\n");
 	printf("\n***** NDRange is finished ***** \n");
