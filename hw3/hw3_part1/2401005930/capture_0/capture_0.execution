@@ -1,0 +1,947 @@
+Ç  :
+Standard DeviationB-
+Minimum³{ò°Pk@w Nyt#´?!sº,&6ß@)ß1<ö³X¢?J,
+Median³{ò°Pk@w Nyt#´?!sº,&6ß@)ß1<ö³X¢?R-
+Maximum³{ò°Pk@w Nyt#´?!sº,&6ß@)ß1<ö³X¢?Z-
+Average³{ò°Pk@w Nyt#´?!sº,&6ß@)ß1<ö³X¢?b–
+0³{ò°Pk@w Nyt#´?!sº,&6ß@)ß1<ö³X¢?2
+GpuTime385002
+AvgGpuCoreFrequencyMHz6302
+	CsThreads322
+EuActive1.227482
+EuStall13.78172
+EuThreadOccupancy2.776632
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput99842
+GtiWriteThroughput57602
+EuIdle84.9908jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.84993"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_0__32_0.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ğ   (:
+Standard DeviationB-
+MinimumgaO;ü5Û?Êşy0HŠ?!^œøjGqÎ?)1¬Zd›?J,
+MediangaO;ü5Û?Êşy0HŠ?!^œøjGqÎ?)1¬Zd›?R-
+MaximumgaO;ü5Û?Êşy0HŠ?!^œøjGqÎ?)1¬Zd›?Z-
+AveragegaO;ü5Û?Êşy0HŠ?!^œøjGqÎ?)1¬Zd›?b›
+0gaO;ü5Û?Êşy0HŠ?!^œøjGqÎ?)1¬Zd›?2
+GpuTime281662
+AvgGpuCoreFrequencyMHz10442
+	CsThreads10242
+EuActive14.12832
+EuStall26.26332
+EuThreadOccupancy20.75862
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput140162
+GtiWriteThroughput160002
+EuIdle59.6084jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062732.10084"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_1__32_1.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+Minimum@¼®_°Ù?
+¼“Om‰?!a¤µûUÎ?)ºI+‡–?J,
+Median@¼®_°Ù?
+¼“Om‰?!a¤µûUÎ?)ºI+‡–?R-
+Maximum@¼®_°Ù?
+¼“Om‰?!a¤µûUÎ?)ºI+‡–?Z-
+Average@¼®_°Ù?
+¼“Om‰?!a¤µûUÎ?)ºI+‡–?bš
+0@¼®_°Ù?
+¼“Om‰?!a¤µûUÎ?)ºI+‡–?2
+GpuTime230832
+AvgGpuCoreFrequencyMHz10492
+	CsThreads5122
+EuActive8.428272
+EuStall19.86852
+EuThreadOccupancy16.05712
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput138242
+GtiWriteThroughput160002
+EuIdle71.7032jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.72816"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_1__32_2.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+Minimumrö´Ã_Ù?º.üà|êˆ?!Áq75Î?)k€ÒP£”?J,
+Medianrö´Ã_Ù?º.üà|êˆ?!Áq75Î?)k€ÒP£”?R-
+Maximumrö´Ã_Ù?º.üà|êˆ?!Áq75Î?)k€ÒP£”?Z-
+Averagerö´Ã_Ù?º.üà|êˆ?!Áq75Î?)k€ÒP£”?bš
+0rö´Ã_Ù?º.üà|êˆ?!Áq75Î?)k€ÒP£”?2
+GpuTime214162
+AvgGpuCoreFrequencyMHz10452
+	CsThreads2562
+EuActive4.553952
+EuStall18.28352
+EuThreadOccupancy15.16822
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput140162
+GtiWriteThroughput160002
+EuIdle77.1626jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.68757"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_1__32_4.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+MinimumË-­†ÄÙ?º.üà|êˆ?!WÍsD¾KÏ?)s,ïªÌ“?J,
+MedianË-­†ÄÙ?º.üà|êˆ?!WÍsD¾KÏ?)s,ïªÌ“?R-
+MaximumË-­†ÄÙ?º.üà|êˆ?!WÍsD¾KÏ?)s,ïªÌ“?Z-
+AverageË-­†ÄÙ?º.üà|êˆ?!WÍsD¾KÏ?)s,ïªÌ“?bš
+0Ë-­†ÄÙ?º.üà|êˆ?!WÍsD¾KÏ?)s,ïªÌ“?2
+GpuTime204162
+AvgGpuCoreFrequencyMHz10472
+	CsThreads1282
+EuActive2.377722
+EuStall16.53772
+EuThreadOccupancy11.03992
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput135682
+GtiWriteThroughput160002
+EuIdle81.0846jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.72898"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_1__32_8.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+Minimums.ÅUeßÙ?:<„ñÓ¸‡?!{ö\¦&ÁÏ?);òÏâ“?J,
+Medians.ÅUeßÙ?:<„ñÓ¸‡?!{ö\¦&ÁÏ?);òÏâ“?R-
+Maximums.ÅUeßÙ?:<„ñÓ¸‡?!{ö\¦&ÁÏ?);òÏâ“?Z-
+Averages.ÅUeßÙ?:<„ñÓ¸‡?!{ö\¦&ÁÏ?);òÏâ“?b™
+0s.ÅUeßÙ?:<„ñÓ¸‡?!{ö\¦&ÁÏ?);òÏâ“?2
+GpuTime206662
+AvgGpuCoreFrequencyMHz10462
+	CsThreads642
+EuActive1.658382
+EuStall17.62452
+EuThreadOccupancy6.326012
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput138242
+GtiWriteThroughput160002
+EuIdle80.7171jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.72939"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_1__32_16.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   ( :
+Standard DeviationB-
+Minimum@¼®_°Ù?º.üà|êˆ?!Ù°¦²(ìÎ?){®Gáz”?J,
+Median@¼®_°Ù?º.üà|êˆ?!Ù°¦²(ìÎ?){®Gáz”?R-
+Maximum@¼®_°Ù?º.üà|êˆ?!Ù°¦²(ìÎ?){®Gáz”?Z-
+Average@¼®_°Ù?º.üà|êˆ?!Ù°¦²(ìÎ?){®Gáz”?b™
+0@¼®_°Ù?º.üà|êˆ?!Ù°¦²(ìÎ?){®Gáz”?2
+GpuTime212502
+AvgGpuCoreFrequencyMHz10492
+	CsThreads322
+EuActive1.346712
+EuStall16.63582
+EuThreadOccupancy3.333032
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput138242
+GtiWriteThroughput160002
+EuIdle82.0175jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.79212"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_1__32_32.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+MinimumãüM(DÚ?›.È–•?!a¤µûUÎ?)óZ	İ%q–?J,
+MedianãüM(DÚ?›.È–•?!a¤µûUÎ?)óZ	İ%q–?R-
+MaximumãüM(DÚ?›.È–•?!a¤µûUÎ?)óZ	İ%q–?Z-
+AverageãüM(DÚ?›.È–•?!a¤µûUÎ?)óZ	İ%q–?bš
+0ãüM(DÚ?›.È–•?!a¤µûUÎ?)óZ	İ%q–?2
+GpuTime233332
+AvgGpuCoreFrequencyMHz10472
+	CsThreads5122
+EuActive8.406162
+EuStall20.57962
+EuThreadOccupancy16.63052
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput138242
+GtiWriteThroughput160002
+EuIdle71.0142jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.73718"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_2__32_1.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+MinimumÄ”H¢—QÚ?Ii6Ã`?!±3…ÎkÎ?)Ë¡E¶óı”?J,
+MedianÄ”H¢—QÚ?Ii6Ã`?!±3…ÎkÎ?)Ë¡E¶óı”?R-
+MaximumÄ”H¢—QÚ?Ii6Ã`?!±3…ÎkÎ?)Ë¡E¶óı”?Z-
+AverageÄ”H¢—QÚ?Ii6Ã`?!±3…ÎkÎ?)Ë¡E¶óı”?bš
+0Ä”H¢—QÚ?Ii6Ã`?!±3…ÎkÎ?)Ë¡E¶óı”?2
+GpuTime218332
+AvgGpuCoreFrequencyMHz10492
+	CsThreads2562
+EuActive4.378562
+EuStall18.24782
+EuThreadOccupancy15.75432
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput138242
+GtiWriteThroughput160002
+EuIdle77.3736jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.91635"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_2__32_2.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+MinimumÑ‘\şCúÙ?zqâ«Å‰?!.qäÈ"Ï?)+‡ÙÎ÷“?J,
+MedianÑ‘\şCúÙ?zqâ«Å‰?!.qäÈ"Ï?)+‡ÙÎ÷“?R-
+MaximumÑ‘\şCúÙ?zqâ«Å‰?!.qäÈ"Ï?)+‡ÙÎ÷“?Z-
+AverageÑ‘\şCúÙ?zqâ«Å‰?!.qäÈ"Ï?)+‡ÙÎ÷“?bš
+0Ñ‘\şCúÙ?zqâ«Å‰?!.qäÈ"Ï?)+‡ÙÎ÷“?2
+GpuTime208332
+AvgGpuCoreFrequencyMHz10472
+	CsThreads1282
+EuActive2.286982
+EuStall16.85512
+EuThreadOccupancy11.62642
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput140162
+GtiWriteThroughput160002
+EuIdle80.8579jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.74292"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_2__32_4.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î   (:
+Standard DeviationB-
+MinimumÃdª`TRÙ?Œ‰BËŠ?!	MKÎ?)Ëe£s~Š“?J,
+MedianÃdª`TRÙ?Œ‰BËŠ?!	MKÎ?)Ëe£s~Š“?R-
+MaximumÃdª`TRÙ?Œ‰BËŠ?!	MKÎ?)Ëe£s~Š“?Z-
+AverageÃdª`TRÙ?Œ‰BËŠ?!	MKÎ?)Ëe£s~Š“?b™
+0Ãdª`TRÙ?Œ‰BËŠ?!	MKÎ?)Ëe£s~Š“?2
+GpuTime204162
+AvgGpuCoreFrequencyMHz10452
+	CsThreads642
+EuActive1.639742
+EuStall15.93482
+EuThreadOccupancy5.886212
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput137602
+GtiWriteThroughput160002
+EuIdle82.4255jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.73021"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_2__32_8.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î   (:
+Standard DeviationB-
+MinimumÄ”H¢—QÚ?ê“Üa™‰?!şEĞ˜IÔÏ?)Ëe£s~Š“?J,
+MedianÄ”H¢—QÚ?ê“Üa™‰?!şEĞ˜IÔÏ?)Ëe£s~Š“?R-
+MaximumÄ”H¢—QÚ?ê“Üa™‰?!şEĞ˜IÔÏ?)Ëe£s~Š“?Z-
+AverageÄ”H¢—QÚ?ê“Üa™‰?!şEĞ˜IÔÏ?)Ëe£s~Š“?b˜
+0Ä”H¢—QÚ?ê“Üa™‰?!şEĞ˜IÔÏ?)Ëe£s~Š“?2
+GpuTime205002
+AvgGpuCoreFrequencyMHz10462
+	CsThreads322
+EuActive1.39972
+EuStall15.22112
+EuThreadOccupancy3.071262
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput140162
+GtiWriteThroughput160002
+EuIdle83.3792jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.71832"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_2__32_16.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   ( :
+Standard DeviationB-
+Minimum¶g–¨©Ù?j¡drjgˆ?!6Ü,^Î?);òÏâ“?J,
+Median¶g–¨©Ù?j¡drjgˆ?!6Ü,^Î?);òÏâ“?R-
+Maximum¶g–¨©Ù?j¡drjgˆ?!6Ü,^Î?);òÏâ“?Z-
+Average¶g–¨©Ù?j¡drjgˆ?!6Ü,^Î?);òÏâ“?b™
+0¶g–¨©Ù?j¡drjgˆ?!6Ü,^Î?);òÏâ“?2
+GpuTime205832
+AvgGpuCoreFrequencyMHz10462
+	CsThreads322
+EuActive1.366452
+EuStall15.60432
+EuThreadOccupancy3.147192
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput140802
+GtiWriteThroughput160002
+EuIdle83.0293jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.91266"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_2__32_32.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+MinimumÓÙÉà(yÛ?º.üà|êˆ?!L¨àğ‚ˆĞ?)ºI+‡–?J,
+MedianÓÙÉà(yÛ?º.üà|êˆ?!L¨àğ‚ˆĞ?)ºI+‡–?R-
+MaximumÓÙÉà(yÛ?º.üà|êˆ?!L¨àğ‚ˆĞ?)ºI+‡–?Z-
+AverageÓÙÉà(yÛ?º.üà|êˆ?!L¨àğ‚ˆĞ?)ºI+‡–?bš
+0ÓÙÉà(yÛ?º.üà|êˆ?!L¨àğ‚ˆĞ?)ºI+‡–?2
+GpuTime234162
+AvgGpuCoreFrequencyMHz10482
+	CsThreads2562
+EuActive4.001212
+EuStall22.98512
+EuThreadOccupancy20.52622
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput148482
+GtiWriteThroughput167042
+EuIdle73.0137jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062731.14882"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_4__32_1.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+MinimumÍ‚9züÖ?*äJ=B‰?!F'K­÷Ñ?)“T¦˜ƒ “?J,
+MedianÍ‚9züÖ?*äJ=B‰?!F'K­÷Ñ?)“T¦˜ƒ “?R-
+MaximumÍ‚9züÖ?*äJ=B‰?!F'K­÷Ñ?)“T¦˜ƒ “?Z-
+AverageÍ‚9züÖ?*äJ=B‰?!F'K­÷Ñ?)“T¦˜ƒ “?bš
+0Í‚9züÖ?*äJ=B‰?!F'K­÷Ñ?)“T¦˜ƒ “?2
+GpuTime205832
+AvgGpuCoreFrequencyMHz10442
+	CsThreads1282
+EuActive2.220762
+EuStall16.49962
+EuThreadOccupancy11.81622
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput140802
+GtiWriteThroughput160002
+EuIdle81.2796jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.94013"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_4__32_2.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î   (:
+Standard DeviationB-
+MinimumÑy]¢zÙ?ŠÉ`æ;ˆ?!]N	ˆI¸Î?)s,ïªÌ“?J,
+MedianÑy]¢zÙ?ŠÉ`æ;ˆ?!]N	ˆI¸Î?)s,ïªÌ“?R-
+MaximumÑy]¢zÙ?ŠÉ`æ;ˆ?!]N	ˆI¸Î?)s,ïªÌ“?Z-
+AverageÑy]¢zÙ?ŠÉ`æ;ˆ?!]N	ˆI¸Î?)s,ïªÌ“?b™
+0Ñy]¢zÙ?ŠÉ`æ;ˆ?!]N	ˆI¸Î?)s,ïªÌ“?2
+GpuTime206662
+AvgGpuCoreFrequencyMHz10472
+	CsThreads642
+EuActive1.588012
+EuStall15.63692
+EuThreadOccupancy6.070972
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput140802
+GtiWriteThroughput160002
+EuIdle82.7751jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062731.28904"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_4__32_4.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î   (:
+Standard DeviationB-
+Minimumö(\ÂõÖ?	4ØÔyTŒ?!¼>sÖ§Ğ?)s,ïªÌ“?J,
+Medianö(\ÂõÖ?	4ØÔyTŒ?!¼>sÖ§Ğ?)s,ïªÌ“?R-
+Maximumö(\ÂõÖ?	4ØÔyTŒ?!¼>sÖ§Ğ?)s,ïªÌ“?Z-
+Averageö(\ÂõÖ?	4ØÔyTŒ?!¼>sÖ§Ğ?)s,ïªÌ“?b™
+0ö(\ÂõÖ?	4ØÔyTŒ?!¼>sÖ§Ğ?)s,ïªÌ“?2
+GpuTime206662
+AvgGpuCoreFrequencyMHz10472
+	CsThreads322
+EuActive1.368682
+EuStall16.32782
+EuThreadOccupancy3.274222
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput141442
+GtiWriteThroughput160002
+EuIdle82.3035jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.75235"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_4__32_8.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î   (:
+Standard DeviationB-
+MinimumLOXâeÛ?
+¼“Om‰?!5Ïù.¥Ğ?)+‡ÙÎ÷“?J,
+MedianLOXâeÛ?
+¼“Om‰?!5Ïù.¥Ğ?)+‡ÙÎ÷“?R-
+MaximumLOXâeÛ?
+¼“Om‰?!5Ïù.¥Ğ?)+‡ÙÎ÷“?Z-
+AverageLOXâeÛ?
+¼“Om‰?!5Ïù.¥Ğ?)+‡ÙÎ÷“?b˜
+0LOXâeÛ?
+¼“Om‰?!5Ïù.¥Ğ?)+‡ÙÎ÷“?2
+GpuTime206662
+AvgGpuCoreFrequencyMHz10482
+	CsThreads322
+EuActive1.389792
+EuStall15.48532
+EuThreadOccupancy3.13382
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput142722
+GtiWriteThroughput160002
+EuIdle83.1249jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.85813"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_4__32_16.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   ( :
+Standard DeviationB-
+Minimumã6À[ İ?º.üà|êˆ?!TTıJçÃÏ?)c˜´Éá“?J,
+Medianã6À[ İ?º.üà|êˆ?!TTıJçÃÏ?)c˜´Éá“?R-
+Maximumã6À[ İ?º.üà|êˆ?!TTıJçÃÏ?)c˜´Éá“?Z-
+Averageã6À[ İ?º.üà|êˆ?!TTıJçÃÏ?)c˜´Éá“?b™
+0ã6À[ İ?º.üà|êˆ?!TTıJçÃÏ?)c˜´Éá“?2
+GpuTime211662
+AvgGpuCoreFrequencyMHz10482
+	CsThreads322
+EuActive1.344652
+EuStall16.05192
+EuThreadOccupancy3.234822
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput149762
+GtiWriteThroughput202242
+EuIdle82.6035jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.84419"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_4__32_32.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+MinimumœmnLOXÚ?¹‹0E¹4?!Ï„&‰%Ï?)ó:â”?J,
+MedianœmnLOXÚ?¹‹0E¹4?!Ï„&‰%Ï?)ó:â”?R-
+MaximumœmnLOXÚ?¹‹0E¹4?!Ï„&‰%Ï?)ó:â”?Z-
+AverageœmnLOXÚ?¹‹0E¹4?!Ï„&‰%Ï?)ó:â”?bš
+0œmnLOXÚ?¹‹0E¹4?!Ï„&‰%Ï?)ó:â”?2
+GpuTime208332
+AvgGpuCoreFrequencyMHz10492
+	CsThreads1282
+EuActive2.192042
+EuStall15.58992
+EuThreadOccupancy11.23152
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput140802
+GtiWriteThroughput160002
+EuIdle82.2181jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062731.75439"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_8__32_1.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Í   (:
+Standard DeviationB-
+MinimumpZğ¢¯Ú?|œiÂö“‘?!*ÖT…Ï?){Øl“?J,
+MedianpZğ¢¯Ú?|œiÂö“‘?!*ÖT…Ï?){Øl“?R-
+MaximumpZğ¢¯Ú?|œiÂö“‘?!*ÖT…Ï?){Øl“?Z-
+AveragepZğ¢¯Ú?|œiÂö“‘?!*ÖT…Ï?){Øl“?b˜
+0pZğ¢¯Ú?|œiÂö“‘?!*ÖT…Ï?){Øl“?2
+GpuTime200002
+AvgGpuCoreFrequencyMHz10442
+	CsThreads642
+EuActive1.623982
+EuStall15.91952
+EuThreadOccupancy6.17522
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput139522
+GtiWriteThroughput160002
+EuIdle82.4565jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.76547"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_8__32_2.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Í   (:
+Standard DeviationB-
+Minimum#øßJvlÚ?ÚV³Îø¾ˆ?!´ª%å`Î?)#ŸW<õH“?J,
+Median#øßJvlÚ?ÚV³Îø¾ˆ?!´ª%å`Î?)#ŸW<õH“?R-
+Maximum#øßJvlÚ?ÚV³Îø¾ˆ?!´ª%å`Î?)#ŸW<õH“?Z-
+Average#øßJvlÚ?ÚV³Îø¾ˆ?!´ª%å`Î?)#ŸW<õH“?b™
+0#øßJvlÚ?ÚV³Îø¾ˆ?!´ª%å`Î?)#ŸW<õH“?2
+GpuTime202502
+AvgGpuCoreFrequencyMHz10462
+	CsThreads322
+EuActive1.414582
+EuStall14.85412
+EuThreadOccupancy3.001422
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput139522
+GtiWriteThroughput160002
+EuIdle83.7313jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jé
+outputB0.062730.7257"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_8__32_4.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î   (:
+Standard DeviationB-
+Minimum’WÛ?šEó ‰?!*ÖT…Ï?)¿b¹—?J,
+Median’WÛ?šEó ‰?!*ÖT…Ï?)¿b¹—?R-
+Maximum’WÛ?šEó ‰?!*ÖT…Ï?)¿b¹—?Z-
+Average’WÛ?šEó ‰?!*ÖT…Ï?)¿b¹—?b™
+0’WÛ?šEó ‰?!*ÖT…Ï?)¿b¹—?2
+GpuTime245002
+AvgGpuCoreFrequencyMHz10482
+	CsThreads322
+EuActive1.190272
+EuStall21.57852
+EuThreadOccupancy4.268412
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput141442
+GtiWriteThroughput160002
+EuIdle77.2312jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.73923"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_8__32_8.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î   (:
+Standard DeviationB-
+Minimum<Ú8b->Ù?º.üà|êˆ?!g´UIdÎ?)d\qqTn’?J,
+Median<Ú8b->Ù?º.üà|êˆ?!g´UIdÎ?)d\qqTn’?R-
+Maximum<Ú8b->Ù?º.üà|êˆ?!g´UIdÎ?)d\qqTn’?Z-
+Average<Ú8b->Ù?º.üà|êˆ?!g´UIdÎ?)d\qqTn’?b˜
+0<Ú8b->Ù?º.üà|êˆ?!g´UIdÎ?)d\qqTn’?2
+GpuTime192502
+AvgGpuCoreFrequencyMHz10462
+	CsThreads322
+EuActive1.476612
+EuStall14.01242
+EuThreadOccupancy2.865092
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput144002
+GtiWriteThroughput160002
+EuIdle84.511jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.74538"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_8__32_16.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Í   ( :
+Standard DeviationB-
+MinimumX‹O0Ú?šEó ‰?!=Ô¶aĞ?)333333“?J,
+MedianX‹O0Ú?šEó ‰?!=Ô¶aĞ?)333333“?R-
+MaximumX‹O0Ú?šEó ‰?!=Ô¶aĞ?)333333“?Z-
+AverageX‹O0Ú?šEó ‰?!=Ô¶aĞ?)333333“?b—
+0X‹O0Ú?šEó ‰?!=Ô¶aĞ?)333333“?2
+GpuTime200002
+AvgGpuCoreFrequencyMHz10482
+	CsThreads322
+EuActive1.42182
+EuStall14.57422
+EuThreadOccupancy2.970342
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput151682
+GtiWriteThroughput160002
+EuIdle84.004jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.76096"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_8__32_32.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Í   (:
+Standard DeviationB-
+Minimum«²ïŠàÛ?›.È–¥?!ZFê=•ÓÎ?)CÇ*q“?J,
+Median«²ïŠàÛ?›.È–¥?!ZFê=•ÓÎ?)CÇ*q“?R-
+Maximum«²ïŠàÛ?›.È–¥?!ZFê=•ÓÎ?)CÇ*q“?Z-
+Average«²ïŠàÛ?›.È–¥?!ZFê=•ÓÎ?)CÇ*q“?b—
+0«²ïŠàÛ?›.È–¥?!ZFê=•ÓÎ?)CÇ*q“?2
+GpuTime201662
+AvgGpuCoreFrequencyMHz10482
+	CsThreads642
+EuActive1.615932
+EuStall15.6962
+EuThreadOccupancy6.093412
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput98562
+GtiWriteThroughput160002
+EuIdle82.6881jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.75809"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_16__32_1.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Í   (:
+Standard DeviationB-
+MinimumÑy]¢zÙ?j¡drjgˆ?!b¯èÖkÎ?){Øl“?J,
+MedianÑy]¢zÙ?j¡drjgˆ?!b¯èÖkÎ?){Øl“?R-
+MaximumÑy]¢zÙ?j¡drjgˆ?!b¯èÖkÎ?){Øl“?Z-
+AverageÑy]¢zÙ?j¡drjgˆ?!b¯èÖkÎ?){Øl“?b—
+0Ñy]¢zÙ?j¡drjgˆ?!b¯èÖkÎ?){Øl“?2
+GpuTime198332
+AvgGpuCoreFrequencyMHz10472
+	CsThreads322
+EuActive1.449382
+EuStall15.0932
+EuThreadOccupancy3.055972
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput96642
+GtiWriteThroughput160002
+EuIdle83.4576jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.76014"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_16__32_2.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î   (:
+Standard DeviationB-
+MinimumYLl>®Û?šEó ‰?!ËH½§rÚĞ?)tğLh’X’?J,
+MedianYLl>®Û?šEó ‰?!ËH½§rÚĞ?)tğLh’X’?R-
+MaximumYLl>®Û?šEó ‰?!ËH½§rÚĞ?)tğLh’X’?Z-
+AverageYLl>®Û?šEó ‰?!ËH½§rÚĞ?)tğLh’X’?b˜
+0YLl>®Û?šEó ‰?!ËH½§rÚĞ?)tğLh’X’?2
+GpuTime192502
+AvgGpuCoreFrequencyMHz10482
+	CsThreads322
+EuActive1.483262
+EuStall14.46652
+EuThreadOccupancy2.948762
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput98562
+GtiWriteThroughput160002
+EuIdle84.0502jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.74169"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_16__32_4.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ï   (:
+Standard DeviationB-
+Minimum›UŸ«­ØÙ?º.üà|êˆ?!©…’É©Ï?)ó9w»^š’?J,
+Median›UŸ«­ØÙ?º.üà|êˆ?!©…’É©Ï?)ó9w»^š’?R-
+Maximum›UŸ«­ØÙ?º.üà|êˆ?!©…’É©Ï?)ó9w»^š’?Z-
+Average›UŸ«­ØÙ?º.üà|êˆ?!©…’É©Ï?)ó9w»^š’?b™
+0›UŸ«­ØÙ?º.üà|êˆ?!©…’É©Ï?)ó9w»^š’?2
+GpuTime195002
+AvgGpuCoreFrequencyMHz10492
+	CsThreads322
+EuActive1.471042
+EuStall14.30422
+EuThreadOccupancy2.920922
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput103042
+GtiWriteThroughput160002
+EuIdle84.2248jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062731.05944"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_16__32_8.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Ğ   (:
+Standard DeviationB-
+Minimum"àªÔìÙ?ZI+¾¡ğ‰?!¦}sõ¸Ï?)Ûù~j¼t“?J,
+Median"àªÔìÙ?ZI+¾¡ğ‰?!¦}sõ¸Ï?)Ûù~j¼t“?R-
+Maximum"àªÔìÙ?ZI+¾¡ğ‰?!¦}sõ¸Ï?)Ûù~j¼t“?Z-
+Average"àªÔìÙ?ZI+¾¡ğ‰?!¦}sõ¸Ï?)Ûù~j¼t“?b™
+0"àªÔìÙ?ZI+¾¡ğ‰?!¦}sõ¸Ï?)Ûù~j¼t“?2
+GpuTime202502
+AvgGpuCoreFrequencyMHz10512
+	CsThreads322
+EuActive1.398422
+EuStall15.91272
+EuThreadOccupancy3.218532
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput113922
+GtiWriteThroughput160002
+EuIdle82.6889jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jì
+outputB0.062730.79089"qC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_16__32_16.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î    (:
+Standard DeviationB-
+Minimum·e¥I)Ú?™~‰xëü‹?!Õé@ÖS«Ï?){Øl“?J,
+Median·e¥I)Ú?™~‰xëü‹?!Õé@ÖS«Ï?){Øl“?R-
+Maximum·e¥I)Ú?™~‰xëü‹?!Õé@ÖS«Ï?){Øl“?Z-
+Average·e¥I)Ú?™~‰xëü‹?!Õé@ÖS«Ï?){Øl“?b˜
+0·e¥I)Ú?™~‰xëü‹?!Õé@ÖS«Ï?){Øl“?2
+GpuTime199162
+AvgGpuCoreFrequencyMHz10482
+	CsThreads322
+EuActive1.435982
+EuStall16.21632
+EuThreadOccupancy3.265812
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput97922
+GtiWriteThroughput160002
+EuIdle82.3477jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.76301"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_32__32_1.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î    (:
+Standard DeviationB-
+MinimumJëÿæÙ?ûëÜˆ?!±ÀWtë5Ï?)bX9´È–?J,
+MedianJëÿæÙ?ûëÜˆ?!±ÀWtë5Ï?)bX9´È–?R-
+MaximumJëÿæÙ?ûëÜˆ?!±ÀWtë5Ï?)bX9´È–?Z-
+AverageJëÿæÙ?ûëÜˆ?!±ÀWtë5Ï?)bX9´È–?b˜
+0JëÿæÙ?ûëÜˆ?!±ÀWtë5Ï?)bX9´È–?2
+GpuTime236662
+AvgGpuCoreFrequencyMHz10462
+	CsThreads322
+EuActive1.220192
+EuStall15.37382
+EuThreadOccupancy3.089162
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput100482
+GtiWriteThroughput160002
+EuIdle83.406jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.71668"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_32__32_2.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Í    (:
+Standard DeviationB-
+Minimum(í¾0Ù?Ë†5•Ea‡?!Á;ùôØ–Í?)ú~j¼t“˜?J,
+Median(í¾0Ù?Ë†5•Ea‡?!Á;ùôØ–Í?)ú~j¼t“˜?R-
+Maximum(í¾0Ù?Ë†5•Ea‡?!Á;ùôØ–Í?)ú~j¼t“˜?Z-
+Average(í¾0Ù?Ë†5•Ea‡?!Á;ùôØ–Í?)ú~j¼t“˜?b—
+0(í¾0Ù?Ë†5•Ea‡?!Á;ùôØ–Í?)ú~j¼t“˜?2
+GpuTime250832
+AvgGpuCoreFrequencyMHz10482
+	CsThreads322
+EuActive1.143652
+EuStall26.5122
+EuThreadOccupancy5.20352
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput101762
+GtiWriteThroughput160002
+EuIdle72.3444jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062730.97129"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_32__32_4.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î    (:
+Standard DeviationB-
+Minimum-!ôlVè?ŠÉ`æ;ˆ?!.å|±÷bã?)ƒÀÊ¡E¶“?J,
+Median-!ôlVè?ŠÉ`æ;ˆ?!.å|±÷bã?)ƒÀÊ¡E¶“?R-
+Maximum-!ôlVè?ŠÉ`æ;ˆ?!.å|±÷bã?)ƒÀÊ¡E¶“?Z-
+Average-!ôlVè?ŠÉ`æ;ˆ?!.å|±÷bã?)ƒÀÊ¡E¶“?b˜
+0-!ôlVè?ŠÉ`æ;ˆ?!.å|±÷bã?)ƒÀÊ¡E¶“?2
+GpuTime206662
+AvgGpuCoreFrequencyMHz10492
+	CsThreads322
+EuActive1.376462
+EuStall16.89282
+EuThreadOccupancy3.40822
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput114562
+GtiWriteThroughput241922
+EuIdle81.7307jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jë
+outputB0.062731.10864"pC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_32__32_8.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8Î   (:
+Standard DeviationB-
+Minimumö(\ÂõÖ?	4ØÔyTŒ?!¼>sÖ§Ğ?)s,ïªÌ“?J,
+Medianö(\ÂõÖ?	4ØÔyTŒ?!¼>sÖ§Ğ?)s,ïªÌ“?R-
+Maximumö(\ÂõÖ?	4ØÔyTŒ?!¼>sÖ§Ğ?)s,ïªÌ“?Z-
+Averageö(\ÂõÖ?	4ØÔyTŒ?!¼>sÖ§Ğ?)s,ïªÌ“?b™
+0ö(\ÂõÖ?	4ØÔyTŒ?!¼>sÖ§Ğ?)s,ïªÌ“?2
+GpuTime206662
+AvgGpuCoreFrequencyMHz10472
+	CsThreads322
+EuActive1.368682
+EuStall16.32782
+EuThreadOccupancy3.274222
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput141442
+GtiWriteThroughput160002
+EuIdle82.3035jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.75235"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_4__32_8.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8"Ç  :
+Standard DeviationB-
+Minimum³{ò°Pk@w Nyt#´?!sº,&6ß@)ß1<ö³X¢?J,
+Median³{ò°Pk@w Nyt#´?!sº,&6ß@)ß1<ö³X¢?R-
+Maximum³{ò°Pk@w Nyt#´?!sº,&6ß@)ß1<ö³X¢?Z-
+Average³{ò°Pk@w Nyt#´?!sº,&6ß@)ß1<ö³X¢?b–
+0³{ò°Pk@w Nyt#´?!sº,&6ß@)ß1<ö³X¢?2
+GpuTime385002
+AvgGpuCoreFrequencyMHz6302
+	CsThreads322
+EuActive1.227482
+EuStall13.78172
+EuThreadOccupancy2.776632
+SamplesWritten02
+SlmBytesRead02
+SlmBytesWritten02
+TypedBytesRead02
+TypedBytesWritten02
+UntypedBytesRead02
+UntypedBytesWritten02
+GtiReadThroughput99842
+GtiWriteThroughput57602
+EuIdle84.9908jj
+inputA0.060680"LC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_inputA.bin*float*jê
+outputB0.062730.84993"oC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/execution/outputB_power_32_0__32_0.dat*float*2RC:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/bin_ref_outputB1.bin8*Ë
+(local) EE-361PC20Intel(R) OpenCLGPU: Intel(R) HD Graphics 530 * 232:32B0JAutoRAutoZ0b1j
+inputAinputAj
+Kpower3j
+outputBoutputBr°__kernel void elementwiseMatrixPower (__global float* inputA, int Kpower, __global float* outputB)
+
+{
+
+	const int x = get_global_id(0);
+
+	const int y = get_global_id(1);
+
+	const int width = get_global_size(0);
+
+	const int height = get_global_size(1);
+
+
+
+	// B(i,j) = A(i,j)^K
+
+	const int id = y * width + x;
+
+
+
+	float tmp = inputA[id];
+
+	for(unsigned i = 1; i < Kpower; ++i){
+
+		 tmp *= inputA[id];
+
+	}
+
+	outputB[id] = tmp;
+
+
+
+}
+
+
+
+__kernel void progressiveArraySum (__global float* inputA, __global float* outputB)
+
+{
+
+	const int x = get_global_id(0);
+
+
+
+	// B(i)=sum(j=1 to i) A(j) for i = 1 ... N
+
+	const int id = x;
+
+
+
+	float tmp = 0.0f;
+
+	for(unsigned int i = 0; i < id; ++i){ 
+
+		tmp += inputA[i];
+
+	}
+
+	
+
+	outputB[id] = tmp + inputA[id];
+
+	
+
+}
+2elementwiseMatrixPower:powerBQC:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\hw3_part1.cbsessionJ=C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1R	hw3_part1Zø
+   "24/01/17 00:59:30*[N/A]2®"C:\Program Files (x86)\Intel\OpenCL SDK\6.1\bin/x86\CodeBuilder.exe" analyze-session -s "C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/hw3_part1.cbsession" -k "elementwiseMatrixPower" -c "power" -o "C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930/manual_rerun"B!elementwiseMatrixPower_2401005930J PbGpuTimebGpuCoreClocksbAvgGpuCoreFrequencyMHzbGpuBusyb	VsThreadsb	HsThreadsb	DsThreadsb	GsThreadsb	PsThreadsb	CsThreadsbEuActivebEuStallbEuAvgIpcRatebEuFpuBothActiveb
+Fpu0Activeb
+Fpu1ActivebEuSendActivebEuThreadOccupancybRasterizedPixelsbHiDepthTestFailsbEarlyDepthTestFailsbSamplesKilledInPsbPixelsFailingPostPsTestsbSamplesWrittenbSamplesBlendedbSamplerTexelsbSamplerTexelMissesbSlmBytesReadbSlmBytesWrittenbShaderMemoryAccessesbShaderAtomicsbL3ShaderThroughputbShaderBarriersbTypedBytesReadbTypedBytesWrittenbUntypedBytesReadbUntypedBytesWrittenbGtiReadThroughputbGtiWriteThroughputb bQueryBeginTimebCoreFrequencyMHzbCoreFrequencyChangedbQuerySplitOccurredb bEuIdleh

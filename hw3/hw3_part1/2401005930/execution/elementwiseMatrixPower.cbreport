@@ -1,0 +1,318 @@
+Start:Gx,Gy,Gz,Lx,Ly,Lz,Measurement,Total,Queue,Submit,Execution
+32,32,0,0,0,0,Average,2.9274,0.078666,2.73399,0.035833
+32,32,0,0,0,0,Median,2.9274,0.078666,2.73399,0.035833
+32,32,0,0,0,0,Standard Deviation,0,0,0,0
+32,32,0,0,0,0,Minimum,2.9274,0.078666,2.73399,0.035833
+32,32,0,0,0,0,Maximum,2.9274,0.078666,2.73399,0.035833
+32,32,0,1,1,0,Average,0.42517,0.012833,0.237832,0.02675
+32,32,0,1,1,0,Median,0.42517,0.012833,0.237832,0.02675
+32,32,0,1,1,0,Standard Deviation,0,0,0,0
+32,32,0,1,1,0,Minimum,0.42517,0.012833,0.237832,0.02675
+32,32,0,1,1,0,Maximum,0.42517,0.012833,0.237832,0.02675
+32,32,0,1,2,0,Average,0.40139,0.012416,0.236999,0.022
+32,32,0,1,2,0,Median,0.40139,0.012416,0.236999,0.022
+32,32,0,1,2,0,Standard Deviation,0,0,0,0
+32,32,0,1,2,0,Minimum,0.40139,0.012416,0.236999,0.022
+32,32,0,1,2,0,Maximum,0.40139,0.012416,0.236999,0.022
+32,32,0,1,4,0,Average,0.39647,0.012166,0.235999,0.020083
+32,32,0,1,4,0,Median,0.39647,0.012166,0.235999,0.020083
+32,32,0,1,4,0,Standard Deviation,0,0,0,0
+32,32,0,1,4,0,Minimum,0.39647,0.012166,0.235999,0.020083
+32,32,0,1,4,0,Maximum,0.39647,0.012166,0.235999,0.020083
+32,32,0,1,8,0,Average,0.40262,0.012166,0.244499,0.019333
+32,32,0,1,8,0,Median,0.40262,0.012166,0.244499,0.019333
+32,32,0,1,8,0,Standard Deviation,0,0,0,0
+32,32,0,1,8,0,Minimum,0.40262,0.012166,0.244499,0.019333
+32,32,0,1,8,0,Maximum,0.40262,0.012166,0.244499,0.019333
+32,32,0,1,16,0,Average,0.40426,0.011583,0.248082,0.019417
+32,32,0,1,16,0,Median,0.40426,0.011583,0.248082,0.019417
+32,32,0,1,16,0,Standard Deviation,0,0,0,0
+32,32,0,1,16,0,Minimum,0.40426,0.011583,0.248082,0.019417
+32,32,0,1,16,0,Maximum,0.40426,0.011583,0.248082,0.019417
+32,32,0,1,32,0,Average,0.40139,0.012166,0.241582,0.02
+32,32,0,1,32,0,Median,0.40139,0.012166,0.241582,0.02
+32,32,0,1,32,0,Standard Deviation,0,0,0,0
+32,32,0,1,32,0,Minimum,0.40139,0.012166,0.241582,0.02
+32,32,0,1,32,0,Maximum,0.40139,0.012166,0.241582,0.02
+32,32,0,2,1,0,Average,0.41041,0.021083,0.236999,0.021916
+32,32,0,2,1,0,Median,0.41041,0.021083,0.236999,0.021916
+32,32,0,2,1,0,Standard Deviation,0,0,0,0
+32,32,0,2,1,0,Minimum,0.41041,0.021083,0.236999,0.021916
+32,32,0,2,1,0,Maximum,0.41041,0.021083,0.236999,0.021916
+32,32,0,2,2,0,Average,0.41123,0.014833,0.237665,0.0205
+32,32,0,2,2,0,Median,0.41123,0.014833,0.237665,0.0205
+32,32,0,2,2,0,Standard Deviation,0,0,0,0
+32,32,0,2,2,0,Minimum,0.41123,0.014833,0.237665,0.0205
+32,32,0,2,2,0,Maximum,0.41123,0.014833,0.237665,0.0205
+32,32,0,2,4,0,Average,0.4059,0.012583,0.243249,0.0195
+32,32,0,2,4,0,Median,0.4059,0.012583,0.243249,0.0195
+32,32,0,2,4,0,Standard Deviation,0,0,0,0
+32,32,0,2,4,0,Minimum,0.4059,0.012583,0.243249,0.0195
+32,32,0,2,4,0,Maximum,0.4059,0.012583,0.243249,0.0195
+32,32,0,2,8,0,Average,0.39565,0.013083,0.236666,0.019083
+32,32,0,2,8,0,Median,0.39565,0.013083,0.236666,0.019083
+32,32,0,2,8,0,Standard Deviation,0,0,0,0
+32,32,0,2,8,0,Minimum,0.39565,0.013083,0.236666,0.019083
+32,32,0,2,8,0,Maximum,0.39565,0.013083,0.236666,0.019083
+32,32,0,2,16,0,Average,0.41123,0.012499,0.248666,0.019083
+32,32,0,2,16,0,Median,0.41123,0.012499,0.248666,0.019083
+32,32,0,2,16,0,Standard Deviation,0,0,0,0
+32,32,0,2,16,0,Minimum,0.41123,0.012499,0.248666,0.019083
+32,32,0,2,16,0,Maximum,0.41123,0.012499,0.248666,0.019083
+32,32,0,2,32,0,Average,0.40098,0.011916,0.237249,0.019417
+32,32,0,2,32,0,Median,0.40098,0.011916,0.237249,0.019417
+32,32,0,2,32,0,Standard Deviation,0,0,0,0
+32,32,0,2,32,0,Minimum,0.40098,0.011916,0.237249,0.019417
+32,32,0,2,32,0,Maximum,0.40098,0.011916,0.237249,0.019417
+32,32,0,4,1,0,Average,0.42927,0.012166,0.258332,0.022
+32,32,0,4,1,0,Median,0.42927,0.012166,0.258332,0.022
+32,32,0,4,1,0,Standard Deviation,0,0,0,0
+32,32,0,4,1,0,Minimum,0.42927,0.012166,0.258332,0.022
+32,32,0,4,1,0,Maximum,0.42927,0.012166,0.258332,0.022
+32,32,0,4,2,0,Average,0.35916,0.012333,0.267332,0.019167
+32,32,0,4,2,0,Median,0.35916,0.012333,0.267332,0.019167
+32,32,0,4,2,0,Standard Deviation,0,0,0,0
+32,32,0,4,2,0,Minimum,0.35916,0.012333,0.267332,0.019167
+32,32,0,4,2,0,Maximum,0.35916,0.012333,0.267332,0.019167
+32,32,0,4,4,0,Average,0.39811,0.011833,0.239999,0.019333
+32,32,0,4,4,0,Median,0.39811,0.011833,0.239999,0.019333
+32,32,0,4,4,0,Standard Deviation,0,0,0,0
+32,32,0,4,4,0,Minimum,0.39811,0.011833,0.239999,0.019333
+32,32,0,4,4,0,Maximum,0.39811,0.011833,0.239999,0.019333
+32,32,0,4,8,0,Average,0.35875,0.013833,0.251749,0.019333
+32,32,0,4,8,0,Median,0.35875,0.013833,0.251749,0.019333
+32,32,0,4,8,0,Standard Deviation,0,0,0,0
+32,32,0,4,8,0,Minimum,0.35875,0.013833,0.251749,0.019333
+32,32,0,4,8,0,Maximum,0.35875,0.013833,0.251749,0.019333
+32,32,0,4,16,0,Average,0.42804,0.012416,0.260082,0.0195
+32,32,0,4,16,0,Median,0.42804,0.012416,0.260082,0.0195
+32,32,0,4,16,0,Standard Deviation,0,0,0,0
+32,32,0,4,16,0,Minimum,0.42804,0.012416,0.260082,0.0195
+32,32,0,4,16,0,Maximum,0.42804,0.012416,0.260082,0.0195
+32,32,0,4,32,0,Average,0.4551,0.012166,0.248166,0.019416
+32,32,0,4,32,0,Median,0.4551,0.012166,0.248166,0.019416
+32,32,0,4,32,0,Standard Deviation,0,0,0,0
+32,32,0,4,32,0,Minimum,0.4551,0.012166,0.248166,0.019416
+32,32,0,4,32,0,Maximum,0.4551,0.012166,0.248166,0.019416
+32,32,0,8,1,0,Average,0.41164,0.014749,0.243333,0.019583
+32,32,0,8,1,0,Median,0.41164,0.014749,0.243333,0.019583
+32,32,0,8,1,0,Standard Deviation,0,0,0,0
+32,32,0,8,1,0,Minimum,0.41164,0.014749,0.243333,0.019583
+32,32,0,8,1,0,Maximum,0.41164,0.014749,0.243333,0.019583
+32,32,0,8,2,0,Average,0.41697,0.017166,0.246249,0.018583
+32,32,0,8,2,0,Median,0.41697,0.017166,0.246249,0.018583
+32,32,0,8,2,0,Standard Deviation,0,0,0,0
+32,32,0,8,2,0,Minimum,0.41697,0.017166,0.246249,0.018583
+32,32,0,8,2,0,Maximum,0.41697,0.017166,0.246249,0.018583
+32,32,0,8,4,0,Average,0.41287,0.012083,0.237332,0.018833
+32,32,0,8,4,0,Median,0.41287,0.012083,0.237332,0.018833
+32,32,0,8,4,0,Standard Deviation,0,0,0,0
+32,32,0,8,4,0,Minimum,0.41287,0.012083,0.237332,0.018833
+32,32,0,8,4,0,Maximum,0.41287,0.012083,0.237332,0.018833
+32,32,0,8,8,0,Average,0.42722,0.012249,0.246249,0.023167
+32,32,0,8,8,0,Median,0.42722,0.012249,0.246249,0.023167
+32,32,0,8,8,0,Standard Deviation,0,0,0,0
+32,32,0,8,8,0,Minimum,0.42722,0.012249,0.246249,0.023167
+32,32,0,8,8,0,Maximum,0.42722,0.012249,0.246249,0.023167
+32,32,0,8,16,0,Average,0.39442,0.012166,0.235333,0.017999
+32,32,0,8,16,0,Median,0.39442,0.012166,0.235333,0.017999
+32,32,0,8,16,0,Standard Deviation,0,0,0,0
+32,32,0,8,16,0,Minimum,0.39442,0.012166,0.235333,0.017999
+32,32,0,8,16,0,Maximum,0.39442,0.012166,0.235333,0.017999
+32,32,0,8,32,0,Average,0.40918,0.012249,0.250249,0.01875
+32,32,0,8,32,0,Median,0.40918,0.012249,0.250249,0.01875
+32,32,0,8,32,0,Standard Deviation,0,0,0,0
+32,32,0,8,32,0,Minimum,0.40918,0.012249,0.250249,0.01875
+32,32,0,8,32,0,Maximum,0.40918,0.012249,0.250249,0.01875
+32,32,0,16,1,0,Average,0.42968,0.042166,0.240832,0.018667
+32,32,0,16,1,0,Median,0.42968,0.042166,0.240832,0.018667
+32,32,0,16,1,0,Standard Deviation,0,0,0,0
+32,32,0,16,1,0,Minimum,0.42968,0.042166,0.240832,0.018667
+32,32,0,16,1,0,Maximum,0.42968,0.042166,0.240832,0.018667
+32,32,0,16,2,0,Average,0.39811,0.011916,0.237666,0.018583
+32,32,0,16,2,0,Median,0.39811,0.011916,0.237666,0.018583
+32,32,0,16,2,0,Standard Deviation,0,0,0,0
+32,32,0,16,2,0,Minimum,0.39811,0.011916,0.237666,0.018583
+32,32,0,16,2,0,Maximum,0.39811,0.011916,0.237666,0.018583
+32,32,0,16,4,0,Average,0.42271,0.012249,0.263333,0.017916
+32,32,0,16,4,0,Median,0.42271,0.012249,0.263333,0.017916
+32,32,0,16,4,0,Standard Deviation,0,0,0,0
+32,32,0,16,4,0,Minimum,0.42271,0.012249,0.263333,0.017916
+32,32,0,16,4,0,Maximum,0.42271,0.012249,0.263333,0.017916
+32,32,0,16,8,0,Average,0.40385,0.012166,0.246999,0.018167
+32,32,0,16,8,0,Median,0.40385,0.012166,0.246999,0.018167
+32,32,0,16,8,0,Standard Deviation,0,0,0,0
+32,32,0,16,8,0,Minimum,0.40385,0.012166,0.246999,0.018167
+32,32,0,16,8,0,Maximum,0.40385,0.012166,0.246999,0.018167
+32,32,0,16,16,0,Average,0.40508,0.012666,0.247832,0.019
+32,32,0,16,16,0,Median,0.40508,0.012666,0.247832,0.019
+32,32,0,16,16,0,Standard Deviation,0,0,0,0
+32,32,0,16,16,0,Minimum,0.40508,0.012666,0.247832,0.019
+32,32,0,16,16,0,Maximum,0.40508,0.012666,0.247832,0.019
+32,32,0,32,1,0,Average,0.40877,0.013666,0.247416,0.018583
+32,32,0,32,1,0,Median,0.40877,0.013666,0.247416,0.018583
+32,32,0,32,1,0,Standard Deviation,0,0,0,0
+32,32,0,32,1,0,Minimum,0.40877,0.013666,0.247416,0.018583
+32,32,0,32,1,0,Maximum,0.40877,0.013666,0.247416,0.018583
+32,32,0,32,2,0,Average,0.40467,0.011749,0.243833,0.02225
+32,32,0,32,2,0,Median,0.40467,0.011749,0.243833,0.02225
+32,32,0,32,2,0,Standard Deviation,0,0,0,0
+32,32,0,32,2,0,Minimum,0.40467,0.011749,0.243833,0.02225
+32,32,0,32,2,0,Maximum,0.40467,0.011749,0.243833,0.02225
+32,32,0,32,4,0,Average,0.3936,0.011416,0.231166,0.024
+32,32,0,32,4,0,Median,0.3936,0.011416,0.231166,0.024
+32,32,0,32,4,0,Standard Deviation,0,0,0,0
+32,32,0,32,4,0,Minimum,0.3936,0.011416,0.231166,0.024
+32,32,0,32,4,0,Maximum,0.3936,0.011416,0.231166,0.024
+32,32,0,32,8,0,Average,0.76055,0.011833,0.605831,0.01925
+32,32,0,32,8,0,Median,0.76055,0.011833,0.605831,0.01925
+32,32,0,32,8,0,Standard Deviation,0,0,0,0
+32,32,0,32,8,0,Minimum,0.76055,0.011833,0.605831,0.01925
+32,32,0,32,8,0,Maximum,0.76055,0.011833,0.605831,0.01925
+Start:Gx,Gy,Gz,Lx,Ly,Lz,Iteration #,Total,Queue,Submit,Execution
+32,32,0,0,0,0,0,2.9274,0.078666,2.73399,0.035833
+32,32,0,1,1,0,0,0.42517,0.012833,0.237832,0.02675
+32,32,0,1,2,0,0,0.40139,0.012416,0.236999,0.022
+32,32,0,1,4,0,0,0.39647,0.012166,0.235999,0.020083
+32,32,0,1,8,0,0,0.40262,0.012166,0.244499,0.019333
+32,32,0,1,16,0,0,0.40426,0.011583,0.248082,0.019417
+32,32,0,1,32,0,0,0.40139,0.012166,0.241582,0.02
+32,32,0,2,1,0,0,0.41041,0.021083,0.236999,0.021916
+32,32,0,2,2,0,0,0.41123,0.014833,0.237665,0.0205
+32,32,0,2,4,0,0,0.4059,0.012583,0.243249,0.0195
+32,32,0,2,8,0,0,0.39565,0.013083,0.236666,0.019083
+32,32,0,2,16,0,0,0.41123,0.012499,0.248666,0.019083
+32,32,0,2,32,0,0,0.40098,0.011916,0.237249,0.019417
+32,32,0,4,1,0,0,0.42927,0.012166,0.258332,0.022
+32,32,0,4,2,0,0,0.35916,0.012333,0.267332,0.019167
+32,32,0,4,4,0,0,0.39811,0.011833,0.239999,0.019333
+32,32,0,4,8,0,0,0.35875,0.013833,0.251749,0.019333
+32,32,0,4,16,0,0,0.42804,0.012416,0.260082,0.0195
+32,32,0,4,32,0,0,0.4551,0.012166,0.248166,0.019416
+32,32,0,8,1,0,0,0.41164,0.014749,0.243333,0.019583
+32,32,0,8,2,0,0,0.41697,0.017166,0.246249,0.018583
+32,32,0,8,4,0,0,0.41287,0.012083,0.237332,0.018833
+32,32,0,8,8,0,0,0.42722,0.012249,0.246249,0.023167
+32,32,0,8,16,0,0,0.39442,0.012166,0.235333,0.017999
+32,32,0,8,32,0,0,0.40918,0.012249,0.250249,0.01875
+32,32,0,16,1,0,0,0.42968,0.042166,0.240832,0.018667
+32,32,0,16,2,0,0,0.39811,0.011916,0.237666,0.018583
+32,32,0,16,4,0,0,0.42271,0.012249,0.263333,0.017916
+32,32,0,16,8,0,0,0.40385,0.012166,0.246999,0.018167
+32,32,0,16,16,0,0,0.40508,0.012666,0.247832,0.019
+32,32,0,32,1,0,0,0.40877,0.013666,0.247416,0.018583
+32,32,0,32,2,0,0,0.40467,0.011749,0.243833,0.02225
+32,32,0,32,4,0,0,0.3936,0.011416,0.231166,0.024
+32,32,0,32,8,0,0,0.76055,0.011833,0.605831,0.01925
+Start:Gx,Gy,Gz,Lx,Ly,Lz,Name,Read Time,Read Back Time,Input/Output Data
+32,32,0,0,0,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,0,0,0,outputB,0.06273,0.84993,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_0__32_0.dat,float*,1024,1
+32,32,0,1,1,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,1,1,0,outputB,0.06273,2.10084,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_1__32_1.dat,float*,1024,1
+32,32,0,1,2,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,1,2,0,outputB,0.06273,0.72816,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_1__32_2.dat,float*,1024,1
+32,32,0,1,4,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,1,4,0,outputB,0.06273,0.68757,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_1__32_4.dat,float*,1024,1
+32,32,0,1,8,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,1,8,0,outputB,0.06273,0.72898,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_1__32_8.dat,float*,1024,1
+32,32,0,1,16,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,1,16,0,outputB,0.06273,0.72939,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_1__32_16.dat,float*,1024,1
+32,32,0,1,32,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,1,32,0,outputB,0.06273,0.79212,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_1__32_32.dat,float*,1024,1
+32,32,0,2,1,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,2,1,0,outputB,0.06273,0.73718,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_2__32_1.dat,float*,1024,1
+32,32,0,2,2,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,2,2,0,outputB,0.06273,0.91635,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_2__32_2.dat,float*,1024,1
+32,32,0,2,4,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,2,4,0,outputB,0.06273,0.74292,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_2__32_4.dat,float*,1024,1
+32,32,0,2,8,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,2,8,0,outputB,0.06273,0.73021,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_2__32_8.dat,float*,1024,1
+32,32,0,2,16,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,2,16,0,outputB,0.06273,0.71832,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_2__32_16.dat,float*,1024,1
+32,32,0,2,32,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,2,32,0,outputB,0.06273,0.91266,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_2__32_32.dat,float*,1024,1
+32,32,0,4,1,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,4,1,0,outputB,0.06273,1.14882,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_4__32_1.dat,float*,1024,1
+32,32,0,4,2,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,4,2,0,outputB,0.06273,0.94013,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_4__32_2.dat,float*,1024,1
+32,32,0,4,4,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,4,4,0,outputB,0.06273,1.28904,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_4__32_4.dat,float*,1024,1
+32,32,0,4,8,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,4,8,0,outputB,0.06273,0.75235,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_4__32_8.dat,float*,1024,1
+32,32,0,4,16,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,4,16,0,outputB,0.06273,0.85813,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_4__32_16.dat,float*,1024,1
+32,32,0,4,32,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,4,32,0,outputB,0.06273,0.84419,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_4__32_32.dat,float*,1024,1
+32,32,0,8,1,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,8,1,0,outputB,0.06273,1.75439,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_8__32_1.dat,float*,1024,1
+32,32,0,8,2,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,8,2,0,outputB,0.06273,0.76547,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_8__32_2.dat,float*,1024,1
+32,32,0,8,4,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,8,4,0,outputB,0.06273,0.7257,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_8__32_4.dat,float*,1024,1
+32,32,0,8,8,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,8,8,0,outputB,0.06273,0.73923,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_8__32_8.dat,float*,1024,1
+32,32,0,8,16,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,8,16,0,outputB,0.06273,0.74538,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_8__32_16.dat,float*,1024,1
+32,32,0,8,32,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,8,32,0,outputB,0.06273,0.76096,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_8__32_32.dat,float*,1024,1
+32,32,0,16,1,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,16,1,0,outputB,0.06273,0.75809,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_16__32_1.dat,float*,1024,1
+32,32,0,16,2,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,16,2,0,outputB,0.06273,0.76014,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_16__32_2.dat,float*,1024,1
+32,32,0,16,4,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,16,4,0,outputB,0.06273,0.74169,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_16__32_4.dat,float*,1024,1
+32,32,0,16,8,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,16,8,0,outputB,0.06273,1.05944,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_16__32_8.dat,float*,1024,1
+32,32,0,16,16,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,16,16,0,outputB,0.06273,0.79089,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_16__32_16.dat,float*,1024,1
+32,32,0,32,1,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,32,1,0,outputB,0.06273,0.76301,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_32__32_1.dat,float*,1024,1
+32,32,0,32,2,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,32,2,0,outputB,0.06273,0.71668,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_32__32_2.dat,float*,1024,1
+32,32,0,32,4,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,32,4,0,outputB,0.06273,0.97129,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_32__32_4.dat,float*,1024,1
+32,32,0,32,8,0,inputA,0.06068,0,C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin,float*,1024,1
+32,32,0,32,8,0,outputB,0.06273,1.10864,C:/Users/quincywu/Documents/GitHub/ee590-opencl/hw3/hw3_part1/2401005930\execution/outputB_power_32_32__32_8.dat,float*,1024,1
+Start:Best,Median
+32,32,0,4,8,0,0.35875
+Start:Worst,Median
+32,32,0,0,0,0,2.9274
+Start:Analysis configuraion
+(local) EE-361PC20;Intel(R) OpenCL;GPU: Intel(R) HD Graphics 530;true;
+Start:Report summary
+32;32;0;Auto;Auto;0;1
+elementwiseMatrixPower#inputA&0&inputA;Kpower&3&3;outputB&0&outputB
+Start:Analysis code
+__kernel void elementwiseMatrixPower (__global float* inputA, int Kpower, __global float* outputB)
+{
+	const int x = get_global_id(0);
+	const int y = get_global_id(1);
+	const int width = get_global_size(0);
+	const int height = get_global_size(1);
+
+	// B(i,j) = A(i,j)^K
+	const int id = y * width + x;
+
+	float tmp = inputA[id];
+	for(unsigned i = 1; i < Kpower; ++i){
+		 tmp *= inputA[id];
+	}
+	outputB[id] = tmp;
+
+}
+
+__kernel void progressiveArraySum (__global float* inputA, __global float* outputB)
+{
+	const int x = get_global_id(0);
+
+	// B(i)=sum(j=1 to i) A(j) for i = 1 ... N
+	const int id = x;
+
+	float tmp = 0.0f;
+	for(unsigned int i = 0; i < id; ++i){ 
+		tmp += inputA[i];
+	}
+	
+	outputB[id] = tmp + inputA[id];
+	
+}

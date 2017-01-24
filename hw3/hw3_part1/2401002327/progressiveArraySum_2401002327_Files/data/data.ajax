@@ -1,0 +1,41 @@
+{"datasets": {"data": [{
+"label": "Average",
+"id": "Average",
+"data": [[0,2.19231],[1,9.58443],[2,5.18041],[3,2.97406],[4,1.94496],[5,1.43916],[6,1.33771],[7,1.35079],[8,1.37487],[9,1.4021]],
+"color": "#0071C5",
+"lines": {"show": true},
+"tt": [["- Total (ms): 2.19231<br/>- Queue (ms): 0.0422492<br/>- Submit (ms): 1.09806<br/>- Execution (ms): 0.908342<br/>"],["- Total (ms): 9.58443<br/>- Queue (ms): 0.0356408<br/>- Submit (ms): 0.772201<br/>- Execution (ms): 8.50613<br/>"],["- Total (ms): 5.18041<br/>- Queue (ms): 0.0491992<br/>- Submit (ms): 0.475411<br/>- Execution (ms): 4.39102<br/>"],["- Total (ms): 2.97406<br/>- Queue (ms): 0.040616<br/>- Submit (ms): 0.354886<br/>- Execution (ms): 2.38024<br/>"],["- Total (ms): 1.94496<br/>- Queue (ms): 0.0341784<br/>- Submit (ms): 0.32447<br/>- Execution (ms): 1.38227<br/>"],["- Total (ms): 1.43916<br/>- Queue (ms): 0.0274368<br/>- Submit (ms): 0.280716<br/>- Execution (ms): 0.905296<br/>"],["- Total (ms): 1.33771<br/>- Queue (ms): 0.0423201<br/>- Submit (ms): 0.253649<br/>- Execution (ms): 0.891238<br/>"],["- Total (ms): 1.35079<br/>- Queue (ms): 0.0432534<br/>- Submit (ms): 0.241391<br/>- Execution (ms): 0.890434<br/>"],["- Total (ms): 1.37487<br/>- Queue (ms): 0.0199744<br/>- Submit (ms): 0.284295<br/>- Execution (ms): 0.900613<br/>"],["- Total (ms): 1.4021<br/>- Queue (ms): 0.0268951<br/>- Submit (ms): 0.255062<br/>- Execution (ms): 0.912897<br/>"]],
+"showLabels": true, "labels": [], "cColor": "#0071C5", "cFont": "11px, san-serif",
+"threshold": {"color": "#ED1C24"}
+},
+{
+"label": "Maximum",
+"id": "Maximum",
+"data": [[0,18.6927],[1,11.1348],[2,6.89169],[3,4.12788],[4,2.6978],[5,1.90937],[6,1.4514],[7,1.60474],[8,2.10576],[9,2.14512]],
+"color": "#ED1C24",
+"lines": {"show": true},
+"tt": [["- Total (ms): 2.19231<br/>- Queue (ms): 0.0422492<br/>- Submit (ms): 1.09806<br/>- Execution (ms): 0.908342<br/>"],["- Total (ms): 9.58443<br/>- Queue (ms): 0.0356408<br/>- Submit (ms): 0.772201<br/>- Execution (ms): 8.50613<br/>"],["- Total (ms): 5.18041<br/>- Queue (ms): 0.0491992<br/>- Submit (ms): 0.475411<br/>- Execution (ms): 4.39102<br/>"],["- Total (ms): 2.97406<br/>- Queue (ms): 0.040616<br/>- Submit (ms): 0.354886<br/>- Execution (ms): 2.38024<br/>"],["- Total (ms): 1.94496<br/>- Queue (ms): 0.0341784<br/>- Submit (ms): 0.32447<br/>- Execution (ms): 1.38227<br/>"],["- Total (ms): 1.43916<br/>- Queue (ms): 0.0274368<br/>- Submit (ms): 0.280716<br/>- Execution (ms): 0.905296<br/>"],["- Total (ms): 1.33771<br/>- Queue (ms): 0.0423201<br/>- Submit (ms): 0.253649<br/>- Execution (ms): 0.891238<br/>"],["- Total (ms): 1.35079<br/>- Queue (ms): 0.0432534<br/>- Submit (ms): 0.241391<br/>- Execution (ms): 0.890434<br/>"],["- Total (ms): 1.37487<br/>- Queue (ms): 0.0199744<br/>- Submit (ms): 0.284295<br/>- Execution (ms): 0.900613<br/>"],["- Total (ms): 1.4021<br/>- Queue (ms): 0.0268951<br/>- Submit (ms): 0.255062<br/>- Execution (ms): 0.912897<br/>"]],
+"showLabels": true, "labels": [], "cColor": "#ED1C24", "cFont": "11px, san-serif",
+"threshold": {"color": "#ED1C24"}
+},
+{
+"label": "Median",
+"id": "Median",
+"data": [[0,1.29622],[1,9.50524],[2,4.88085],[3,2.82592],[4,1.78289],[5,1.35854],[6,1.32307],[7,1.34275],[8,1.3241],[9,1.32902]],
+"color": "#FDB813",
+"lines": {"show": true},
+"tt": [["- Total (ms): 2.19231<br/>- Queue (ms): 0.0422492<br/>- Submit (ms): 1.09806<br/>- Execution (ms): 0.908342<br/>"],["- Total (ms): 9.58443<br/>- Queue (ms): 0.0356408<br/>- Submit (ms): 0.772201<br/>- Execution (ms): 8.50613<br/>"],["- Total (ms): 5.18041<br/>- Queue (ms): 0.0491992<br/>- Submit (ms): 0.475411<br/>- Execution (ms): 4.39102<br/>"],["- Total (ms): 2.97406<br/>- Queue (ms): 0.040616<br/>- Submit (ms): 0.354886<br/>- Execution (ms): 2.38024<br/>"],["- Total (ms): 1.94496<br/>- Queue (ms): 0.0341784<br/>- Submit (ms): 0.32447<br/>- Execution (ms): 1.38227<br/>"],["- Total (ms): 1.43916<br/>- Queue (ms): 0.0274368<br/>- Submit (ms): 0.280716<br/>- Execution (ms): 0.905296<br/>"],["- Total (ms): 1.33771<br/>- Queue (ms): 0.0423201<br/>- Submit (ms): 0.253649<br/>- Execution (ms): 0.891238<br/>"],["- Total (ms): 1.35079<br/>- Queue (ms): 0.0432534<br/>- Submit (ms): 0.241391<br/>- Execution (ms): 0.890434<br/>"],["- Total (ms): 1.37487<br/>- Queue (ms): 0.0199744<br/>- Submit (ms): 0.284295<br/>- Execution (ms): 0.900613<br/>"],["- Total (ms): 1.4021<br/>- Queue (ms): 0.0268951<br/>- Submit (ms): 0.255062<br/>- Execution (ms): 0.912897<br/>"]],
+"showLabels": true, "labels": [], "cColor": "#FDB813", "cFont": "11px, san-serif",
+"threshold": {"color": "#ED1C24"}
+},
+{
+"label": "Minimum",
+"id": "Minimum",
+"data": [[0,1.11848],[1,8.59565],[2,4.66621],[3,2.7429],[4,1.65107],[5,1.26239],[6,1.23287],[7,1.17834],[8,1.26977],[9,1.21524]],
+"color": "#A6CE39",
+"lines": {"show": true},
+"tt": [["- Total (ms): 2.19231<br/>- Queue (ms): 0.0422492<br/>- Submit (ms): 1.09806<br/>- Execution (ms): 0.908342<br/>"],["- Total (ms): 9.58443<br/>- Queue (ms): 0.0356408<br/>- Submit (ms): 0.772201<br/>- Execution (ms): 8.50613<br/>"],["- Total (ms): 5.18041<br/>- Queue (ms): 0.0491992<br/>- Submit (ms): 0.475411<br/>- Execution (ms): 4.39102<br/>"],["- Total (ms): 2.97406<br/>- Queue (ms): 0.040616<br/>- Submit (ms): 0.354886<br/>- Execution (ms): 2.38024<br/>"],["- Total (ms): 1.94496<br/>- Queue (ms): 0.0341784<br/>- Submit (ms): 0.32447<br/>- Execution (ms): 1.38227<br/>"],["- Total (ms): 1.43916<br/>- Queue (ms): 0.0274368<br/>- Submit (ms): 0.280716<br/>- Execution (ms): 0.905296<br/>"],["- Total (ms): 1.33771<br/>- Queue (ms): 0.0423201<br/>- Submit (ms): 0.253649<br/>- Execution (ms): 0.891238<br/>"],["- Total (ms): 1.35079<br/>- Queue (ms): 0.0432534<br/>- Submit (ms): 0.241391<br/>- Execution (ms): 0.890434<br/>"],["- Total (ms): 1.37487<br/>- Queue (ms): 0.0199744<br/>- Submit (ms): 0.284295<br/>- Execution (ms): 0.900613<br/>"],["- Total (ms): 1.4021<br/>- Queue (ms): 0.0268951<br/>- Submit (ms): 0.255062<br/>- Execution (ms): 0.912897<br/>"]],
+"showLabels": true, "labels": [], "cColor": "#A6CE39", "cFont": "11px, san-serif",
+"threshold": {"color": "#ED1C24"}
+}
+],"xAxisTicks": [[0,"G(4096,0,0) - L(0,0,0)"],[1,"G(4096,0,0) - L(1,0,0)"],[2,"G(4096,0,0) - L(2,0,0)"],[3,"G(4096,0,0) - L(4,0,0)"],[4,"G(4096,0,0) - L(8,0,0)"],[5,"G(4096,0,0) - L(16,0,0)"],[6,"G(4096,0,0) - L(32,0,0)"],[7,"G(4096,0,0) - L(64,0,0)"],[8,"G(4096,0,0) - L(128,0,0)"],[9,"G(4096,0,0) - L(256,0,0)"]],"yAxisTicks": [],"xMin": 0,"xMax": 9,"yMin": 1.11848,"yMax": 18.6927},"options": {"xAxisName": "Configuration","yAxisName": "Time (ms)","xAxis_showTicks": true,"yAxis_showTicks": false,"animate": false,"hoverable": true,"clickable": true,"navigatable": true,"horizontalGridlines": true,"verticalGridlines": true,"autoHighlight": true,"showTooltip": true,"selectable": false,"zoomOnSelection": false,"selectionMode": "x","markers": [],"trackable": false,"trackerMode": "x","trackerDiv": "","trackerDefaultMessage": "Hover over the graph","togglable": false,"togglerDiv": "#toggler","zooming_xAxis_zoomable": true,"zooming_xAxis_minimalZoom": 2,"zooming_xAxis_maximalZoom": null,"zooming_onLoad_xAxis_from": 0,"zooming_onLoad_xAxis_to": 9,"center_xAxis_ifElementsAreLessThan": 8,"zooming_yAxis_zoomable": false,"zooming_yAxis_minimalZoom": 2,"zooming_onLoad_yAxis_from": 0,"zooming_onLoad_yAxis_to": 21.496605,"center_yAxis_ifElementsAreLessThan": null,"showLegends": true,"labelPadding_xAxis": 10,"height": "100%","width": "100%","minHeight": "100%","minWidth": "100%","maxHeight": "100%","maxWidth": "100%","backgroundColor": { "colors": ["#e7e7e7", "#ffffff"] }}}
