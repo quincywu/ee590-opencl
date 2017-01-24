@@ -1,0 +1,36 @@
+[General]
+ActiveTab=hw3_part1
+
+[KBSession]
+KBTabs\2\TabFile=hw3_part1
+KBTabs\2\TabName=hw3_part1
+KBTabs\2\KBCache="&elementwiseMatrixPower$inputA;Kpower;outputB$float*;int;float*$__global;__private;__global$NONE;NONE;NONE#progressiveArraySum$inputA;outputB$float*;float*$__global;__global$NONE;NONE"
+KBTabs\2\KBVarsByKernel="elementwiseMatrixPower#inputA&0&inputA;Kpower&3&2;outputB&0&outputB_progressive@elementwiseMatrixPower#inputA&0&inputA;Kpower&3&2;outputB&0&outputB^progressiveArraySum#inputA&0&inputA_progressive;outputB&0&outputB_progressive"
+KBTabs\2\KBRefsByKernel="elementwiseMatrixPower#inputA&;Kpower&;outputB&C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\bin_ref_outputB_progressive0.bin@elementwiseMatrixPower#inputA&;Kpower&;outputB&^progressiveArraySum#inputA&;outputB&"
+KBTabs\2\KBGroupSizes="2#2#0#Auto#Auto#0;2#2#0#Auto#Auto#0$2#2#0#Auto#Auto#0"
+KBTabs\2\KBIterations=2$2#1
+KBTabs\2\KBConfigurationNames=progressiveArraySum#power$progressive
+KBTabs\2\KBSelectedKernel=progressiveArraySum
+KBTabs\2\TabCode="__kernel void elementwiseMatrixPower (__global float* inputA, int Kpower, __global float* outputB)\r\n{\r\n\tconst int x = get_global_id(0);\r\n\tconst int y = get_global_id(1);\r\n\tconst int width = get_global_size(0);\r\n\tconst int height = get_global_size(1);\r\n\r\n\t// B(i,j) = A(i,j)^K\r\n\tconst int id = y * width + x;\r\n\r\n\t\r\n\toutputB[id] = pow(inputA[id], Kpower);\r\n\r\n}\r\n\r\n__kernel void progressiveArraySum (__global float* inputA, __global float* outputB)\r\n{\r\n\tconst int x = get_global_id(0);\r\n\tconst int y = get_global_id(1);\r\n\tconst int width = get_global_size(0);\r\n\tconst int height = get_global_size(1);\r\n\r\n\t// B(i)=sum(j=1 to i) A(j) for i = 1 ... N\r\n\tconst int id = y * width + x;\r\n\r\n\tfloat tmp = inputA[id];\r\n\tfor(unsigned int i = id - 1; i > 0; --i){ \r\n\t\ttmp += inputA[i];\r\n\t}\r\n\toutputB[id] = tmp;\r\n\r\n\t/*if(id == 0)\r\n\t\toutputB[id] = inputA[id];\r\n\telse \r\n\r\n\t\toutputB[id] = outputB[id - 1] + inputA[id];\r\n\t\t*/\r\n}"
+KBTabs\2\KBFacadeVisible=true
+KBTabs\2\IsValidation=false
+KBTabs\2\KBServerActive=true
+KBTabs\2\Artifacts="C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program.ir;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program_elementwiseMatrixPower.gen;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program_progressiveArraySum.gen;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program.ll;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program_x64.ll;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program_x64.spir;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program_x86.ll;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program_x86.spir;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program_x86.spirv;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program_x64.spirv;"
+KBTabs\2\Reports=C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\LastRunResults/elementwiseMatrixPower.cbreport
+KBTabs\2\CLFiles=C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\hw3\\hw3_part1\\program.cl
+KBTabs\2\IsBinary=false
+KBTabs\2\TabOpt6=
+KBTabs\2\TabOpt7=2
+KBTabs\2\TabOpt10=(local) EE-361PC19
+KBTabs\2\TabOpt17=Intel(R) OpenCL
+KBTabs\2\TabOpt18=GPU: Intel(R) HD Graphics 530
+KBTabs\2\TabOpt1=true
+KBTabs\2\TabOpt3=false
+KBTabs\2\TabOpt9=Current Operating System
+KBTabs\2\TabOpt11=
+KBTabs\2\TabOpt4=false
+KBTabs\2\TabOpt13=5010
+KBTabs\2\TabOpt14=5999
+KBTabs\2\TabOpt15=true
+KBTabs\2\TabOpt16=20000
+KBTabs\size=2

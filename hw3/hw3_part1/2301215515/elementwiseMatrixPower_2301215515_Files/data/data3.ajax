@@ -1,0 +1,1 @@
+{"overview": {"kernelName": "elementwiseMatrixPower","confCount": 5,"iteration": 1,"bestConf": {"name": "G(2,2,0) - L(2,1,0)","median": "0.025917"},"worstConf": {"name": "G(2,2,0) - L(0,0,0)","median": "0.042499"}},"configurations": "elementwiseMatrixPower_2301215515_Files/data/data2.ajax"}

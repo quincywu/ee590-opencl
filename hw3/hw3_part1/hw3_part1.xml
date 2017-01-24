@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--  Kernel Builder Variables Database  -->
+<KernelBuilderBuffers>
+    <BufferDetails>
+        <Name>inputA</Name>
+        <DataType>float</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>READ_ONLY</AccessQualifier>
+        <I_O_Mode>0</I_O_Mode>
+        <Source>C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin</Source>
+        <ReadOutput>true</ReadOutput>
+        <BufferSize>4</BufferSize>
+        <InitByRandom>false</InitByRandom>
+        <InitByZero>false</InitByZero>
+        <UseAsSVM>false</UseAsSVM>
+    </BufferDetails>
+    <BufferDetails>
+        <Name>inputA_progressive</Name>
+        <DataType>float</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>READ_ONLY</AccessQualifier>
+        <I_O_Mode>0</I_O_Mode>
+        <Source>C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA_progressive.bin</Source>
+        <ReadOutput>true</ReadOutput>
+        <BufferSize>4</BufferSize>
+        <InitByRandom>true</InitByRandom>
+        <InitByZero>false</InitByZero>
+        <UseAsSVM>false</UseAsSVM>
+    </BufferDetails>
+    <BufferDetails>
+        <Name>outputB</Name>
+        <DataType>float</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>READ_ONLY</AccessQualifier>
+        <I_O_Mode>1</I_O_Mode>
+        <Source></Source>
+        <ReadOutput>true</ReadOutput>
+        <BufferSize>4</BufferSize>
+        <InitByRandom>false</InitByRandom>
+        <InitByZero>false</InitByZero>
+        <UseAsSVM>false</UseAsSVM>
+    </BufferDetails>
+    <BufferDetails>
+        <Name>outputB_progressive</Name>
+        <DataType>float</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>READ_ONLY</AccessQualifier>
+        <I_O_Mode>1</I_O_Mode>
+        <Source></Source>
+        <ReadOutput>true</ReadOutput>
+        <BufferSize>4</BufferSize>
+        <InitByRandom>false</InitByRandom>
+        <InitByZero>false</InitByZero>
+        <UseAsSVM>false</UseAsSVM>
+    </BufferDetails>
+</KernelBuilderBuffers>
+
+<KernelBuilderImages/>
+
+<KernelBuilderSamplers/>
+
+<KernelBuilderPipes/>

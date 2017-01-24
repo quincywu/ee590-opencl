@@ -1,0 +1,52 @@
+Start:Gx,Gy,Gz,Lx,Ly,Lz,Measurement,Total,Queue,Submit,Execution
+2,2,0,0,0,0,Average,1.90404,0.176165,1.44966,0.0295
+2,2,0,0,0,0,Median,1.90404,0.176165,1.44966,0.0295
+2,2,0,0,0,0,Standard Deviation,0,0,0,0
+2,2,0,0,0,0,Minimum,1.90404,0.176165,1.44966,0.0295
+2,2,0,0,0,0,Maximum,1.90404,0.176165,1.44966,0.0295
+Start:Gx,Gy,Gz,Lx,Ly,Lz,Iteration #,Total,Queue,Submit,Execution
+2,2,0,0,0,0,0,1.90404,0.176165,1.44966,0.0295
+Start:Gx,Gy,Gz,Lx,Ly,Lz,Name,Read Time,Read Back Time,Input/Output Data
+2,2,0,0,0,0,inputA_progressive,0.07339,0,C:\Users\quincywu\Documents\Intel\CodeBuilderSessions\hw3_part1\bin_inputA_progressive.bin,float*,4,1
+2,2,0,0,0,0,outputB_progressive,0.08405,1.26198,C:/Users/quincywu/Documents/Intel/CodeBuilderSessions/hw3_part1/2301222803\execution/outputB_config_0_2_0__2_0.dat,float*,4,1
+Start:Best,Median
+2,2,0,0,0,0,1.90404
+Start:Worst,Median
+2,2,0,0,0,0,1.90404
+Start:Analysis configuraion
+(local) EE-361PC19;Intel(R) OpenCL;GPU: Intel(R) HD Graphics 530;true;
+Start:Report summary
+2;2;0;0;0;0;1
+progressiveArraySum#inputA&0&inputA_progressive;outputB&0&outputB_progressive
+Start:Analysis code
+__kernel void elementwiseMatrixPower (__global float* inputA, int Kpower, __global float* outputB)
+{
+	const int x = get_global_id(0);
+	const int y = get_global_id(1);
+	const int width = get_global_size(0);
+	const int height = get_global_size(1);
+
+	// B(i,j) = A(i,j)^K
+	const int id = y * width + x;
+
+	
+	outputB[id] = pow(inputA[id], Kpower);
+
+}
+
+__kernel void progressiveArraySum (__global float* inputA, __global float* outputB)
+{
+	const int x = get_global_id(0);
+	const int y = get_global_id(1);
+	const int width = get_global_size(0);
+	const int height = get_global_size(1);
+
+	// B(i)=sum(j=1 to i) A(j) for i = 1 ... N
+	const int id = y * width + x;
+
+	if( 0 == id)
+		outputB[id] = inputA[id];
+	else 
+		outputB[id] = outputB[id - 1] + inputA[id];
+
+}
