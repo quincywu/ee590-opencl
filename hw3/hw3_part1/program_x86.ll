@@ -10,27 +10,18 @@ define cc76 void @elementwiseMatrixPower(float addrspace(1)* nocapture %inputA, 
   %5 = add nsw i32 %4, %1
   %6 = getelementptr inbounds float addrspace(1)* %inputA, i32 %5
   %7 = load float addrspace(1)* %6, align 4, !tbaa !16
-  %8 = icmp ugt i32 %Kpower, 1
-  br i1 %8, label %.lr.ph, label %._crit_edge
-
-.lr.ph:                                           ; preds = %0, %.lr.ph
-  %i.09 = phi i32 [ %10, %.lr.ph ], [ 1, %0 ]
-  %tmp.08 = phi float [ %9, %.lr.ph ], [ %7, %0 ]
-  %9 = fmul float %tmp.08, %7
-  %10 = add i32 %i.09, 1
-  %11 = icmp ult i32 %10, %Kpower
-  br i1 %11, label %.lr.ph, label %._crit_edge
-
-._crit_edge:                                      ; preds = %.lr.ph, %0
-  %tmp.0.lcssa = phi float [ %7, %0 ], [ %9, %.lr.ph ]
-  %12 = getelementptr inbounds float addrspace(1)* %outputB, i32 %5
-  store float %tmp.0.lcssa, float addrspace(1)* %12, align 4, !tbaa !16
+  %8 = sitofp i32 %Kpower to float
+  %9 = tail call cc75 float @_Z3powff(float %7, float %8) nounwind readnone
+  %10 = getelementptr inbounds float addrspace(1)* %outputB, i32 %5
+  store float %9, float addrspace(1)* %10, align 4, !tbaa !16
   ret void
 }
 
 declare cc75 i32 @_Z13get_global_idj(i32) nounwind readnone
 
 declare cc75 i32 @_Z15get_global_sizej(i32) nounwind readnone
+
+declare cc75 float @_Z3powff(float, float) nounwind readnone
 
 define cc76 void @progressiveArraySum(float addrspace(1)* nocapture %inputA, float addrspace(1)* nocapture %outputB) nounwind {
   %1 = tail call cc75 i32 @_Z13get_global_idj(i32 0) nounwind readnone

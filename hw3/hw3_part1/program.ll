@@ -1,4 +1,4 @@
-; ModuleID = 'C:\Users\quincywu\AppData\Local\Temp\b3d09f06-d41a-4a6b-bfaf-9a72108bf7a9.ll'
+; ModuleID = 'C:\Users\quincywu\AppData\Local\Temp\2300ac04-5d0f-430d-ad79-577354486def.ll'
 target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f16:16:16-f32:32:32-f64:64:64-f80:128:128-v16:16:16-v24:32:32-v32:32:32-v48:64:64-v64:64:64-v96:128:128-v128:128:128-v192:256:256-v256:256:256-v512:512:512-v1024:1024:1024-f80:128:128-n8:16:32:64"
 target triple = "igil_64_GEN9"
 
@@ -11,8 +11,6 @@ define void @elementwiseMatrixPower(float addrspace(1)* %inputA, i32 %Kpower, fl
   %width = alloca i32, align 4
   %height = alloca i32, align 4
   %id = alloca i32, align 4
-  %tmp = alloca float, align 4
-  %i = alloca i32, align 4
   store float addrspace(1)* %inputA, float addrspace(1)** %1, align 8
   store i32 %Kpower, i32* %2, align 4
   store float addrspace(1)* %outputB, float addrspace(1)** %3, align 8
@@ -39,46 +37,22 @@ define void @elementwiseMatrixPower(float addrspace(1)* %inputA, i32 %Kpower, fl
   %19 = load float addrspace(1)** %1, align 8
   %20 = getelementptr inbounds float addrspace(1)* %19, i64 %18
   %21 = load float addrspace(1)* %20, align 4
-  store float %21, float* %tmp, align 4
-  store i32 1, i32* %i, align 4
-  br label %22
-
-; <label>:22                                      ; preds = %34, %0
-  %23 = load i32* %i, align 4
-  %24 = load i32* %2, align 4
-  %25 = icmp ult i32 %23, %24
-  br i1 %25, label %26, label %37
-
-; <label>:26                                      ; preds = %22
-  %27 = load i32* %id, align 4
-  %28 = sext i32 %27 to i64
-  %29 = load float addrspace(1)** %1, align 8
-  %30 = getelementptr inbounds float addrspace(1)* %29, i64 %28
-  %31 = load float addrspace(1)* %30, align 4
-  %32 = load float* %tmp, align 4
-  %33 = fmul float %32, %31
-  store float %33, float* %tmp, align 4
-  br label %34
-
-; <label>:34                                      ; preds = %26
-  %35 = load i32* %i, align 4
-  %36 = add i32 %35, 1
-  store i32 %36, i32* %i, align 4
-  br label %22
-
-; <label>:37                                      ; preds = %22
-  %38 = load float* %tmp, align 4
-  %39 = load i32* %id, align 4
-  %40 = sext i32 %39 to i64
-  %41 = load float addrspace(1)** %3, align 8
-  %42 = getelementptr inbounds float addrspace(1)* %41, i64 %40
-  store float %38, float addrspace(1)* %42, align 4
+  %22 = load i32* %2, align 4
+  %23 = sitofp i32 %22 to float
+  %24 = call float @_Z3powff(float %21, float %23)
+  %25 = load i32* %id, align 4
+  %26 = sext i32 %25 to i64
+  %27 = load float addrspace(1)** %3, align 8
+  %28 = getelementptr inbounds float addrspace(1)* %27, i64 %26
+  store float %24, float addrspace(1)* %28, align 4
   ret void
 }
 
 declare i64 @_Z13get_global_idj(i32)
 
 declare i64 @_Z15get_global_sizej(i32)
+
+declare float @_Z3powff(float, float)
 
 define void @progressiveArraySum(float addrspace(1)* %inputA, float addrspace(1)* %outputB) {
   %1 = alloca float addrspace(1)*, align 8

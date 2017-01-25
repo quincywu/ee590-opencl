@@ -1,36 +1,36 @@
 LABEL0
-         mov      (1|M0)         null<1>:ud    0xBBEE0D9C:ud                   
+         mov      (1|M0)         null<1>:ud    0x31C51ECF:ud                   
 (W)      mov      (8|M0)         r2.0<1>:ud    r0.0<8;8,1>:ud                   {Compacted}
 (W)      or       (1|M0)         cr0.0<1>:ud   cr0.0<0;1,0>:ud   0x480:uw         {Switch}
-(W)      mul      (1|M0)         r3.0<1>:d     r5.4<0;1,0>:ud    r2.1<0;1,0>:ud  
-         add      (16|M0)        r6.0<1>:d     r1.0<8;8,1>:uw    r3.0<0;1,0>:d   
-         add      (16|M0)  [(eq)f0.0]  r8.0<1>:d     r6.0<8;8,1>:d     r4.0<0;1,0>:ud  
+(W)      mul      (1|M0)         r3.0<1>:d     r6.0<0;1,0>:ud    r2.1<0;1,0>:ud  
+         add      (16|M0)        r7.0<1>:d     r1.0<8;8,1>:uw    r3.0<0;1,0>:d   
+         add      (16|M0)  [(eq)f0.0]  r9.0<1>:d     r7.0<8;8,1>:d     r4.0<0;1,0>:ud  
 (f0.0)   if       (16|M0)                    LABEL136          LABEL304        
 LABEL104
-         mov      (16|M0)        r10.0<1>:f    0x0:f                           
+         mov      (16|M0)        r11.0<1>:f    0x0:f                           
          else     (16|M0)                    LABEL304          LABEL304        
 LABEL136
 (W)      mov      (1|M0)         r3.2<1>:q     r5.0<0;1,0>:q                   
 (W)      mov      (1|M0)         r3.1<1>:d     0:w                             
 (W)      mov      (1|M0)         r3.2<1>:f     0x0:f                           
 LABEL184
-(W)      shl      (1|M0)         r12.0<1>:q    r3.1<0;1,0>:ud    2:w             
-(W)      add      (1|M0)         r13.0<1>:q    r3.2<0;1,0>:q     r12.0<0;1,0>:q  
+(W)      shl      (1|M0)         r5.2<1>:q     r3.1<0;1,0>:ud    2:w             
+(W)      add      (1|M0)         r13.0<1>:q    r3.2<0;1,0>:q     r5.2<0;1,0>:q   
 (W)      send     (1|M0)         r14:f         r13:uq            0xC       0x41401FF //  hdc.dc1  wr:2, rd:1, fc: 0x401ff
 (W)      add      (1|M0)         r3.2<1>:f     r3.2<0;1,0>:f     r14.0<0;1,0>:f  
 (W)      add      (1|M0)         r3.1<1>:d     r3.1<0;1,0>:d     1:w             
-         cmp      (16|M0)  [(lt)f0.1]  null<1>:d     r3.1<0;1,0>:ud    r8.0<8;8,1>:ud  
-         mov      (16|M0)        r10.0<1>:f    r3.2<0;1,0>:f                    {Compacted}
+         cmp      (16|M0)  [(lt)f0.1]  null<1>:d     r3.1<0;1,0>:ud    r9.0<8;8,1>:ud  
+         mov      (16|M0)        r11.0<1>:f    r3.2<0;1,0>:f                    {Compacted}
 (f0.1)   while    (16|M0)                    LABEL184                        
 LABEL304
          endif    (16|M0)                    LABEL320                        
 LABEL320
-         shl      (8|M0)         r15.0<1>:q    r8.0<8;8,1>:d     2:w             
-         shl      (8|M8)         r17.0<1>:q    r9.0<8;8,1>:d     2:w             
+         shl      (8|M0)         r15.0<1>:q    r9.0<8;8,1>:d     2:w             
+         shl      (8|M8)         r17.0<1>:q    r10.0<8;8,1>:d    2:w             
          add      (8|M0)         r19.0<1>:q    r5.0<0;1,0>:q     r15.0<4;4,1>:q  
          add      (8|M8)         r21.0<1>:q    r5.0<0;1,0>:q     r17.0<4;4,1>:q  
          send     (16|M0)        r23:w         r19:uq            0xC       0x82411FF //  hdc.dc1  wr:4, rd:2, fc: 0x411ff
-         add      (16|M0)        r25.0<1>:f    r10.0<8;8,1>:f    r23.0<8;8,1>:f   {Compacted}
+         add      (16|M0)        r25.0<1>:f    r11.0<8;8,1>:f    r23.0<8;8,1>:f   {Compacted}
          add      (8|M0)         r27.0<1>:q    r5.1<0;1,0>:q     r15.0<4;4,1>:q  
          add      (8|M8)         r29.0<1>:q    r5.1<0;1,0>:q     r17.0<4;4,1>:q  
          sends    (16|M0)        null:f        r27               r25               0x8C      0x80691FF //  hdc.dc1  wr:4+2, rd:0, fc: 0x691ff

@@ -7,10 +7,10 @@
         <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
         <AccessQualifier>READ_ONLY</AccessQualifier>
         <I_O_Mode>0</I_O_Mode>
-        <Source>C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA.bin</Source>
+        <Source></Source>
         <ReadOutput>true</ReadOutput>
-        <BufferSize>1024</BufferSize>
-        <InitByRandom>false</InitByRandom>
+        <BufferSize>262144</BufferSize>
+        <InitByRandom>true</InitByRandom>
         <InitByZero>false</InitByZero>
         <UseAsSVM>false</UseAsSVM>
     </BufferDetails>
@@ -20,10 +20,10 @@
         <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
         <AccessQualifier>READ_ONLY</AccessQualifier>
         <I_O_Mode>0</I_O_Mode>
-        <Source>C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\bin_inputA_progressive.bin</Source>
+        <Source></Source>
         <ReadOutput>true</ReadOutput>
         <BufferSize>4096</BufferSize>
-        <InitByRandom>false</InitByRandom>
+        <InitByRandom>true</InitByRandom>
         <InitByZero>false</InitByZero>
         <UseAsSVM>false</UseAsSVM>
     </BufferDetails>
@@ -35,7 +35,20 @@
         <I_O_Mode>1</I_O_Mode>
         <Source></Source>
         <ReadOutput>true</ReadOutput>
-        <BufferSize>1024</BufferSize>
+        <BufferSize>262144</BufferSize>
+        <InitByRandom>false</InitByRandom>
+        <InitByZero>false</InitByZero>
+        <UseAsSVM>false</UseAsSVM>
+    </BufferDetails>
+    <BufferDetails>
+        <Name>outputB_CB_tmp_var</Name>
+        <DataType>float</DataType>
+        <MemoryFlags></MemoryFlags>
+        <AccessQualifier>READ_ONLY</AccessQualifier>
+        <I_O_Mode>0</I_O_Mode>
+        <Source>C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw3\hw3_part1\outputB_power_512_1__512_2.dat</Source>
+        <ReadOutput>false</ReadOutput>
+        <BufferSize>262144</BufferSize>
         <InitByRandom>false</InitByRandom>
         <InitByZero>false</InitByZero>
         <UseAsSVM>false</UseAsSVM>

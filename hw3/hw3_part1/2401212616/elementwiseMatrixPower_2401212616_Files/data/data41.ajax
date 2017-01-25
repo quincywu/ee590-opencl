@@ -1,0 +1,2 @@
+{"data": [
+{"measurement": "0","total": "0.96432","submit": "0.249332","queue": "0.013083","GpuTime": "554250","AvgGpuCoreFrequencyMHz": "1047","CsThreads": "8192","EuActive": "91.3%","EuStall": "4.09%","EuThreadOccupancy": "93.5609","SamplesWritten": "0","SlmBytesRead": "0","SlmBytesWritten": "0","TypedBytesRead": "0","TypedBytesWritten": "0","UntypedBytesRead": "0","UntypedBytesWritten": "0","GtiReadThroughput": "1109824","GtiWriteThroughput": "1060480","EuIdle": "4.61%","execution": "0.552998"}]}
