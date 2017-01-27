@@ -111,6 +111,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Intel_OpenCL_Build_Rules>
       <Device>0</Device>
+      <SIMD>3</SIMD>
     </Intel_OpenCL_Build_Rules>
     <ClCompile>
       <AdditionalIncludeDirectories>$(INTELOCLSDKROOT)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

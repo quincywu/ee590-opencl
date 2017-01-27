@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+ <rdmgr>
+  <timestamp type="u64_t">1485493303</timestamp>
+  <hostname>EE-361PC22.ad.ee.washington.edu</hostname>
+  <os>windows</os>
+  <product>Intel® VTune™ Amplifier XE 2017 Update 1</product>
+  <buildNumber type="s32_t">486011</buildNumber>
+  <logicalCPUCount type="s32_t">4</logicalCPUCount>
+  <CPUFrequency type="s64_t">2500000000</CPUFrequency>
+  <CPUFamily type="s32_t">6</CPUFamily>
+  <CPUModel type="s32_t">94</CPUModel>
+  <CPUStepping type="s32_t">3</CPUStepping>
+  <CPUBrandName>Intel(R) Core(TM) i5-6500T CPU @ 2.50GHz</CPUBrandName>
+  <collectionTimeBegin type="u64_t">1485493303</collectionTimeBegin>
+  <collectionTimeEnd type="u64_t">1485493323</collectionTimeEnd>
+  <variables>
+   <at>gh</at>
+  </variables>
+ </rdmgr>
+</root>

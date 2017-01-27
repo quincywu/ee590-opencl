@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<bag xmlns:int="http://www.w3.org/2001/XMLSchema#int" int:version="9" int:type="2">
+ <dbEntry key="GROUP_DEF(type:0 gpu_data /gpu_data::dd_sample.uncore_event_type)" value="1b1e-cc2c-19dc-7b4a"/>
+ <dbEntry key="GROUP_DEF(type:1 cpu_data /cpu_data::dd_sample.callsite.bottom_user_cs.code_loc.mod_seg.mod_file/cpu_data::dd_sample.callsite.type_cs.code_loc.func_range.func_inst.function.subtype/cpu_data::dd_sample.callsite.type_cs.code_loc.func_range.func_inst.function.type/dd_band::dd_thread/dd_band::dd_thread.process)" value="e57c-f9d8-dc1c-7174"/>
+ <dbEntry key="GROUP_DEF(type:1 gpu_compute_task_data )" value="4169-704e-246e-e736"/>
+ <dbEntry key="GROUP_DEF(type:1 gpu_elapsed_time_data )" value="6e26-aee7-451d-4474"/>
+ <dbEntry key="GROUP_DEF(type:2 dma_packet_data /dd_band::dd_gpu_node)" value="3aa9-9f6a-df97-b873"/>
+ <dbEntry key="GROUP_DEF(type:2 gpu_compute_task_data /gpu_compute_task_data::dd_compute_task.queue)" value="6132-ccf5-97b3-71df"/>
+ <dbEntry key="GROUP_DEF(type:2 gpu_compute_task_data /gpu_compute_task_data::dd_compute_task.queue/gpu_compute_task_data::dd_compute_task.submit_thread)" value="fff1-8806-db48-55c3"/>
+ <dbEntry key="GROUP_DEF(type:2 gpu_compute_task_data /gpu_compute_task_data::dd_compute_task.submit_thread)" value="de52-62fc-96c2-67ab"/>
+ <dbEntry key="GROUP_DEF(type:2 task_data /dd_band::dd_thread)" value="5ea5-83d4-e23f-e8d9"/>
+ <dbEntry key="GROUP_DEF(type:3 compute_task_queue_data /compute_task_queue_data::dd_compute_task.queue)" value="1a1e-ab96-4d4d-364a"/>
+ <dbEntry key="GROUP_DEF(type:3 dma_queue_data /dd_band::dd_gpu_node)" value="2135-8b59-2a05-3ef4"/>
+ <dbEntry key="GROUP_DEF(type:3 task_data /dd_band::dd_thread)" value="ab85-a434-a011-b956"/>
+</bag>
