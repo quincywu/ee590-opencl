@@ -1,0 +1,36 @@
+[General]
+ActiveTab=session_0
+
+[KBSession]
+KBTabs\2\TabFile=session_0
+KBTabs\2\TabName=session_0
+KBTabs\2\KBCache="&inclusive_scan_v1$X;Y;InputSize$float*;float*;int$__global;__global;__private$NONE;NONE;NONE#reduce_v1$g_indata;g_outdata$float*;float*$__global;__global$NONE;NONE#reduce_v2$g_indata;g_outdata$float*;float*$__global;__global$NONE;NONE#reduce_v3$g_indata;g_outdata$float*;float*$__global;__global$NONE;NONE"
+KBTabs\2\KBVarsByKernel="inclusive_scan_v1#X&0&inputScan;Y&0&outScan;InputSize&3&16^reduce_v1#g_indata&0&input;g_outdata&0&output^reduce_v2#g_indata&0&input2;g_outdata&0&output^reduce_v3#g_indata&0&input;g_outdata&0&output"
+KBTabs\2\KBRefsByKernel="inclusive_scan_v1#X&;Y&C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\session_0\\bin_ref_outScan0.bin;InputSize&^reduce_v1#g_indata&;g_outdata&C:\\Users\\quincywu\\Documents\\Intel\\CodeBuilderSessions\\session_0\\bin_ref_output0.bin^reduce_v2#g_indata&;g_outdata&^reduce_v3#g_indata&;g_outdata&"
+KBTabs\2\KBGroupSizes=16#0#0#16#0#0$16#0#0#8#0#0$16#0#0#4#0#0$16#0#0#8#0#0
+KBTabs\2\KBIterations=1#1#1#1
+KBTabs\2\KBConfigurationNames=config_0$config_0$config_0$config_0
+KBTabs\2\KBSelectedKernel=inclusive_scan_v1
+KBTabs\2\TabCode="#define SECTION_SIZE  8\r\n__kernel void reduce_v1(__global float* g_indata, __global float* g_outdata) {\r\n__local float sdata[SECTION_SIZE];\r\nint gid = get_global_id(0);\r\nint lid = get_local_id(0);\r\n// each thread loads one element from global to local mem\r\nsdata[lid] = g_indata[gid];\r\nwork_group_barrier(CLK_LOCAL_MEM_FENCE);\r\n\r\n//reduce in shared local mem\r\nfor(uint s=1; s< SECTION_SIZE; s*=2) { \r\n    if(lid % (2*s) == 0) {\r\n        sdata[lid] += sdata[lid+s];\r\n    }\r\n\twork_group_barrier(CLK_LOCAL_MEM_FENCE);\r\n\r\n}\r\n\r\n//write result for section to global mem\r\nif(lid ==0)\r\ng_outdata[get_group_id(0)]= sdata[0]; \r\n\r\n}\r\n\r\n#define SECTION_SIZE  8\r\n__kernel void reduce_v2(__global float* g_indata, __global float* g_outdata) {\r\n__local float sdata[SECTION_SIZE];\r\nint gid = get_global_id(0);\r\nint lid = get_local_id(0);\r\n// each thread loads one element from global to local mem\r\nsdata[lid] = g_indata[gid];\r\nwork_group_barrier(CLK_LOCAL_MEM_FENCE);\r\n\r\n//reduce in shared local mem\r\nfor(uint s=1; s< SECTION_SIZE/2 - 1; s*=2) {\r\n   int index = 2*s*lid;\r\n      if(index < SECTION_SIZE) {\r\n         sdata[index] += sdata[index+s];\r\n      }\r\n   work_group_barrier(CLK_LOCAL_MEM_FENCE);\r\n}\r\n\r\n\r\n//write result for section to global mem\r\nif(lid ==0)\r\ng_outdata[get_group_id(0)]= sdata[0]; \r\n\r\n}\r\n\r\n#define SECTION_SIZE  8\r\n__kernel void reduce_v3(__global float* g_indata, __global float* g_outdata) {\r\n__local float sdata[SECTION_SIZE];\r\nint gid = get_global_id(0);\r\nint lid = get_local_id(0);\r\n// each thread loads one element from global to local mem\r\nsdata[lid] = g_indata[gid];\r\nwork_group_barrier(CLK_LOCAL_MEM_FENCE);\r\n\r\n//reduce in shared local mem\r\nfor(uint s = get_local_size(0); s>=1; s/=2) { \r\n    if(lid <s) {\r\n        sdata[lid] += sdata[lid+s];\r\n    }\r\n}\r\n\r\n\r\n\r\n//write result for section to global mem\r\nif(lid ==0)\r\ng_outdata[get_group_id(0)]= sdata[0]; \r\n\r\n}\r\n\r\n__kernel void inclusive_scan_v1(__global float* X, __global float* Y, int InputSize)\r\n{ \r\n__local float XY[SECTION_SIZE];\r\nint gid = get_global_id(0);\r\nint lid = get_local_id(0);\r\nif(gid < InputSize)\r\n{ \r\n    XY[lid] = X[gid];\r\n}\r\nfor(uint stride=1; stride <= lid; stride *=2)\r\n{ \r\n    work_group_barrier(CLK_LOCAL_MEM_FENCE);\r\n    XY[lid] += XY[lid - stride];\r\n}\r\nY[gid] = XY[lid];\r\n}\r\n\r\n"
+KBTabs\2\KBFacadeVisible=true
+KBTabs\2\IsValidation=true
+KBTabs\2\KBServerActive=true
+KBTabs\2\Artifacts="C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program.ir;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program_inclusive_scan_v1.gen;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program_reduce_v1.gen;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program_reduce_v2.gen;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program_reduce_v3.gen;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program.ll;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program_x86.spirv;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program_x64.spirv;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program_x86.txtspirv;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program_x64.txtspirv;"
+KBTabs\2\Reports="C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v1.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v1.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v1.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v2.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v1.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v2.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v2.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v2.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v2.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v2.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v2.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v2.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v2.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v3.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v3.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v3.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v3.cbreport;C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\LastRunResults/reduce_v3.cbreport"
+KBTabs\2\CLFiles=C:\\Users\\quincywu\\Documents\\\\Intel\\\\CodeBuilderSessions\\session_0\\program.cl
+KBTabs\2\IsBinary=false
+KBTabs\2\TabOpt6="-cl-std=CL2.0"
+KBTabs\2\TabOpt7=2
+KBTabs\2\TabOpt10=(local) EE-361PC21
+KBTabs\2\TabOpt17=Intel(R) OpenCL
+KBTabs\2\TabOpt18=GPU: Intel(R) HD Graphics 530
+KBTabs\2\TabOpt1=true
+KBTabs\2\TabOpt3=false
+KBTabs\2\TabOpt9=Current Operating System
+KBTabs\2\TabOpt11=
+KBTabs\2\TabOpt4=false
+KBTabs\2\TabOpt13=5010
+KBTabs\2\TabOpt14=5999
+KBTabs\2\TabOpt15=true
+KBTabs\2\TabOpt16=20000
+KBTabs\size=2

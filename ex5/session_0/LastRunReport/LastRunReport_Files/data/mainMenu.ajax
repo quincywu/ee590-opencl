@@ -1,0 +1,1 @@
+{"reportMode": "kdfRun","sessionInfo": null,"run": {"overview": {"kernelName": "inclusive_scan_v1","confCount": 1,"iteration": 1,"bestConf": {"name": "G(16,0,0) - L(16,0,0)","median": "0.007167"},"worstConf": {"name": "G(16,0,0) - L(16,0,0)","median": "0.007167"}},"configurations": "LastRunReport_Files/data/data.ajax"}}

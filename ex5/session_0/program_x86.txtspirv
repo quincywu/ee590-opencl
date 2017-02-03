@@ -1,0 +1,275 @@
+; SPIR-V
+; Version: 1.0
+; Generator: Unknown(14); 0
+; Bound: 177
+; Schema: 0
+               OpCapability Addresses
+               OpCapability Linkage
+               OpCapability Kernel
+          %1 = OpExtInstImport "OpenCL.std"
+               OpMemoryModel Physical32 OpenCL
+               OpEntryPoint Kernel %21 "reduce_v1"
+               OpEntryPoint Kernel %65 "reduce_v2"
+               OpEntryPoint Kernel %104 "reduce_v3"
+               OpEntryPoint Kernel %143 "inclusive_scan_v1"
+               OpSource OpenCL_C 200000
+               OpName %8 "reduce_v1.sdata"
+               OpName %9 "reduce_v2.sdata"
+               OpName %10 "reduce_v3.sdata"
+               OpName %11 "inclusive_scan_v1.XY"
+               OpName %14 "__spirv_BuiltInGlobalInvocationId"
+               OpName %15 "__spirv_BuiltInLocalInvocationId"
+               OpName %16 "__spirv_BuiltInWorkgroupId"
+               OpName %17 "__spirv_BuiltInWorkgroupSize"
+               OpName %22 "g_indata"
+               OpName %23 "g_outdata"
+               OpName %47 "s.0"
+               OpName %66 "g_indata"
+               OpName %67 "g_outdata"
+               OpName %86 "s.0"
+               OpName %105 "g_indata"
+               OpName %106 "g_outdata"
+               OpName %127 "s.0"
+               OpName %144 "X"
+               OpName %145 "Y"
+               OpName %146 "InputSize"
+               OpName %163 "stride.0"
+               OpDecorate %175 Constant
+        %175 = OpDecorationGroup
+               OpDecorate %176 Alignment 4
+        %176 = OpDecorationGroup
+               OpDecorate %17 BuiltIn WorkgroupSize
+               OpDecorate %16 BuiltIn WorkgroupId
+               OpDecorate %15 BuiltIn LocalInvocationId
+               OpDecorate %14 BuiltIn GlobalInvocationId
+               OpDecorate %16 LinkageAttributes "__spirv_BuiltInWorkgroupId" Import
+               OpDecorate %17 LinkageAttributes "__spirv_BuiltInWorkgroupSize" Import
+               OpDecorate %14 LinkageAttributes "__spirv_BuiltInGlobalInvocationId" Import
+               OpDecorate %15 LinkageAttributes "__spirv_BuiltInLocalInvocationId" Import
+               OpGroupDecorate %175 %14 %15 %16 %17
+               OpGroupDecorate %176 %8 %9 %10 %11
+          %2 = OpTypeInt 32 0
+          %4 = OpTypeFloat 32
+          %5 = OpTypeArray %4 %3
+          %7 = OpTypePointer Workgroup %5
+         %12 = OpTypeVector %2 3
+         %13 = OpTypePointer UniformConstant %12
+         %18 = OpTypeVoid
+         %19 = OpTypePointer CrossWorkgroup %4
+         %20 = OpTypeFunction %18 %19 %19
+         %34 = OpTypePointer Workgroup %4
+         %48 = OpTypeBool
+        %142 = OpTypeFunction %18 %19 %19 %2
+          %3 = OpConstant %2 8
+          %6 = OpUndef %5
+         %33 = OpConstant %2 0
+         %43 = OpConstant %2 2
+         %44 = OpConstant %2 256
+         %45 = OpConstant %2 1
+         %87 = OpConstant %2 3
+          %8 = OpVariable %7 Workgroup %6
+          %9 = OpVariable %7 Workgroup %6
+         %10 = OpVariable %7 Workgroup %6
+         %11 = OpVariable %7 Workgroup %6
+         %14 = OpVariable %13 UniformConstant
+         %15 = OpVariable %13 UniformConstant
+         %16 = OpVariable %13 UniformConstant
+         %17 = OpVariable %13 UniformConstant
+         %21 = OpFunction %18 None %20
+         %22 = OpFunctionParameter %19
+         %23 = OpFunctionParameter %19
+         %24 = OpLabel
+         %35 = OpInBoundsPtrAccessChain %34 %8 %33 %33
+         %36 = OpLoad %12 %14 Aligned 0
+         %37 = OpCompositeExtract %2 %36 0
+         %38 = OpLoad %12 %15 Aligned 0
+         %39 = OpCompositeExtract %2 %38 0
+         %40 = OpInBoundsPtrAccessChain %19 %22 %37
+         %41 = OpLoad %4 %40 Aligned 4
+         %42 = OpInBoundsPtrAccessChain %34 %8 %33 %39
+               OpStore %42 %41 Aligned 4
+               OpControlBarrier %43 %43 %44
+               OpBranch %25
+         %25 = OpLabel
+         %47 = OpPhi %2 %45 %24 %46 %29
+         %49 = OpULessThan %48 %47 %3
+               OpBranchConditional %49 %26 %30
+         %26 = OpLabel
+         %50 = OpIMul %2 %43 %47
+         %51 = OpUMod %2 %39 %50
+         %52 = OpIEqual %48 %51 %33
+               OpBranchConditional %52 %27 %28
+         %27 = OpLabel
+         %53 = OpIAdd %2 %39 %47
+         %54 = OpInBoundsPtrAccessChain %34 %8 %33 %53
+         %55 = OpLoad %4 %54 Aligned 4
+         %56 = OpInBoundsPtrAccessChain %34 %8 %33 %39
+         %57 = OpLoad %4 %56 Aligned 4
+         %58 = OpFAdd %4 %57 %55
+               OpStore %56 %58 Aligned 4
+               OpBranch %28
+         %28 = OpLabel
+               OpControlBarrier %43 %43 %44
+               OpBranch %29
+         %29 = OpLabel
+         %46 = OpIMul %2 %47 %43
+               OpBranch %25
+         %30 = OpLabel
+         %60 = OpIEqual %48 %39 %33
+               OpBranchConditional %60 %31 %32
+         %31 = OpLabel
+         %61 = OpLoad %4 %35 Aligned 4
+         %62 = OpLoad %12 %16 Aligned 0
+         %63 = OpCompositeExtract %2 %62 0
+         %64 = OpInBoundsPtrAccessChain %19 %23 %63
+               OpStore %64 %61 Aligned 4
+               OpBranch %32
+         %32 = OpLabel
+               OpReturn
+               OpFunctionEnd
+         %65 = OpFunction %18 None %20
+         %66 = OpFunctionParameter %19
+         %67 = OpFunctionParameter %19
+         %68 = OpLabel
+         %77 = OpInBoundsPtrAccessChain %34 %9 %33 %33
+         %78 = OpLoad %12 %14 Aligned 0
+         %79 = OpCompositeExtract %2 %78 0
+         %80 = OpLoad %12 %15 Aligned 0
+         %81 = OpCompositeExtract %2 %80 0
+         %82 = OpInBoundsPtrAccessChain %19 %66 %79
+         %83 = OpLoad %4 %82 Aligned 4
+         %84 = OpInBoundsPtrAccessChain %34 %9 %33 %81
+               OpStore %84 %83 Aligned 4
+               OpControlBarrier %43 %43 %44
+               OpBranch %69
+         %69 = OpLabel
+         %86 = OpPhi %2 %45 %68 %85 %73
+         %88 = OpULessThan %48 %86 %87
+               OpBranchConditional %88 %70 %74
+         %70 = OpLabel
+         %89 = OpIMul %2 %43 %86
+         %90 = OpIMul %2 %89 %81
+         %91 = OpSLessThan %48 %90 %3
+               OpBranchConditional %91 %71 %72
+         %71 = OpLabel
+         %92 = OpIAdd %2 %90 %86
+         %93 = OpInBoundsPtrAccessChain %34 %9 %33 %92
+         %94 = OpLoad %4 %93 Aligned 4
+         %95 = OpInBoundsPtrAccessChain %34 %9 %33 %90
+         %96 = OpLoad %4 %95 Aligned 4
+         %97 = OpFAdd %4 %96 %94
+               OpStore %95 %97 Aligned 4
+               OpBranch %72
+         %72 = OpLabel
+               OpControlBarrier %43 %43 %44
+               OpBranch %73
+         %73 = OpLabel
+         %85 = OpIMul %2 %86 %43
+               OpBranch %69
+         %74 = OpLabel
+         %99 = OpIEqual %48 %81 %33
+               OpBranchConditional %99 %75 %76
+         %75 = OpLabel
+        %100 = OpLoad %4 %77 Aligned 4
+        %101 = OpLoad %12 %16 Aligned 0
+        %102 = OpCompositeExtract %2 %101 0
+        %103 = OpInBoundsPtrAccessChain %19 %67 %102
+               OpStore %103 %100 Aligned 4
+               OpBranch %76
+         %76 = OpLabel
+               OpReturn
+               OpFunctionEnd
+        %104 = OpFunction %18 None %20
+        %105 = OpFunctionParameter %19
+        %106 = OpFunctionParameter %19
+        %107 = OpLabel
+        %116 = OpInBoundsPtrAccessChain %34 %10 %33 %33
+        %117 = OpLoad %12 %14 Aligned 0
+        %118 = OpCompositeExtract %2 %117 0
+        %119 = OpLoad %12 %15 Aligned 0
+        %120 = OpCompositeExtract %2 %119 0
+        %121 = OpInBoundsPtrAccessChain %19 %105 %118
+        %122 = OpLoad %4 %121 Aligned 4
+        %123 = OpInBoundsPtrAccessChain %34 %10 %33 %120
+               OpStore %123 %122 Aligned 4
+               OpControlBarrier %43 %43 %44
+        %124 = OpLoad %12 %17 Aligned 0
+        %125 = OpCompositeExtract %2 %124 0
+               OpBranch %108
+        %108 = OpLabel
+        %127 = OpPhi %2 %125 %107 %126 %112
+        %128 = OpUGreaterThanEqual %48 %127 %45
+               OpBranchConditional %128 %109 %113
+        %109 = OpLabel
+        %129 = OpULessThan %48 %120 %127
+               OpBranchConditional %129 %110 %111
+        %110 = OpLabel
+        %130 = OpIAdd %2 %120 %127
+        %131 = OpInBoundsPtrAccessChain %34 %10 %33 %130
+        %132 = OpLoad %4 %131 Aligned 4
+        %133 = OpInBoundsPtrAccessChain %34 %10 %33 %120
+        %134 = OpLoad %4 %133 Aligned 4
+        %135 = OpFAdd %4 %134 %132
+               OpStore %133 %135 Aligned 4
+               OpBranch %111
+        %111 = OpLabel
+               OpBranch %112
+        %112 = OpLabel
+        %126 = OpUDiv %2 %127 %43
+               OpBranch %108
+        %113 = OpLabel
+        %137 = OpIEqual %48 %120 %33
+               OpBranchConditional %137 %114 %115
+        %114 = OpLabel
+        %138 = OpLoad %4 %116 Aligned 4
+        %139 = OpLoad %12 %16 Aligned 0
+        %140 = OpCompositeExtract %2 %139 0
+        %141 = OpInBoundsPtrAccessChain %19 %106 %140
+               OpStore %141 %138 Aligned 4
+               OpBranch %115
+        %115 = OpLabel
+               OpReturn
+               OpFunctionEnd
+        %143 = OpFunction %18 None %142
+        %144 = OpFunctionParameter %19
+        %145 = OpFunctionParameter %19
+        %146 = OpFunctionParameter %2
+        %147 = OpLabel
+        %154 = OpLoad %12 %14 Aligned 0
+        %155 = OpCompositeExtract %2 %154 0
+        %156 = OpLoad %12 %15 Aligned 0
+        %157 = OpCompositeExtract %2 %156 0
+        %158 = OpSLessThan %48 %155 %146
+               OpBranchConditional %158 %148 %149
+        %148 = OpLabel
+        %159 = OpInBoundsPtrAccessChain %19 %144 %155
+        %160 = OpLoad %4 %159 Aligned 4
+        %161 = OpInBoundsPtrAccessChain %34 %11 %33 %157
+               OpStore %161 %160 Aligned 4
+               OpBranch %149
+        %149 = OpLabel
+               OpBranch %150
+        %150 = OpLabel
+        %163 = OpPhi %2 %45 %149 %162 %152
+        %164 = OpULessThanEqual %48 %163 %157
+               OpBranchConditional %164 %151 %153
+        %151 = OpLabel
+               OpControlBarrier %43 %43 %44
+        %165 = OpISub %2 %157 %163
+        %166 = OpInBoundsPtrAccessChain %34 %11 %33 %165
+        %167 = OpLoad %4 %166 Aligned 4
+        %168 = OpInBoundsPtrAccessChain %34 %11 %33 %157
+        %169 = OpLoad %4 %168 Aligned 4
+        %170 = OpFAdd %4 %169 %167
+               OpStore %168 %170 Aligned 4
+               OpBranch %152
+        %152 = OpLabel
+        %162 = OpIMul %2 %163 %43
+               OpBranch %150
+        %153 = OpLabel
+        %172 = OpInBoundsPtrAccessChain %34 %11 %33 %157
+        %173 = OpLoad %4 %172 Aligned 4
+        %174 = OpInBoundsPtrAccessChain %19 %145 %155
+               OpStore %174 %173 Aligned 4
+               OpReturn
+               OpFunctionEnd

@@ -1,0 +1,2 @@
+{"data": [
+{"Gx": "16","Gy": "0","Gz": "0","Lx": "8","Ly": "0","Lz": "0","executionMedian": "0.021","validationStatus": null,"variables": [{"name": "input2","dataType": "float*","path": "C:/Users/quincywu/Documents/Intel/CodeBuilderSessions/session_0/bin_input2.bin"},{"name": "output","dataType": "float*","path": "C:/Users/quincywu/Documents/Intel/CodeBuilderSessions/session_0/0202194941/execution/g_outdata_config_0_16_8.dat"}]}]}

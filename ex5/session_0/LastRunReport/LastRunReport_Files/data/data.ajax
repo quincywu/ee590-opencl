@@ -1,0 +1,2 @@
+{"data": [
+{"Gx": "16","Gy": "0","Gz": "0","Lx": "16","Ly": "0","Lz": "0","executionMedian": "0.007167","validationStatus": true,"variables": [{"name": "inputScan","dataType": "float*","path": "C:/Users/quincywu/Documents/Intel/CodeBuilderSessions/session_0/bin_inputScan.bin"},{"name": "outScan","dataType": "float*","path": "C:/Users/quincywu/Documents//Intel//CodeBuilderSessions/session_0/LastRunResults/Y_config_0_16_16.dat","refPath": "C:/Users/quincywu/Documents/Intel/CodeBuilderSessions/session_0/bin_ref_outScan0.bin","success": true}]}]}

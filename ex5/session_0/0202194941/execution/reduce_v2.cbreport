@@ -1,0 +1,69 @@
+Start:Gx,Gy,Gz,Lx,Ly,Lz,Measurement,Total,Queue,Submit,Execution
+16,0,0,8,0,0,Average,16.3061,0.145832,15.8384,0.021
+16,0,0,8,0,0,Median,16.3061,0.145832,15.8384,0.021
+16,0,0,8,0,0,Standard Deviation,0,0,0,0
+16,0,0,8,0,0,Minimum,16.3061,0.145832,15.8384,0.021
+16,0,0,8,0,0,Maximum,16.3061,0.145832,15.8384,0.021
+Start:Gx,Gy,Gz,Lx,Ly,Lz,Iteration #,Total,Queue,Submit,Execution
+16,0,0,8,0,0,0,16.3061,0.145832,15.8384,0.021
+Start:Gx,Gy,Gz,Lx,Ly,Lz,Name,Read Time,Read Back Time,Input/Output Data
+16,0,0,8,0,0,input2,0.06191,0,C:\Users\quincywu\Documents\Intel\CodeBuilderSessions\session_0\bin_input2.bin,float*,16,1
+16,0,0,8,0,0,output,0.05453,0.84337,C:/Users/quincywu/Documents/Intel/CodeBuilderSessions/session_0/0202194941\execution/g_outdata_config_0_16_8.dat,float*,16,1
+Start:Best,Median
+16,0,0,8,0,0,16.3061
+Start:Worst,Median
+16,0,0,8,0,0,16.3061
+Start:Analysis configuraion
+(local) EE-361PC21;Intel(R) OpenCL;GPU: Intel(R) HD Graphics 530;true;-cl-std=CL2.0
+Start:Report summary
+16;0;0;8;0;0;1
+reduce_v2#g_indata&0&input2;g_outdata&0&output
+Start:Analysis code
+#define SECTION_SIZE  8
+__kernel void reduce_v1(__global float* g_indata, __global float* g_outdata) {
+__local float sdata[SECTION_SIZE];
+int gid = get_global_id(0);
+int lid = get_local_id(0);
+// each thread loads one element from global to local mem
+sdata[lid] = g_indata[gid];
+work_group_barrier(CLK_LOCAL_MEM_FENCE);
+
+//reduce in shared local mem
+for(uint s=1; s< SECTION_SIZE; s*=2) { 
+    if(lid % (2*s) == 0) {
+        sdata[lid] += sdata[lid+s];
+    }
+	work_group_barrier(CLK_LOCAL_MEM_FENCE);
+
+}
+
+//write result for section to global mem
+if(lid ==0)
+g_outdata[get_group_id(0)]= sdata[0]; 
+
+}
+
+#define SECTION_SIZE  16
+__kernel void reduce_v2(__global float* g_indata, __global float* g_outdata) {
+__local float sdata[SECTION_SIZE];
+int gid = get_global_id(0);
+int lid = get_local_id(0);
+// each thread loads one element from global to local mem
+sdata[lid] = g_indata[gid];
+work_group_barrier(CLK_LOCAL_MEM_FENCE);
+
+//reduce in shared local mem
+for(uint s=1; s< SECTION_SIZE; s*=2) {
+   int index = 2*s*lid;
+      if(index < SECTION_SIZE) {
+         sdata[index] += sdata[index+s];
+      }
+   work_group_barrier(CLK_LOCAL_MEM_FENCE);
+}
+
+
+//write result for section to global mem
+if(lid ==0)
+g_outdata[get_group_id(0)]= sdata[0]; 
+
+}
