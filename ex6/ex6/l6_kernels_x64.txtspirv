@@ -1,0 +1,375 @@
+; SPIR-V
+; Version: 1.0
+; Generator: Unknown(14); 0
+; Bound: 279
+; Schema: 0
+               OpCapability Addresses
+               OpCapability Linkage
+               OpCapability Kernel
+               OpCapability Int64
+               OpCapability ImageBasic
+               OpCapability LiteralSampler
+               OpExtension "cl_images"
+          %1 = OpExtInstImport "OpenCL.std"
+               OpMemoryModel Physical64 OpenCL
+               OpEntryPoint Kernel %29 "conv1D"
+               OpEntryPoint Kernel %77 "convolve_v1"
+               OpEntryPoint Kernel %163 "sobel_edgedet_v1"
+               OpSource OpenCL_C 102000
+               OpName %5 "sampler2"
+               OpName %9 "__spirv_BuiltInGlobalInvocationId"
+               OpName %15 "llvm.memset.p0i8.i64"
+               OpName %23 "llvm.fmuladd.f32"
+               OpName %30 "y"
+               OpName %31 "data"
+               OpName %32 "dataLen"
+               OpName %33 "h_filt"
+               OpName %34 "filtLen"
+               OpName %48 "j.0"
+               OpName %78 "inImg"
+               OpName %79 "outImg"
+               OpName %80 "rows"
+               OpName %81 "cols"
+               OpName %82 "filter"
+               OpName %83 "filterWidth"
+               OpName %84 "sampler"
+               OpName %105 "sum.1"
+               OpName %106 "sum.0"
+               OpName %107 "filterIdx.1"
+               OpName %108 "filterIdx.0"
+               OpName %111 "coords.1"
+               OpName %112 "coords.0"
+               OpName %114 "i.0"
+               OpName %126 "j.0"
+               OpName %131 "TempSampledImage"
+               OpName %164 "inImg"
+               OpName %165 "outImg"
+               OpName %166 "rows"
+               OpName %167 "cols"
+               OpName %180 "sobelx"
+               OpName %181 "sobely"
+               OpName %215 "sumx.1"
+               OpName %216 "sumx.0"
+               OpName %217 "sumy.1"
+               OpName %218 "sumy.0"
+               OpName %219 "filterIdx.1"
+               OpName %220 "filterIdx.0"
+               OpName %221 "coords.1"
+               OpName %222 "coords.0"
+               OpName %224 "i.0"
+               OpName %238 "j.0"
+               OpName %244 "TempSampledImage"
+               OpDecorate %277 Constant
+        %277 = OpDecorationGroup
+               OpDecorate %278 Alignment 4
+        %278 = OpDecorationGroup
+               OpDecorate %9 BuiltIn GlobalInvocationId
+               OpDecorate %16 FuncParamAttr NoCapture
+               OpDecorate %82 FuncParamAttr NoWrite
+               OpDecorate %5 LinkageAttributes "sampler2" Export
+               OpDecorate %23 LinkageAttributes "llvm.fmuladd.f32" Import
+               OpDecorate %15 LinkageAttributes "llvm.memset.p0i8.i64" Import
+               OpDecorate %9 LinkageAttributes "__spirv_BuiltInGlobalInvocationId" Import
+               OpGroupDecorate %277 %5 %9
+               OpGroupDecorate %278 %5 %180 %181
+          %2 = OpTypeInt 32 0
+          %4 = OpTypePointer UniformConstant %2
+          %6 = OpTypeInt 64 0
+          %7 = OpTypeVector %6 3
+          %8 = OpTypePointer UniformConstant %7
+         %10 = OpTypeVoid
+         %11 = OpTypeInt 8 0
+         %12 = OpTypePointer Function %11
+         %13 = OpTypeBool
+         %14 = OpTypeFunction %10 %12 %11 %6 %2 %13
+         %21 = OpTypeFloat 32
+         %22 = OpTypeFunction %21 %21 %21 %21
+         %27 = OpTypePointer CrossWorkgroup %21
+         %28 = OpTypeFunction %10 %27 %27 %2 %27 %2
+         %72 = OpTypeImage %10 2D 0 0 0 0 Unknown ReadOnly
+         %73 = OpTypeImage %10 2D 0 0 0 0 Unknown WriteOnly
+         %74 = OpTypePointer UniformConstant %21
+         %75 = OpTypeSampler
+         %76 = OpTypeFunction %10 %72 %73 %2 %2 %74 %2 %75
+        %103 = OpTypeVector %21 4
+        %109 = OpTypeVector %2 2
+        %130 = OpTypeSampledImage %72
+        %162 = OpTypeFunction %10 %72 %73 %2 %2
+        %178 = OpTypeArray %2 %177
+        %179 = OpTypePointer Function %178
+        %195 = OpTypePointer Function %2
+          %3 = OpConstant %2 18
+         %46 = OpConstant %2 0
+         %55 = OpConstant %21 0
+         %70 = OpConstant %2 1
+        %100 = OpConstant %2 2
+        %104 = OpConstantNull %103
+        %110 = OpUndef %109
+        %177 = OpConstant %6 9
+        %189 = OpConstant %11 0
+        %190 = OpConstant %6 36
+        %191 = OpConstant %2 4
+        %192 = OpConstantFalse %13
+        %197 = OpConstant %2 3
+        %200 = OpConstant %2 4294967294
+        %201 = OpConstant %2 5
+        %203 = OpConstant %2 7
+        %243 = OpConstantSampler %75 ClampToEdge 0 Nearest
+          %5 = OpVariable %4 UniformConstant %3
+          %9 = OpVariable %8 UniformConstant
+         %15 = OpFunction %10 None %14
+         %16 = OpFunctionParameter %12
+         %17 = OpFunctionParameter %11
+         %18 = OpFunctionParameter %6
+         %19 = OpFunctionParameter %2
+         %20 = OpFunctionParameter %13
+               OpFunctionEnd
+         %23 = OpFunction %21 Pure %22
+         %24 = OpFunctionParameter %21
+         %25 = OpFunctionParameter %21
+         %26 = OpFunctionParameter %21
+               OpFunctionEnd
+         %29 = OpFunction %10 None %28
+         %30 = OpFunctionParameter %27
+         %31 = OpFunctionParameter %27
+         %32 = OpFunctionParameter %2
+         %33 = OpFunctionParameter %27
+         %34 = OpFunctionParameter %2
+         %35 = OpLabel
+         %43 = OpLoad %7 %9 Aligned 0
+         %44 = OpCompositeExtract %6 %43 0
+         %45 = OpUConvert %2 %44
+               OpBranch %36
+         %36 = OpLabel
+         %48 = OpPhi %2 %46 %35 %47 %41
+         %49 = OpSLessThan %13 %48 %34
+               OpBranchConditional %49 %37 %42
+         %37 = OpLabel
+         %50 = OpISub %2 %45 %48
+         %51 = OpSGreaterThan %13 %46 %50
+               OpBranchConditional %51 %38 %39
+         %38 = OpLabel
+         %52 = OpSConvert %6 %45
+         %53 = OpInBoundsPtrAccessChain %27 %30 %52
+         %54 = OpLoad %21 %53 Aligned 4
+         %56 = OpFAdd %21 %54 %55
+               OpStore %53 %56 Aligned 4
+               OpBranch %40
+         %39 = OpLabel
+         %57 = OpISub %2 %45 %48
+         %58 = OpSConvert %6 %57
+         %59 = OpInBoundsPtrAccessChain %27 %31 %58
+         %60 = OpLoad %21 %59 Aligned 4
+         %61 = OpSConvert %6 %48
+         %62 = OpInBoundsPtrAccessChain %27 %33 %61
+         %63 = OpLoad %21 %62 Aligned 4
+         %64 = OpFMul %21 %60 %63
+         %65 = OpSConvert %6 %45
+         %66 = OpInBoundsPtrAccessChain %27 %30 %65
+         %67 = OpLoad %21 %66 Aligned 4
+         %68 = OpFAdd %21 %67 %64
+               OpStore %66 %68 Aligned 4
+               OpBranch %40
+         %40 = OpLabel
+         %69 = OpPhi %21 %56 %38 %68 %39
+               OpBranch %41
+         %41 = OpLabel
+         %47 = OpIAdd %2 %48 %70
+               OpBranch %36
+         %42 = OpLabel
+               OpReturn
+               OpFunctionEnd
+         %77 = OpFunction %10 None %76
+         %78 = OpFunctionParameter %72
+         %79 = OpFunctionParameter %73
+         %80 = OpFunctionParameter %2
+         %81 = OpFunctionParameter %2
+         %82 = OpFunctionParameter %74
+         %83 = OpFunctionParameter %2
+         %84 = OpFunctionParameter %75
+         %85 = OpLabel
+         %94 = OpLoad %7 %9 Aligned 0
+         %95 = OpCompositeExtract %6 %94 0
+         %96 = OpUConvert %2 %95
+         %97 = OpLoad %7 %9 Aligned 0
+         %98 = OpCompositeExtract %6 %97 1
+         %99 = OpUConvert %2 %98
+        %101 = OpSDiv %2 %83 %100
+        %102 = OpISub %2 %46 %101
+               OpBranch %86
+         %86 = OpLabel
+        %106 = OpPhi %103 %104 %85 %105 %92
+        %108 = OpPhi %2 %46 %85 %107 %92
+        %112 = OpPhi %109 %110 %85 %111 %92
+        %114 = OpPhi %2 %102 %85 %113 %92
+        %115 = OpSLessThanEqual %13 %114 %101
+               OpBranchConditional %115 %87 %93
+         %87 = OpLabel
+        %116 = OpIAdd %2 %99 %114
+        %117 = OpCompositeInsert %109 %116 %112 1
+        %118 = OpISub %2 %46 %101
+               OpBranch %88
+         %88 = OpLabel
+        %105 = OpPhi %103 %106 %87 %119 %90
+        %107 = OpPhi %2 %108 %87 %121 %90
+        %111 = OpPhi %109 %117 %87 %123 %90
+        %126 = OpPhi %2 %118 %87 %125 %90
+        %127 = OpSLessThanEqual %13 %126 %101
+               OpBranchConditional %127 %89 %91
+         %89 = OpLabel
+        %128 = OpIAdd %2 %96 %126
+        %123 = OpCompositeInsert %109 %128 %111 0
+        %131 = OpSampledImage %130 %78 %84
+        %132 = OpImageSampleExplicitLod %103 %131 %123 Lod %55
+        %133 = OpCompositeExtract %21 %132 0
+        %134 = OpSConvert %6 %107
+        %135 = OpInBoundsPtrAccessChain %74 %82 %134
+        %136 = OpLoad %21 %135 Aligned 4
+        %137 = OpFMul %21 %133 %136
+        %138 = OpCompositeExtract %21 %105 0
+        %139 = OpFAdd %21 %138 %137
+        %140 = OpCompositeInsert %103 %139 %105 0
+        %141 = OpCompositeExtract %21 %132 1
+        %142 = OpSConvert %6 %107
+        %143 = OpInBoundsPtrAccessChain %74 %82 %142
+        %144 = OpLoad %21 %143 Aligned 4
+        %145 = OpFMul %21 %141 %144
+        %146 = OpCompositeExtract %21 %140 1
+        %147 = OpFAdd %21 %146 %145
+        %148 = OpCompositeInsert %103 %147 %140 1
+        %149 = OpCompositeExtract %21 %132 2
+        %121 = OpIAdd %2 %107 %70
+        %151 = OpSConvert %6 %107
+        %152 = OpInBoundsPtrAccessChain %74 %82 %151
+        %153 = OpLoad %21 %152 Aligned 4
+        %154 = OpFMul %21 %149 %153
+        %155 = OpCompositeExtract %21 %148 2
+        %156 = OpFAdd %21 %155 %154
+        %119 = OpCompositeInsert %103 %156 %148 2
+               OpBranch %90
+         %90 = OpLabel
+        %125 = OpIAdd %2 %126 %70
+               OpBranch %88
+         %91 = OpLabel
+               OpBranch %92
+         %92 = OpLabel
+        %113 = OpIAdd %2 %114 %70
+               OpBranch %86
+         %93 = OpLabel
+        %160 = OpCompositeInsert %109 %96 %112 0
+        %161 = OpCompositeInsert %109 %99 %160 1
+               OpImageWrite %79 %161 %106
+               OpReturn
+               OpFunctionEnd
+        %163 = OpFunction %10 None %162
+        %164 = OpFunctionParameter %72
+        %165 = OpFunctionParameter %73
+        %166 = OpFunctionParameter %2
+        %167 = OpFunctionParameter %2
+        %168 = OpLabel
+        %180 = OpVariable %179 Function
+        %181 = OpVariable %179 Function
+        %182 = OpLoad %7 %9 Aligned 0
+        %183 = OpCompositeExtract %6 %182 0
+        %184 = OpUConvert %2 %183
+        %185 = OpLoad %7 %9 Aligned 0
+        %186 = OpCompositeExtract %6 %185 1
+        %187 = OpUConvert %2 %186
+        %188 = OpBitcast %12 %180
+        %193 = OpFunctionCall %10 %15 %188 %189 %190 %191 %192
+        %194 = OpBitcast %179 %188
+        %196 = OpPtrAccessChain %195 %194 %46 %70
+               OpStore %196 %70 Aligned 0
+        %198 = OpPtrAccessChain %195 %194 %46 %197
+               OpStore %198 %70 Aligned 0
+        %199 = OpPtrAccessChain %195 %194 %46 %191
+               OpStore %199 %200 Aligned 0
+        %202 = OpPtrAccessChain %195 %194 %46 %201
+               OpStore %202 %70 Aligned 0
+        %204 = OpPtrAccessChain %195 %194 %46 %203
+               OpStore %204 %70 Aligned 0
+        %205 = OpBitcast %12 %181
+        %206 = OpFunctionCall %10 %15 %205 %189 %190 %191 %192
+        %207 = OpBitcast %179 %205
+        %208 = OpPtrAccessChain %195 %207 %46 %70
+               OpStore %208 %70 Aligned 0
+        %209 = OpPtrAccessChain %195 %207 %46 %197
+               OpStore %209 %70 Aligned 0
+        %210 = OpPtrAccessChain %195 %207 %46 %191
+               OpStore %210 %200 Aligned 0
+        %211 = OpPtrAccessChain %195 %207 %46 %201
+               OpStore %211 %70 Aligned 0
+        %212 = OpPtrAccessChain %195 %207 %46 %203
+               OpStore %212 %70 Aligned 0
+        %213 = OpSDiv %2 %197 %100
+        %214 = OpISub %2 %46 %213
+               OpBranch %169
+        %169 = OpLabel
+        %216 = OpPhi %103 %104 %168 %215 %175
+        %218 = OpPhi %103 %104 %168 %217 %175
+        %220 = OpPhi %2 %46 %168 %219 %175
+        %222 = OpPhi %109 %110 %168 %221 %175
+        %224 = OpPhi %2 %214 %168 %223 %175
+        %225 = OpSLessThanEqual %13 %224 %213
+               OpBranchConditional %225 %170 %176
+        %170 = OpLabel
+        %226 = OpIAdd %2 %187 %224
+        %227 = OpCompositeInsert %109 %226 %222 1
+        %228 = OpISub %2 %46 %213
+               OpBranch %171
+        %171 = OpLabel
+        %215 = OpPhi %103 %216 %170 %229 %173
+        %217 = OpPhi %103 %218 %170 %231 %173
+        %219 = OpPhi %2 %220 %170 %233 %173
+        %221 = OpPhi %109 %227 %170 %235 %173
+        %238 = OpPhi %2 %228 %170 %237 %173
+        %239 = OpSLessThanEqual %13 %238 %213
+               OpBranchConditional %239 %172 %174
+        %172 = OpLabel
+        %240 = OpIAdd %2 %184 %238
+        %235 = OpCompositeInsert %109 %240 %221 0
+        %242 = OpLoad %2 %5 Aligned 4
+        %244 = OpSampledImage %130 %164 %243
+        %245 = OpImageSampleExplicitLod %103 %244 %235 Lod %55
+        %246 = OpCompositeExtract %21 %245 0
+        %247 = OpSConvert %6 %219
+        %248 = OpInBoundsPtrAccessChain %195 %180 %46 %247
+        %249 = OpLoad %2 %248 Aligned 4
+        %250 = OpConvertSToF %21 %249
+        %251 = OpFMul %21 %246 %250
+        %252 = OpCompositeExtract %21 %215 0
+        %253 = OpFAdd %21 %252 %251
+        %229 = OpCompositeInsert %103 %253 %215 0
+        %255 = OpCompositeExtract %21 %245 0
+        %233 = OpIAdd %2 %219 %70
+        %257 = OpSConvert %6 %219
+        %258 = OpInBoundsPtrAccessChain %195 %181 %46 %257
+        %259 = OpLoad %2 %258 Aligned 4
+        %260 = OpConvertSToF %21 %259
+        %261 = OpFMul %21 %255 %260
+        %262 = OpCompositeExtract %21 %217 0
+        %263 = OpFAdd %21 %262 %261
+        %231 = OpCompositeInsert %103 %263 %217 0
+               OpBranch %173
+        %173 = OpLabel
+        %237 = OpIAdd %2 %238 %70
+               OpBranch %171
+        %174 = OpLabel
+               OpBranch %175
+        %175 = OpLabel
+        %223 = OpIAdd %2 %224 %70
+               OpBranch %169
+        %176 = OpLabel
+        %267 = OpCompositeExtract %21 %216 0
+        %268 = OpCompositeExtract %21 %216 0
+        %269 = OpCompositeExtract %21 %218 0
+        %270 = OpCompositeExtract %21 %218 0
+        %271 = OpFMul %21 %269 %270
+        %272 = OpFunctionCall %21 %23 %267 %268 %271
+        %273 = OpExtInst %21 %1 sqrt %272
+        %274 = OpCompositeInsert %103 %273 %104 0
+        %275 = OpCompositeInsert %109 %184 %222 0
+        %276 = OpCompositeInsert %109 %187 %275 1
+               OpImageWrite %165 %276 %274
+               OpReturn
+               OpFunctionEnd

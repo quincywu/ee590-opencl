@@ -1,0 +1,36 @@
+[General]
+ActiveTab=ex6
+
+[KBSession]
+KBTabs\2\TabFile=ex6
+KBTabs\2\TabName=ex6
+KBTabs\2\KBCache="&conv1D$y;data;dataLen;h_filt;filtLen$float*;float*;int;float*;int$__global;__global;__private;__global;__private$NONE;NONE;NONE;NONE;NONE#convolve_v1$inImg;outImg;rows;cols;filter;filterWidth;sampler$image2d_t;image2d_t;int;int;float*;int;sampler_t$__global;__global;__private;__private;__const;__private;__private$READ_ONLY;WRITE_ONLY;NONE;NONE;NONE;NONE;NONE#sobel_edgedet_v1$inImg;outImg;rows;cols$image2d_t;image2d_t;int;int$__global;__global;__private;__private$READ_ONLY;WRITE_ONLY;NONE;NONE"
+KBTabs\2\KBVarsByKernel="conv1D#y&0&buffer_OUTPUT;data&0&buffer_IN;dataLen&3&5;h_filt&0&buffer_FILT;filtLen&3&5^convolve_v1#inImg&1&image_IN;outImg&1&image_OUT;rows&3&512;cols&3&512;filter&0&buffer_FIL;filterWidth&3&9;sampler&2&sampler_0^sobel_edgedet_v1#inImg&1&image_IN;outImg&1&image_OUT;rows&3&512;cols&3&512"
+KBTabs\2\KBRefsByKernel="conv1D#y&;data&;dataLen&;h_filt&;filtLen&^convolve_v1#inImg&;outImg&;rows&;cols&;filter&;filterWidth&;sampler&^sobel_edgedet_v1#inImg&;outImg&;rows&;cols&"
+KBTabs\2\KBGroupSizes=5#0#0#5#0#0$512#512#0#8#8#0$512#512#0#8#8#0
+KBTabs\2\KBIterations=1#1#1
+KBTabs\2\KBConfigurationNames=config_0$config_0$config_0
+KBTabs\2\KBSelectedKernel=sobel_edgedet_v1
+KBTabs\2\TabCode="__kernel void conv1D(__global float* y, __global float* data, int dataLen, __global float* h_filt, int filtLen) \r\n{\r\n\tint i = get_global_id(0); \r\n\tfor(int j = 0; j<filtLen; ++j) {\r\n\t\t(0 > (i-j)) ? (y[i]+=0) : (y[i] += data[i-j]*h_filt[j]); \r\n\t}\r\n}\r\n\r\n__kernel void convolve_v1(__read_only image2d_t inImg, __write_only image2d_t outImg, int rows, int cols, __constant float* filter, int filterWidth, sampler_t sampler)\r\n{ \r\n\tint column = get_global_id(0);\r\n\tint row = get_global_id(1);\r\n\r\n\tint halfWidth = (int)(filterWidth/2);\r\n\r\n\tfloat4 sum = {0.0f, 0.0f, 0.0f, 0.0f};\r\n\tint filterIdx = 0;\r\n\tint2 coords;\r\n\r\n\tfor(int i = -halfWidth; i<= halfWidth; i++) /* iterate thru filter rows */\r\n\t{ \r\n\t\tcoords.y = row + i;\r\n\t\tfor(int j = -halfWidth; j<= halfWidth; j++) /* iterate thru filter cols */\r\n\t\t{ \r\n\t\t\tcoords.x = column+j;\r\n\t\t\tfloat4 pixel;\r\n\t\t\tpixel = read_imagef(inImg, sampler, coords);\r\n\t\t\tsum.x += pixel.x * filter[filterIdx]; /* filter indexed in row-major progression */\r\n\t\t\tsum.y += pixel.y * filter[filterIdx]; /* filter indexed in row-major progression */\r\n\t\t\tsum.z += pixel.z * filter[filterIdx++]; /* filter indexed in row-major progression */\r\n\t\t} \r\n\t}\r\n\r\n\t/* copy data to output img */\r\n\tcoords.x = column;\r\n\tcoords.y = row;\r\n\twrite_imagef(outImg, coords, sum);\r\n}\r\n\r\n__constant sampler_t sampler2 = CLK_NORMALIZED_COORDS_FALSE | CLK_FILTER_NEAREST | CLK_ADDRESS_CLAMP_TO_EDGE;\r\n\r\n__kernel void sobel_edgedet_v1(__read_only image2d_t inImg, __write_only image2d_t outImg, int rows, int cols)\r\n{ \r\n\tint column = get_global_id(0);\r\n\tint row = get_global_id(1);\r\n\r\n\tint filterWidth = 3;\r\n\t//int sobelx[] = {-1,0,1,-2,0,2,-1,0,1};\r\n\tint sobelx[] = { 0,1,0,1,-2,1,0,1,0};\r\n\tint sobely[] = { 0,1,0,1,-2,1,0,1,0};\r\n\t//int sobely[] = {1,2,1,0,0,0,-1,-2,-1};\r\n\r\n\tint halfWidth = (int)(filterWidth/2);\r\n\r\n\tfloat4 sumx = {0.0f, 0.0f, 0.0f, 0.0f};\r\n\tfloat4 sumy = {0.0f, 0.0f, 0.0f, 0.0f};\r\n\tfloat4 px_grad = {0.0f, 0.0f, 0.0f, 0.0f};\r\n\tint filterIdx = 0;\r\n\tint2 coords;\r\n\r\n\tfor(int i = -halfWidth; i<= halfWidth; i++) /* iterate thru filter rows */\r\n\t{ \r\n\t\tcoords.y = row + i;\r\n\t\tfor(int j = -halfWidth; j<= halfWidth; j++) /* iterate thru filter cols */\r\n\t\t{ \r\n\t\t\tcoords.x = column+j;\r\n\t\t\tfloat4 pixel;\r\n\t\t\tpixel = read_imagef(inImg, sampler2, coords);\r\n\t\t\tsumx.x += pixel.x * sobelx[filterIdx]; /* filter indexed in row-major progression */\r\n\t\t\tsumy.x += pixel.x * sobely[filterIdx++]; /* filter indexed in row-major progression */\r\n\t\t} \r\n\t}\r\n\r\n\tpx_grad.x = sqrt(sumx.x * sumx.x + sumy.x * sumy.x );\r\n\r\n\t/* copy data to output img */\r\n\tcoords.x = column;\r\n\tcoords.y = row;\r\n\twrite_imagef(outImg, coords, px_grad);\r\n}"
+KBTabs\2\KBFacadeVisible=true
+KBTabs\2\IsValidation=false
+KBTabs\2\KBServerActive=true
+KBTabs\2\Artifacts="C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels.ir;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_conv1D.gen;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_convolve_v1.gen;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_sobel_edgedet_v1.gen;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels.ll;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_x64.ll;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_x64.spir;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_x86.ll;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_x86.spir;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_x86.spirv;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_x64.spirv;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_x86.txtspirv;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels_x64.txtspirv;"
+KBTabs\2\Reports="C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/conv1D.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/convolve_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\LastRunResults/sobel_edgedet_v1.cbreport"
+KBTabs\2\CLFiles=C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\ex6\\ex6\\l6_kernels.cl
+KBTabs\2\IsBinary=false
+KBTabs\2\TabOpt6=
+KBTabs\2\TabOpt7=2
+KBTabs\2\TabOpt10=(local) EE-361PC12
+KBTabs\2\TabOpt17=Intel(R) OpenCL
+KBTabs\2\TabOpt18=GPU: Intel(R) HD Graphics 530
+KBTabs\2\TabOpt1=true
+KBTabs\2\TabOpt3=false
+KBTabs\2\TabOpt9=Current Operating System
+KBTabs\2\TabOpt11=
+KBTabs\2\TabOpt4=false
+KBTabs\2\TabOpt13=5010
+KBTabs\2\TabOpt14=5999
+KBTabs\2\TabOpt15=true
+KBTabs\2\TabOpt16=20000
+KBTabs\size=2

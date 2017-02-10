@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--  Kernel Builder Variables Database  -->
+<KernelBuilderBuffers>
+    <BufferDetails>
+        <Name>buffer_FIL</Name>
+        <DataType>float</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>READ_ONLY</AccessQualifier>
+        <I_O_Mode>0</I_O_Mode>
+        <Source>C:\Users\quincywu\Documents\GitHub\ee590-opencl\ex6\ex6\bin_buffer_FIL.bin</Source>
+        <ReadOutput>true</ReadOutput>
+        <BufferSize>81</BufferSize>
+        <InitByRandom>false</InitByRandom>
+        <InitByZero>false</InitByZero>
+        <UseAsSVM>false</UseAsSVM>
+    </BufferDetails>
+    <BufferDetails>
+        <Name>buffer_FILT</Name>
+        <DataType>float</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>READ_ONLY</AccessQualifier>
+        <I_O_Mode>0</I_O_Mode>
+        <Source>C:\Users\quincywu\Documents\GitHub\ee590-opencl\ex6\ex6\bin_buffer_FILT.bin</Source>
+        <ReadOutput>true</ReadOutput>
+        <BufferSize>5</BufferSize>
+        <InitByRandom>false</InitByRandom>
+        <InitByZero>false</InitByZero>
+        <UseAsSVM>false</UseAsSVM>
+    </BufferDetails>
+    <BufferDetails>
+        <Name>buffer_IN</Name>
+        <DataType>float</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>READ_ONLY</AccessQualifier>
+        <I_O_Mode>0</I_O_Mode>
+        <Source>C:\Users\quincywu\Documents\GitHub\ee590-opencl\ex6\ex6\bin_buffer_IN.bin</Source>
+        <ReadOutput>true</ReadOutput>
+        <BufferSize>5</BufferSize>
+        <InitByRandom>false</InitByRandom>
+        <InitByZero>false</InitByZero>
+        <UseAsSVM>false</UseAsSVM>
+    </BufferDetails>
+    <BufferDetails>
+        <Name>buffer_OUTPUT</Name>
+        <DataType>float</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>READ_ONLY</AccessQualifier>
+        <I_O_Mode>1</I_O_Mode>
+        <Source></Source>
+        <ReadOutput>true</ReadOutput>
+        <BufferSize>5</BufferSize>
+        <InitByRandom>false</InitByRandom>
+        <InitByZero>false</InitByZero>
+        <UseAsSVM>false</UseAsSVM>
+    </BufferDetails>
+</KernelBuilderBuffers>
+
+<KernelBuilderImages>
+    <ImageDetails>
+        <Name>image_IN</Name>
+        <DataType>image2d_t</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>__read_only</AccessQualifier>
+        <I_O_Mode>0</I_O_Mode>
+        <Source>C:\Users\quincywu\Documents\GitHub\ee590-opencl\ex6\ex6\Flowergirl_512x512.bmp</Source>
+        <Width>512</Width>
+        <ReadOutput>true</ReadOutput>
+        <Heigth>512</Heigth>
+        <ArraySize>1</ArraySize>
+        <Depth>1</Depth>
+        <RowPitch>0</RowPitch>
+        <SlicePitch>0</SlicePitch>
+        <ChannelOrder>CL_RGBA</ChannelOrder>
+        <ChannelDataType>CL_FLOAT</ChannelDataType>
+        <RawDataFormat>RGB - BGRA</RawDataFormat>
+    </ImageDetails>
+    <ImageDetails>
+        <Name>image_OUT</Name>
+        <DataType>image2d_t</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>__write_only</AccessQualifier>
+        <I_O_Mode>1</I_O_Mode>
+        <Source></Source>
+        <Width>512</Width>
+        <ReadOutput>true</ReadOutput>
+        <Heigth>512</Heigth>
+        <ArraySize>1</ArraySize>
+        <Depth>1</Depth>
+        <RowPitch>0</RowPitch>
+        <SlicePitch>0</SlicePitch>
+        <ChannelOrder>CL_RGBA</ChannelOrder>
+        <ChannelDataType>CL_FLOAT</ChannelDataType>
+        <RawDataFormat>RGB - BGRA</RawDataFormat>
+    </ImageDetails>
+</KernelBuilderImages>
+
+<KernelBuilderSamplers>
+    <SamplerDetails>
+        <Name>sampler_0</Name>
+        <AddressingMode>CL_ADDRESS_CLAMP_TO_EDGE</AddressingMode>
+        <FilteringMode>CL_FILTER_LINEAR</FilteringMode>
+        <NormalizedCoordinates>false</NormalizedCoordinates>
+    </SamplerDetails>
+</KernelBuilderSamplers>
+
+<KernelBuilderPipes/>
