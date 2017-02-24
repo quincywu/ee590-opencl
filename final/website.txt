@@ -1,0 +1,6 @@
+http://www.geeksforgeeks.org/bitonic-sort/
+http://www.bealto.com/gpu-sorting_parallel-bitonic-local.html
+OpenCL Parallel Programming Development Cookbook
+Raymond Tay
+Published 2013-08-26
+https://www.safaribooksonline.com/library/view/opencl-parallel-programming/9781849694520/ch09s04.html
