@@ -109,6 +109,30 @@ sqrt.cpp(440): warning C4018: '<': signed/unsigned mismatch
 sqrt.cpp(448): warning C4018: '<': signed/unsigned mismatch
 sqrt.cpp(128): warning C4996: 'clCreateCommandQueue': was declared deprecated
   C:\Program Files (x86)\Intel\OpenCL SDK\6.1\include\CL\cl.h(1428): note: see declaration of 'clCreateCommandQueue'
+  ocl_utils.cpp
+  fma.cpp
+fma.cpp(375): warning C4838: conversion from 'int' to 'std::size_t' requires a narrowing conversion
+fma.cpp(435): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+fma.cpp(496): warning C4018: '<': signed/unsigned mismatch
+fma.cpp(134): warning C4996: 'clCreateCommandQueue': was declared deprecated
+  C:\Program Files (x86)\Intel\OpenCL SDK\6.1\include\CL\cl.h(1428): note: see declaration of 'clCreateCommandQueue'
+  crossproduct.cpp
+crossproduct.cpp(328): warning C4838: conversion from 'int' to 'std::size_t' requires a narrowing conversion
+crossproduct.cpp(386): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+crossproduct.cpp(447): warning C4018: '<': signed/unsigned mismatch
+crossproduct.cpp(140): warning C4996: 'clCreateCommandQueue': was declared deprecated
+  C:\Program Files (x86)\Intel\OpenCL SDK\6.1\include\CL\cl.h(1428): note: see declaration of 'clCreateCommandQueue'
+  Ex2a_host.cpp
+Ex2a_host.cpp(338): warning C4838: conversion from 'int' to 'std::size_t' requires a narrowing conversion
+Ex2a_host.cpp(396): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+Ex2a_host.cpp(457): warning C4018: '<': signed/unsigned mismatch
+Ex2a_host.cpp(147): warning C4996: 'clCreateCommandQueue': was declared deprecated
+  C:\Program Files (x86)\Intel\OpenCL SDK\6.1\include\CL\cl.h(1428): note: see declaration of 'clCreateCommandQueue'
+Ex2a_host.cpp(597): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
+Ex2a_host.cpp(688): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
+  Generating Code...
+  LINK : C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw2\ex2a\Debug\ex2a.exe not found or not built by the last incremental link; performing full link
   ex2a.vcxproj -> C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw2\ex2a\Debug\ex2a.exe
   ex2a.vcxproj -> C:\Users\quincywu\Documents\GitHub\ee590-opencl\hw2\ex2a\Debug\ex2a.pdb (Full PDB)
   ex2akernel.cl
