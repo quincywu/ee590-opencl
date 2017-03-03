@@ -29,6 +29,8 @@ struct s1 {
 	cl_char8 ch8;
 };
 
+struct point
+
 // TODO: declare pointer instance of struct
 struct s1* p_str1;
 

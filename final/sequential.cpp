@@ -47,7 +47,7 @@ void oddeven_sort(float a[], int size) {
 	}
 }
 
-// iterative bitonic sort (batcher odd-even mergesort 
+// iterative bitonic sort (batcher odd-even mergesort (OpencL Parallel Programming Development Cookbook by Raymond Tay)
 void merge_iterative (int a[], int l, int r){
 	int i, j, k, p, N = r -l+1;
 	for(p = 1; p < N; p += p)
