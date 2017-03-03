@@ -29,10 +29,21 @@ struct s1 {
 	cl_char8 ch8;
 };
 
-struct point
+struct point {
+	cl_float2 location;
+	cl_int category;
+};
+
+struct ref_point {
+	point p;
+	cl_float dist;
+	cl_int order;
+};
 
 // TODO: declare pointer instance of struct
 struct s1* p_str1;
+struct point* p_point;
+struct ref_point* p_ref_point;
 
 // get platform id of Intel OpenCL platform 
 cl_platform_id get_intel_platform();
