@@ -20,6 +20,10 @@
 #define INTEL_PLATFORM  "Intel(R) OpenCL" 
 #define BUF_SIZE 1048576
 
+#define PARALLEL_BITONIC 1
+#define NUM_CATEGORY 10
+#define K 10
+
 using namespace std;
 
 // TODO: define host-side struct
@@ -30,8 +34,9 @@ struct s1 {
 };
 
 struct point {
-	cl_float2 location;
+	cl_float2 location; // X, Y
 	cl_int category;
+
 };
 
 struct ref_point {
@@ -40,9 +45,17 @@ struct ref_point {
 	cl_int order;
 };
 
+inline bool operator==(const point& p1, const point& p2) {
+	return (p1.category == p2.category) && (p1.location.x == p2.location.x) && (p1.location.y == p2.location.y);
+}
+
+inline bool operator!=(const point& p1, const point& p2) {
+	return !(p1 == p2);
+}
+
 // TODO: declare pointer instance of struct
 struct s1* p_str1;
-struct point* p_point;
+struct point* p_test_point;
 struct ref_point* p_ref_point;
 
 // get platform id of Intel OpenCL platform 
@@ -58,7 +71,7 @@ void build_fail_log(cl_program, cl_device_id);
 int ReadBinaryFile(const std::string filename, char** data, bool isSVM = false);
 
 /*
-* Generate random value for input buffers
+* Generate random value for input buffers // or read from file
 */
 void generateInput(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
 {
@@ -72,6 +85,31 @@ void generateInput(cl_float4* inputArray, cl_uint arrayWidth, cl_uint arrayHeigh
 	}
 }
 
+void generatetestPointsLocation(point* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
+{
+	srand(12);
+
+	// random initialization of input
+	cl_uint array_size = arrayWidth * arrayHeight;
+	for (cl_uint i = 0; i < array_size; ++i)
+	{
+		inputArray[i].location = { (cl_float)(rand() % 1000), (cl_float)(rand() % 1000) }; //x, y
+	}
+}
+
+void generateRefPoints(ref_point* inputArray, cl_uint arrayWidth, cl_uint arrayHeight)
+{
+	srand(345);
+
+	// random initialization of input
+	cl_uint array_size = arrayWidth * arrayHeight;
+	for (cl_uint i = 0; i < array_size; ++i)
+	{
+		inputArray[i].p.location = { (cl_float)(rand() % 1000), (cl_float)(rand() % 1000) };
+		inputArray[i].p.category = (cl_int) abs((rand() % NUM_CATEGORY));
+	}
+}
+
 int main(int argc, char** argv)
 {
 	cl_int err;                             // error code returned from api calls 
@@ -80,15 +118,15 @@ int main(int argc, char** argv)
 	cl_context       context = NULL;   // compute context 
 	cl_command_queue commands = NULL;   // compute device's queue 
 	cl_program       program = NULL;   // compute program 
-	cl_kernel        kernel = NULL;   // compute kernel 
+	//cl_kernel        kernel = NULL;   // compute kernel 
 
-									  //hw2
-	cl_kernel        kernel1_1 = NULL;   // compute kernel 
-	cl_kernel        kernel1_2 = NULL;   // compute kernel 
+									  //final proj
+	cl_kernel        knn_kernel = NULL;   // compute kernel 
 	cl_event		 prof_event;
 
-
 	int			 vector_size = 4096;
+	int			 ref_point_size = vector_size;
+	int			 test_point_size = vector_size;
 
 	// get Intel OpenCL platform 
 	platform = get_intel_platform();
@@ -106,23 +144,37 @@ int main(int argc, char** argv)
 #define NUM_STRUCTS 1
 	p_str1 = (struct s1*)_aligned_malloc(sizeof(struct s1), 4096);
 
+#if PARALLEL_BITONIC	
+	p_test_point = (struct point*)_aligned_malloc(sizeof(struct point) * test_point_size, 4096);
+	p_ref_point = (struct ref_point*)_aligned_malloc(sizeof(struct ref_point) * ref_point_size, 4096);
+	if (NULL == p_test_point || NULL == p_ref_point)
+	{
+		LogError("Error: _aligned_malloc failed to allocate buffers.\n");
+		return -1;
+	}
+
+#endif
+
 	// TODO: initialize struct members
 	p_str1->ch8 = { 'a', 'b','c','d','e','f','g','h' };
 	p_str1->fl4 = { 1.0f, 2.0f, 3.0f, 4.0f };
 	p_str1->ui2 = { 11, 22 };
 
-	//hw2
-	cl_float4* inputA = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
+#if PARALLEL_BITONIC
+	//final proj
+	/*cl_float4* inputA = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
 	cl_float4* inputB = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
 	cl_float* outputC = (cl_float*)_aligned_malloc(sizeof(cl_float) * vector_size, 4096);
 	if (NULL == inputA || NULL == inputB || NULL == outputC)
 	{
 		LogError("Error: _aligned_malloc failed to allocate buffers.\n");
 		return -1;
-	}
+	}*/
 
-	generateInput(inputA, vector_size, 1);
-	generateInput(inputB, vector_size, 1);
+	//generateInput(inputA, vector_size, 1);
+	generatetestPointsLocation(p_test_point, test_point_size, 1);
+	generateRefPoints(p_ref_point, ref_point_size, 1);
+#endif
 
 	// Getting the compute device for the processor graphic (GPU) on our platform by function 
 	printf("Selected device: GPU\n");
@@ -219,11 +271,10 @@ int main(int argc, char** argv)
 	printf(SEPARATOR);
 
 	// TODO: specify correct kernel function name
-	//kernel = clCreateKernel(program, "myEx2akernel", &err);
-	kernel1_1 = clCreateKernel(program, "hw2_1_1kernel", &err);
-	//kernel1_2 = clCreateKernel(program, "hw2_1_2kernel", &err);
+#if PARALLEL_BITONIC 
+	knn_kernel = clCreateKernel(program, "knn_kernel", &err);
 
-	if (CL_SUCCESS != err || NULL == kernel1_1)
+	if (CL_SUCCESS != err || NULL == knn_kernel)
 	{
 		printf("Error: Failed to create compute kernel!\n");
 		clReleaseProgram(program);
@@ -231,6 +282,7 @@ int main(int argc, char** argv)
 		clReleaseContext(context);
 		return EXIT_FAILURE;
 	}
+#endif
 
 	//Variables: 
 
@@ -246,13 +298,19 @@ int main(int argc, char** argv)
 		return err;
 	}
 
-	//hw2
-	cl_mem buffer_inputA = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, inputA, &err);
-	cl_mem buffer_inputB = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * vector_size, inputB, &err);
+#if PARALLEL_BITONIC
+	//final proj 
+	// input/output buffer
+	cl_mem buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point) * test_point_size, &p_test_point, &err);
+	cl_mem buffer_struct_ref_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct ref_point) * ref_point_size, &p_ref_point, &err);
+	cl_uint k = K; // used defined value
 
-	//output buffer
-	cl_mem buffer_outputC = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float) * vector_size, outputC, &err);
-
+	if ((CL_SUCCESS != err))
+	{
+		LogError("Error: Cannot create Buffer");
+		return err;
+	}
+#endif
 
 	// Setting the arguments to our compute kernel in order to execute it. 
 	printf("\n");
@@ -260,7 +318,7 @@ int main(int argc, char** argv)
 	printf("\nSetting the kernel arguments\n");
 
 	// TODO: define and init vector variable type for kernel parameter
-	cl_float4 cl_fl4 = { 1.0f, 2.0f, 3.0f, 4.0f };
+	//cl_float4 cl_fl4 = { 1.0f, 2.0f, 3.0f, 4.0f };
 
 	// TODO: set kernel arguments
 	/*err = clSetKernelArg(kernel, 0, sizeof(cl_float4), &cl_fl4);
@@ -279,61 +337,34 @@ int main(int argc, char** argv)
 	return err;
 	}*/
 
-	//hw2
-	cl_float4 cl_fl4b = { 5.0f, 6.0f, 7.0f, 8.0f };
-
-
-	if (kernel1_1) {
-		err = clSetKernelArg(kernel1_1, 0, sizeof(cl_mem), (void *)&buffer_inputA);
+	//final proj
+#if PARALLEL_BITONIC
+	if (knn_kernel) {
+		err = clSetKernelArg(knn_kernel, 0, sizeof(cl_mem), (void *)&buffer_struct_ref_points);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel1_1 arg0 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set knn_kernel arg0 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 
-		err = clSetKernelArg(kernel1_1, 1, sizeof(cl_mem), (void *)&buffer_inputB);
+		err = clSetKernelArg(knn_kernel, 1, sizeof(cl_mem), (void *)&buffer_struct_test_points);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel1_1 arg1 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set knn_kernel arg1 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 
-		err = clSetKernelArg(kernel1_1, 2, sizeof(cl_mem), (void *)&buffer_outputC);
+		err = clSetKernelArg(knn_kernel, 2, sizeof(cl_uint), (void *)&k);
 
 		if ((CL_SUCCESS != err))
 		{
-			LogError("Error: Failed to set kernel1_1 arg2 '%s'.\n", TranslateOpenCLError(err));
-			return err;
-		}
-	}
-	if (kernel1_2) {
-		err = clSetKernelArg(kernel1_2, 0, sizeof(cl_mem), (void *)&buffer_inputA);
-
-		if ((CL_SUCCESS != err))
-		{
-			LogError("Error: Failed to set kernel1_2 arg0 '%s'.\n", TranslateOpenCLError(err));
-			return err;
-		}
-
-		err = clSetKernelArg(kernel1_2, 1, sizeof(cl_mem), (void *)&buffer_inputB);
-
-		if ((CL_SUCCESS != err))
-		{
-			LogError("Error: Failed to set kernel1_2 arg1 '%s'.\n", TranslateOpenCLError(err));
-			return err;
-		}
-
-		err = clSetKernelArg(kernel1_2, 2, sizeof(cl_mem), (void *)&buffer_outputC);
-
-		if ((CL_SUCCESS != err))
-		{
-			LogError("Error: Failed to set kernel1_2 arg2 '%s'.\n", TranslateOpenCLError(err));
+			LogError("Error: Failed to set knn_kernel arg2 '%s'.\n", TranslateOpenCLError(err));
 			return err;
 		}
 	}
-
+#endif
 
 	// Execute the kernel over the entire range of our logically 1d configuration 
 	// using the maximum kernel work group size 
@@ -346,13 +377,13 @@ int main(int argc, char** argv)
 	//size_t global[] = { 8, 8, 0 };
 	//size_t local[] = { 1, 1, 0 };
 
-	//hw2
+	//final proj
 	int dim = 1;
-	size_t global[] = { vector_size, 0, 0 };
+	size_t global[] = { ref_point_size, 0, 0 }; // vector_size // assumming ref_point is way larger than test point
 	size_t local[] = { 1, 0, 0 };
 
 	//choosing best local size
-	bool findingBestLocalSize = true;
+	bool findingBestLocalSize = false;
 	bool first_itr = true;
 	cl_float best_time = 0.0f, current_time;
 	unsigned int counter = 0;
@@ -380,14 +411,14 @@ int main(int argc, char** argv)
 		if (global[0] % local[0] == 0) {
 			for (unsigned int i = 0; i < iterations; ++i) {
 				//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
-				if (kernel1_1) err = clEnqueueNDRangeKernel(commands, kernel1_1, dim, NULL, global, local, 0, NULL, &prof_event);
-				if (kernel1_2) err = clEnqueueNDRangeKernel(commands, kernel1_2, dim, NULL, global, local, 0, NULL, &prof_event);
+				if (knn_kernel) err = clEnqueueNDRangeKernel(commands, knn_kernel, dim, NULL, global, local, 0, NULL, &prof_event);
+
 				if (CL_SUCCESS != err)
 				{
 					printf("Error: Failed to execute kernel!\n");
 					//clReleaseKernel(kernel);
-					if (kernel1_1) clReleaseKernel(kernel1_1);
-					if (kernel1_2) clReleaseKernel(kernel1_2);
+					if (knn_kernel) clReleaseKernel(knn_kernel);
+					//if (kernel1_2) clReleaseKernel(kernel1_2);
 					clReleaseProgram(program);
 					clReleaseCommandQueue(commands);
 					clReleaseContext(context);
@@ -434,10 +465,10 @@ int main(int argc, char** argv)
 	printf("\nRead output memory \n");
 	printf(SEPARATOR);
 
-	//hw2
+	//final proj
 	bool result = true;
 
-	cl_float *resultPtr = (cl_float *)clEnqueueMapBuffer(commands, buffer_outputC, true, CL_MAP_READ, 0, sizeof(cl_float) * vector_size, 0, NULL, NULL, &err);
+	point *resultPtr = (point *)clEnqueueMapBuffer(commands, buffer_struct_test_points, true, CL_MAP_READ, 0, sizeof(struct point) * test_point_size, 0, NULL, NULL, &err);
 
 	if (CL_SUCCESS != err)
 	{
@@ -467,13 +498,7 @@ int main(int argc, char** argv)
 			QueryPerformanceCounter(&performanceCountNDRangeStart);
 
 		// sequential host ref. code
-		for (unsigned int i = 0; i < vector_size; ++i) {
-			if (resultPtr[i] != inputA[i].x * inputB[i].x + inputA[i].y * inputB[i].y + inputA[i].z * inputB[i].z + inputA[i].w * inputB[i].w) {
-
-				LogError("Verification failed at %d, resultPtr=%f, inputA[i]=%.2v4hlf, inputB=%.2v4hlf\n", i, resultPtr[i], inputA[i], inputB[i]);
-				result = false;
-			}
-		}
+		result = seq_ref_code(resultPtr, p_ref_point, p_test_point, k, ref_point_size, test_point_size);
 
 		if (windowqueueProfilingEnable)
 			QueryPerformanceCounter(&performanceCountNDRangeStop);
@@ -493,7 +518,7 @@ int main(int argc, char** argv)
 
 
 	// Unmapped the output buffer before releasing it
-	err = clEnqueueUnmapMemObject(commands, buffer_outputC, resultPtr, 0, NULL, NULL);
+	err = clEnqueueUnmapMemObject(commands, buffer_struct_test_points, resultPtr, 0, NULL, NULL);
 	if (CL_SUCCESS != err)
 	{
 		LogError("Error: clEnqueueUnmapMemObject returned %s\n", TranslateOpenCLError(err));
@@ -501,19 +526,17 @@ int main(int argc, char** argv)
 
 
 	// TODO: release memory object and host memory
-	err = clReleaseMemObject(buffer_inputA);
-	err = clReleaseMemObject(buffer_inputB);
-	err = clReleaseMemObject(buffer_outputC);
+	err = clReleaseMemObject(buffer_struct_ref_points);
+	err = clReleaseMemObject(buffer_struct_test_points);
 	err = clReleaseMemObject(buffer_structbuf);
 
-
-	_aligned_free(inputA);
-	_aligned_free(inputB);
-	_aligned_free(outputC);
+	_aligned_free(p_str1);
+	_aligned_free(p_test_point);
+	_aligned_free(p_ref_point);
 
 	//clReleaseKernel(kernel);
 	//clReleaseKernel(kernel1_1);
-	clReleaseKernel(kernel1_2);
+	clReleaseKernel(knn_kernel);
 	clReleaseProgram(program);
 	clReleaseCommandQueue(commands);
 	clReleaseContext(context);
@@ -521,6 +544,79 @@ int main(int argc, char** argv)
 	return 0;
 }
 
+cl_float my_dist(const cl_float2 pointA, const cl_float2 pointB) {
+	return (cl_float)(sqrt((pointA.x - pointB.x) * (pointA.x - pointB.x)) + ((pointA.y - pointB.y) * (pointA.y - pointB.y)));
+}
+
+// double check dist is accessable
+void calc_distance(ref_point* & refpoints, point const& pointB, int ref_size) {
+	// for 2D space (also has a built in function distance)
+	for (int i = 0; i < ref_size; ++i) {
+		refpoints[i].dist = my_dist(refpoints[i].p.location, pointB.location);
+	}
+	
+	return;
+}
+
+void swap(ref_point& a, ref_point& b) { //by ref
+	ref_point temp = a;
+	a = b;
+	b = temp;
+}
+
+// print for debug
+void printArray(ref_point* & a, int count) {
+
+	for (int i = 0; i < count; ++i) {
+		printf("(%f,%f, cat=%d, dist=%f, order=%d) \n", a[i].p.location.x, a[i].p.location.y, a[i].p.category, a[i].dist, a[i].order);
+	}
+	printf("\n");
+}
+
+void printArray(point* & a, int count) {
+
+	for (int i = 0; i < count; ++i) {
+		printf("(%f,%f, cat=%d) \n", a[i].location.x, a[i].location.y, a[i].category);
+	}
+	printf("\n");
+}
+
+void bitonicSort(ref_point* & refpoints, int ref_size) {
+	for (int i = 0; i < ref_size; ++i) {
+		
+	}
+}
+
+bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point_data, const cl_uint k, const int ref_point_size, const int test_point_size) {
+	// build distance matrix 
+	for (int i = 0; i < test_point_size; ++i) {
+		calc_distance(ref_point_data, test_point_data[i], ref_point_size);
+	
+
+		//sort
+		bitonicSort(ref_point_data, ref_point_size);
+
+	
+		//determine test_point category based on k
+		test_point_data[i].category = 1;
+
+
+		// verify
+		// resultPtr is same size as test_point_size
+		if (resultPtr[i] != test_point_data[i]) {
+			LogError("Verification failed at %d, resultPtr[i].category=%d, test_point_data[i].category=%d\n", i, resultPtr[i].category, test_point_data[i].category);
+			return false;
+		}
+	}
+
+	/*for (unsigned int i = 0; i < vector_size; ++i) {
+		if (resultPtr[i] != inputA[i].x * inputB[i].x + inputA[i].y * inputB[i].y + inputA[i].z * inputB[i].z + inputA[i].w * inputB[i].w) {
+
+			LogError("Verification failed at %d, resultPtr=%f, inputA[i]=%.2v4hlf, inputB=%.2v4hlf\n", i, resultPtr[i], inputA[i], inputB[i]);
+			return false;
+		}
+	}*/
+}
 
 cl_platform_id get_intel_platform()
 {

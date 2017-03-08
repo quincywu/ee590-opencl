@@ -41,7 +41,12 @@ __kernel void hw2_4_3kernel(__global float4* fl4a, __global float4* pC)
 
 }
 
-__kernel void knn (__global ref_point* ref_data,__global point* testing_data, __local point* aux, int k)
+__kernel void knn_kernel (__global struct ref_point* ref_data,__global struct point* testing_data, const uint k)
+{ 
+	
+}
+
+__kernel void knn_kernel_1 (__global struct ref_point* ref_data,__global struct point* testing_data, __local point* aux, const uint k)
 { 
 	
 }
