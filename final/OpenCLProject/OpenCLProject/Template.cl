@@ -11,7 +11,7 @@ struct point {
 };
 
 struct ref_point{
-	point p;
+	struct point p;
 	float dist;
 	int order;
 };
@@ -46,7 +46,7 @@ __kernel void knn_kernel (__global struct ref_point* ref_data,__global struct po
 	
 }
 
-__kernel void knn_kernel_1 (__global struct ref_point* ref_data,__global struct point* testing_data, __local point* aux, const uint k)
+__kernel void knn_kernel_1 (__global struct ref_point* ref_data,__global struct point* testing_data, __local struct point* aux, const uint k)
 { 
 	
 }

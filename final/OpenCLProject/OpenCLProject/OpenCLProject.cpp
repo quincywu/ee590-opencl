@@ -8,8 +8,11 @@
 #include <string.h> 
 #include <string> 
 #include <fstream> 
+#include <iostream>
 
 #include "ocl_utils.h"
+
+#include "OpenCLProject.h"
 
 #include <malloc.h> 
 
@@ -24,51 +27,14 @@
 #define NUM_CATEGORY 10
 #define K 10
 
+const cl_uint k = K; // used defined value
+
 using namespace std;
-
-// TODO: define host-side struct
-struct s1 {
-	cl_int2 ui2;
-	cl_float4 fl4;
-	cl_char8 ch8;
-};
-
-struct point {
-	cl_float2 location; // X, Y
-	cl_int category;
-
-};
-
-struct ref_point {
-	point p;
-	cl_float dist;
-	cl_int order;
-};
-
-inline bool operator==(const point& p1, const point& p2) {
-	return (p1.category == p2.category) && (p1.location.x == p2.location.x) && (p1.location.y == p2.location.y);
-}
-
-inline bool operator!=(const point& p1, const point& p2) {
-	return !(p1 == p2);
-}
 
 // TODO: declare pointer instance of struct
 struct s1* p_str1;
 struct point* p_test_point;
 struct ref_point* p_ref_point;
-
-// get platform id of Intel OpenCL platform 
-cl_platform_id get_intel_platform();
-
-// read the kernel source code from a given file name 
-char* read_source(const char *file_name);
-
-// print the build log in case of failure 
-void build_fail_log(cl_program, cl_device_id);
-
-// read binary content 
-int ReadBinaryFile(const std::string filename, char** data, bool isSVM = false);
 
 /*
 * Generate random value for input buffers // or read from file
@@ -107,6 +73,7 @@ void generateRefPoints(ref_point* inputArray, cl_uint arrayWidth, cl_uint arrayH
 	{
 		inputArray[i].p.location = { (cl_float)(rand() % 1000), (cl_float)(rand() % 1000) };
 		inputArray[i].p.category = (cl_int) abs((rand() % NUM_CATEGORY));
+		//cout << i << ", " << inputArray[i].p.category << endl;
 	}
 }
 
@@ -124,7 +91,7 @@ int main(int argc, char** argv)
 	cl_kernel        knn_kernel = NULL;   // compute kernel 
 	cl_event		 prof_event;
 
-	int			 vector_size = 4096;
+	int			 vector_size = 64;
 	int			 ref_point_size = vector_size;
 	int			 test_point_size = vector_size;
 
@@ -303,7 +270,6 @@ int main(int argc, char** argv)
 	// input/output buffer
 	cl_mem buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point) * test_point_size, &p_test_point, &err);
 	cl_mem buffer_struct_ref_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct ref_point) * ref_point_size, &p_ref_point, &err);
-	cl_uint k = K; // used defined value
 
 	if ((CL_SUCCESS != err))
 	{
@@ -498,7 +464,7 @@ int main(int argc, char** argv)
 			QueryPerformanceCounter(&performanceCountNDRangeStart);
 
 		// sequential host ref. code
-		result = seq_ref_code(resultPtr, p_ref_point, p_test_point, k, ref_point_size, test_point_size);
+		result = seq_ref_code(resultPtr, p_ref_point, p_test_point, ref_point_size, test_point_size);
 
 		if (windowqueueProfilingEnable)
 			QueryPerformanceCounter(&performanceCountNDRangeStop);
@@ -544,12 +510,12 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-cl_float my_dist(const cl_float2 pointA, const cl_float2 pointB) {
+cl_float my_dist(const cl_float2& pointA, const cl_float2& pointB) {
 	return (cl_float)(sqrt((pointA.x - pointB.x) * (pointA.x - pointB.x)) + ((pointA.y - pointB.y) * (pointA.y - pointB.y)));
 }
 
 // double check dist is accessable
-void calc_distance(ref_point* & refpoints, point const& pointB, int ref_size) {
+void calc_distance(ref_point* refpoints, point const& pointB, int ref_size) {
 	// for 2D space (also has a built in function distance)
 	for (int i = 0; i < ref_size; ++i) {
 		refpoints[i].dist = my_dist(refpoints[i].p.location, pointB.location);
@@ -568,7 +534,7 @@ void swap(ref_point& a, ref_point& b) { //by ref
 void printArray(ref_point* & a, int count) {
 
 	for (int i = 0; i < count; ++i) {
-		printf("(%f,%f, cat=%d, dist=%f, order=%d) \n", a[i].p.location.x, a[i].p.location.y, a[i].p.category, a[i].dist, a[i].order);
+		printf("(%f,%f, cat=%d, dist=%f, order=%d) \n", a[i].p.location.x, a[i].p.location.y, a[i].p.category, a[i].dist, i);
 	}
 	printf("\n");
 }
@@ -581,30 +547,81 @@ void printArray(point* & a, int count) {
 	printf("\n");
 }
 
-void bitonicSort(ref_point* & refpoints, int ref_size) {
+void bitonicSort(ref_point* refpoints, int ref_size) {
 	for (int i = 0; i < ref_size; ++i) {
-		
+		refpoints[i];
 	}
 }
 
-bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point_data, const cl_uint k, const int ref_point_size, const int test_point_size) {
+// iterative odd-even sort
+void oddeven_sort(ref_point* refpoints, int ref_size) {
+	bool sorted = false; 
+	while(!sorted) {
+		sorted = true;
+		int i;
+		for(i = 1; i < ref_size - 1; i+=2) {
+			if (refpoints[i].dist > refpoints[i+1].dist) {
+				swap(refpoints[i], refpoints[i+1]);
+				sorted = false;
+			}
+		}
+		
+		for (i = 0; i < ref_size - 1; i+=2) {
+			if (refpoints[i].dist > refpoints[i+1].dist) {
+				swap(refpoints[i], refpoints[i+1]);
+				sorted = false;
+			}
+		}
+	}
+}
+
+cl_uint majority(ref_point* ref_data ) {
+	int count_array[NUM_CATEGORY] = { 0 };
+	for (int i = 0; i < k; ++i) {
+		//if(ref_data[i].order < k)
+		count_array[ ref_data[i].p.category ] ++;
+	}
+
+	int maj = 0;
+	for (int i = 0; i < NUM_CATEGORY; ++i) {
+		if (count_array[i] >= maj)
+			maj = i;
+	}
+
+	return maj;
+}
+
+bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point_data, const int ref_point_size, const int test_point_size) {
 	// build distance matrix 
 	for (int i = 0; i < test_point_size; ++i) {
-		calc_distance(ref_point_data, test_point_data[i], ref_point_size);
-	
+		// for every test_point, get distance to all ref_point
+		calc_distance(ref_point_data, test_point_data[i], ref_point_size); 
+// TODO check resulttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt	
+		//sort ref_point 0 is the first order
+		//bitonicSort(ref_point_data, ref_point_size);
+		oddeven_sort(ref_point_data, ref_point_size);
 
-		//sort
-		bitonicSort(ref_point_data, ref_point_size);
-
-	
 		//determine test_point category based on k
-		test_point_data[i].category = 1;
+		test_point_data[i].category = majority(ref_point_data);
 
 
 		// verify
 		// resultPtr is same size as test_point_size
 		if (resultPtr[i] != test_point_data[i]) {
 			LogError("Verification failed at %d, resultPtr[i].category=%d, test_point_data[i].category=%d\n", i, resultPtr[i].category, test_point_data[i].category);
+			//output file
+			ofstream myfile;
+			myfile.open("debug.csv");
+			int j = 0;
+			for (int i = 0; i < test_point_size; ++ i) {
+				myfile << "(" << test_point_data[i].location.x << ", " << test_point_data[i].location.y << ", " << (int)test_point_data[i].category << ") ";
+				if (20 > j++) {
+					myfile << endl;
+					j = 0;
+				}
+				
+			}
+			myfile.close();
 			return false;
 		}
 	}
@@ -616,6 +633,9 @@ bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point
 			return false;
 		}
 	}*/
+
+	return true; // verification passed
+
 }
 
 cl_platform_id get_intel_platform()
