@@ -24,8 +24,8 @@
 #define BUF_SIZE 1048576
 
 #define PARALLEL_BITONIC 1
-#define NUM_CATEGORY 10
-#define K 10
+#define NUM_CATEGORY 2
+#define K 2
 
 const cl_uint k = K; // used defined value
 
@@ -91,7 +91,7 @@ int main(int argc, char** argv)
 	cl_kernel        knn_kernel = NULL;   // compute kernel 
 	cl_event		 prof_event;
 
-	int			 vector_size = 64;
+	int			 vector_size = 4;
 	int			 ref_point_size = vector_size;
 	int			 test_point_size = vector_size;
 
@@ -257,7 +257,7 @@ int main(int argc, char** argv)
 	//Creating buffer: buffer_1
 
 	// TODO: define and create buffer memory object for host-side struct memory
-	cl_mem buffer_structbuf = clCreateBuffer(context, CL_MEM_USE_HOST_PTR, sizeof(struct s1), &p_str1, &err);
+	//cl_mem buffer_structbuf = clCreateBuffer(context, CL_MEM_USE_HOST_PTR, sizeof(struct s1), &p_str1, &err);
 
 	if ((CL_SUCCESS != err))
 	{
@@ -268,8 +268,8 @@ int main(int argc, char** argv)
 #if PARALLEL_BITONIC
 	//final proj 
 	// input/output buffer
-	cl_mem buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point) * test_point_size, &p_test_point, &err);
-	cl_mem buffer_struct_ref_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct ref_point) * ref_point_size, &p_ref_point, &err);
+	cl_mem buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point*) * test_point_size, &p_test_point, &err);
+	cl_mem buffer_struct_ref_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct ref_point*) * ref_point_size, &p_ref_point, &err);
 
 	if ((CL_SUCCESS != err))
 	{
@@ -345,11 +345,10 @@ int main(int argc, char** argv)
 
 	//final proj
 	int dim = 1;
-	size_t global[] = { ref_point_size, 0, 0 }; // vector_size // assumming ref_point is way larger than test point
+	size_t global[] = { ref_point_size * test_point_size, 0, 0 }; // vector_size // assumming ref_point is way larger than test point
 	size_t local[] = { 1, 0, 0 };
 
 	//choosing best local size
-	bool findingBestLocalSize = false;
 	bool first_itr = true;
 	cl_float best_time = 0.0f, current_time;
 	unsigned int counter = 0;
@@ -365,16 +364,13 @@ int main(int argc, char** argv)
 	float runNum = 0;
 
 	if (openclqueueProfilingEnable)
-		iterations = 50;
-
-	if (!findingBestLocalSize) // so the loop only excecute once
-		counter = vector_size - 2;
+		iterations = 1; // 50;
 
 	//CL_DEVICE_MAX_WORK_GROUP_SIZE
-	for (; counter < 512 - 1; ++counter) { // then local[0] would be less than global size
-		local[0] = (size_t)(counter + 1);
+	
+		//local[0] = (size_t)(counter + 1);
 		LogInfo("%d %d %d\n", local[0], local[1], local[2]);
-		if (global[0] % local[0] == 0) {
+		//if (global[0] % local[0] == 0) {
 			for (unsigned int i = 0; i < iterations; ++i) {
 				//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
 				if (knn_kernel) err = clEnqueueNDRangeKernel(commands, knn_kernel, dim, NULL, global, local, 0, NULL, &prof_event);
@@ -410,14 +406,14 @@ int main(int argc, char** argv)
 			current_time = runSum / runNum;
 			runSum = 0;
 			runNum = 0;
-		}
+		//}
 		if (current_time < best_time || first_itr) { //current time is faster therefore better local size
 			best_time = current_time;
 			ideal_local_size = local[0];
 			first_itr = false;
 		}
 		LogInfo("Best local size is %d, best time is %f, current_time is %f.\n", ideal_local_size, best_time, current_time);
-	}
+	
 
 
 	//opencl profiling timing 
@@ -494,7 +490,7 @@ int main(int argc, char** argv)
 	// TODO: release memory object and host memory
 	err = clReleaseMemObject(buffer_struct_ref_points);
 	err = clReleaseMemObject(buffer_struct_test_points);
-	err = clReleaseMemObject(buffer_structbuf);
+	//err = clReleaseMemObject(buffer_structbuf);
 
 	_aligned_free(p_str1);
 	_aligned_free(p_test_point);
@@ -511,7 +507,7 @@ int main(int argc, char** argv)
 }
 
 cl_float my_dist(const cl_float2& pointA, const cl_float2& pointB) {
-	return (cl_float)(sqrt((pointA.x - pointB.x) * (pointA.x - pointB.x)) + ((pointA.y - pointB.y) * (pointA.y - pointB.y)));
+	return (cl_float)(sqrt((pointA.x - pointB.x) * (pointA.x - pointB.x) + (pointA.y - pointB.y) * (pointA.y - pointB.y)));
 }
 
 // double check dist is accessable
@@ -575,6 +571,7 @@ void oddeven_sort(ref_point* refpoints, int ref_size) {
 	}
 }
 
+// go thru k data in ref_data, and find max category count
 cl_uint majority(ref_point* ref_data ) {
 	int count_array[NUM_CATEGORY] = { 0 };
 	for (int i = 0; i < k; ++i) {
@@ -583,8 +580,8 @@ cl_uint majority(ref_point* ref_data ) {
 	}
 
 	int maj = 0;
-	for (int i = 0; i < NUM_CATEGORY; ++i) {
-		if (count_array[i] >= maj)
+	for (int i = 1; i < NUM_CATEGORY; ++i) {
+		if (count_array[i] >= count_array[maj])
 			maj = i;
 	}
 
@@ -595,11 +592,12 @@ bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point
 	// build distance matrix 
 	for (int i = 0; i < test_point_size; ++i) {
 		// for every test_point, get distance to all ref_point
-		calc_distance(ref_point_data, test_point_data[i], ref_point_size); 
-// TODO check resulttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt	
+		calc_distance(ref_point_data, test_point_data[i], ref_point_size); // checked result manually
+
 		//sort ref_point 0 is the first order
 		//bitonicSort(ref_point_data, ref_point_size);
 		oddeven_sort(ref_point_data, ref_point_size);
+// TODO check resulttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt	
 
 		//determine test_point category based on k
 		test_point_data[i].category = majority(ref_point_data);
