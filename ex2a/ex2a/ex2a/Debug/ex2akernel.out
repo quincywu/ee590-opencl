@@ -10,9 +10,9 @@ Linking started
 Linking done
 Device build started
 Device build done
-Kernel <myEx2akernel> was successfully vectorized (8)
+Kernel <mykernel> was successfully vectorized (8)
 Done.
-myEx2akernel info:
+mykernel info:
 	Maximum work-group size: 8192
 	Compiler work-group size: (0, 0, 0)
 	Local memory size: 0

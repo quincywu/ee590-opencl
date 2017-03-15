@@ -16,7 +16,7 @@
 
 #include <malloc.h> 
 
-#define CL_USE_DEPRECATED_OPENCL_1_2_APIS 
+#define CL_USE_DEPRECATED_OPENCL_s_2_APIS 
 #include <CL/cl.h> 
 
 #define SEPARATOR       ("----------------------------------------------------------------------\n") 
@@ -268,8 +268,8 @@ int main(int argc, char** argv)
 #if PARALLEL_BITONIC
 	//final proj 
 	// input/output buffer
-	cl_mem buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point*) * test_point_size, &p_test_point, &err);
-	cl_mem buffer_struct_ref_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct ref_point*) * ref_point_size, &p_ref_point, &err);
+	cl_mem buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point) * test_point_size, p_test_point, &err);
+	cl_mem buffer_struct_ref_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct ref_point) * ref_point_size, p_ref_point, &err);
 
 	if ((CL_SUCCESS != err))
 	{
@@ -344,9 +344,9 @@ int main(int argc, char** argv)
 	//size_t local[] = { 1, 1, 0 };
 
 	//final proj
-	int dim = 1;
-	size_t global[] = { ref_point_size * test_point_size, 0, 0 }; // vector_size // assumming ref_point is way larger than test point
-	size_t local[] = { 1, 0, 0 };
+	int dim = 2;
+	size_t global[] = { ref_point_size,test_point_size, 0 }; // vector_size // assumming ref_point is way larger than test point
+	size_t local[] = { 1, 1, 0 };
 
 	//choosing best local size
 	bool first_itr = true;

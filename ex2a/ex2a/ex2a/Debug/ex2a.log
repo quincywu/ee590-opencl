@@ -11,9 +11,9 @@
   Linking done
   Device build started
   Device build done
-  Kernel <myEx2akernel> was successfully vectorized (8)
+  Kernel <mykernel> was successfully vectorized (8)
   Done.
-  myEx2akernel info:
+  mykernel info:
   	Maximum work-group size: 8192
   	Compiler work-group size: (0, 0, 0)
   	Local memory size: 0
@@ -23,12 +23,19 @@
   Build succeeded!
   
   Ex2a_host.cpp
-Ex2a_host.cpp(110): warning C4996: 'clCreateCommandQueue': was declared deprecated
+Ex2a_host.cpp(77): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'struct_my *'
+Ex2a_host.cpp(78): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'cl_uint *'
+Ex2a_host.cpp(79): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'cl_uint *'
+Ex2a_host.cpp(80): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'cl_float *'
+Ex2a_host.cpp(81): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'cl_float *'
+Ex2a_host.cpp(82): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'cl_char *'
+Ex2a_host.cpp(83): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'cl_char *'
+Ex2a_host.cpp(118): warning C4996: 'clCreateCommandQueue': was declared deprecated
   C:\Program Files (x86)\Intel\OpenCL SDK\6.1\include\CL\cl.h(1428): note: see declaration of 'clCreateCommandQueue'
-Ex2a_host.cpp(352): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+Ex2a_host.cpp(366): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
-Ex2a_host.cpp(443): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
-  ex2a.vcxproj -> c:\Users\quincywu\documents\visual studio 2015\Projects\ex2a\Debug\ex2a.exe
-  ex2a.vcxproj -> c:\Users\quincywu\documents\visual studio 2015\Projects\ex2a\Debug\ex2a.pdb (Full PDB)
+Ex2a_host.cpp(457): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
+  ex2a.vcxproj -> C:\Users\quincywu\Documents\GitHub\ee590-opencl\ex2a\ex2a\ex2a\Debug\ex2a.exe
+  ex2a.vcxproj -> C:\Users\quincywu\Documents\GitHub\ee590-opencl\ex2a\ex2a\ex2a\Debug\ex2a.pdb (Full PDB)
   ex2akernel.cl
           1 file(s) copied.

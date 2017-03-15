@@ -1,0 +1,185 @@
+; SPIR-V
+; Version: 1.0
+; Generator: Unknown(14); 0
+; Bound: 136
+; Schema: 0
+               OpCapability Addresses
+               OpCapability Linkage
+               OpCapability Kernel
+               OpCapability Float64
+          %1 = OpExtInstImport "OpenCL.std"
+               OpMemoryModel Physical32 OpenCL
+               OpEntryPoint Kernel %104 "knn_kernel"
+               OpSource OpenCL_C 102000
+               OpName %26 ".str"
+               OpName %37 ".str1"
+               OpName %40 "__spirv_BuiltInGlobalInvocationId"
+               OpName %43 "llvm.fmuladd.f32"
+               OpName %49 "my_dist"
+               OpName %50 "pointA"
+               OpName %51 "pointB"
+               OpName %69 "struct.ref_point"
+               OpName %70 "struct.point"
+               OpName %74 "calc_distance"
+               OpName %75 "refpoints"
+               OpName %76 "pointB"
+               OpName %105 "ref_data"
+               OpName %106 "test_point_data"
+               OpName %107 "k"
+               OpDecorate %132 Constant
+        %132 = OpDecorationGroup
+               OpDecorate %133 FuncParamAttr ByVal
+        %133 = OpDecorationGroup
+               OpDecorate %134 Alignment 1
+        %134 = OpDecorationGroup
+               OpDecorate %135 Alignment 8
+        %135 = OpDecorationGroup
+               OpDecorate %40 BuiltIn GlobalInvocationId
+               OpDecorate %49 LinkageAttributes "my_dist" Export
+               OpDecorate %74 LinkageAttributes "calc_distance" Export
+               OpDecorate %43 LinkageAttributes "llvm.fmuladd.f32" Import
+               OpDecorate %40 LinkageAttributes "__spirv_BuiltInGlobalInvocationId" Import
+               OpGroupDecorate %132 %26 %37 %40
+               OpGroupDecorate %133 %75 %76
+               OpGroupDecorate %134 %26 %37
+               OpGroupDecorate %135 %110 %111
+          %2 = OpTypeInt 8 0
+         %21 = OpTypeInt 32 0
+         %23 = OpTypeArray %2 %22
+         %25 = OpTypePointer UniformConstant %23
+         %34 = OpTypeArray %2 %33
+         %36 = OpTypePointer UniformConstant %34
+         %38 = OpTypeVector %21 3
+         %39 = OpTypePointer UniformConstant %38
+         %41 = OpTypeFloat 32
+         %42 = OpTypeFunction %41 %41 %41 %41
+         %47 = OpTypeVector %41 2
+         %48 = OpTypeFunction %41 %47 %47
+         %68 = OpTypeVoid
+         %70 = OpTypeStruct %47 %21
+         %69 = OpTypeStruct %70 %41
+         %71 = OpTypePointer Function %69
+         %72 = OpTypePointer Function %70
+         %73 = OpTypeFunction %68 %71 %72
+         %79 = OpTypePointer UniformConstant %2
+         %82 = OpTypePointer Function %47
+         %89 = OpTypePointer Function %41
+         %93 = OpTypeFloat 64
+        %101 = OpTypePointer CrossWorkgroup %69
+        %102 = OpTypePointer CrossWorkgroup %70
+        %103 = OpTypeFunction %68 %101 %102 %21
+        %118 = OpTypePointer Function %2
+        %120 = OpTypePointer CrossWorkgroup %2
+        %128 = OpTypePointer CrossWorkgroup %47
+          %3 = OpConstant %2 84
+          %4 = OpConstant %2 104
+          %5 = OpConstant %2 105
+          %6 = OpConstant %2 115
+          %7 = OpConstant %2 32
+          %8 = OpConstant %2 100
+          %9 = OpConstant %2 116
+         %10 = OpConstant %2 61
+         %11 = OpConstant %2 37
+         %12 = OpConstant %2 102
+         %13 = OpConstant %2 44
+         %14 = OpConstant %2 97
+         %15 = OpConstant %2 50
+         %16 = OpConstant %2 118
+         %17 = OpConstant %2 108
+         %18 = OpConstant %2 98
+         %19 = OpConstant %2 10
+         %20 = OpConstant %2 0
+         %22 = OpConstant %21 39
+         %24 = OpConstantComposite %23 %3 %4 %5 %6 %7 %5 %6 %7 %8 %5 %6 %9 %10 %11 %12 %13 %7 %14 %10 %11 %15 %16 %15 %4 %17 %12 %13 %7 %18 %10 %11 %15 %16 %15 %4 %17 %12 %19 %20
+         %27 = OpConstant %2 101
+         %28 = OpConstant %2 95
+         %29 = OpConstant %2 112
+         %30 = OpConstant %2 111
+         %31 = OpConstant %2 110
+         %32 = OpConstant %2 99
+         %33 = OpConstant %21 36
+         %35 = OpConstantComposite %34 %9 %27 %6 %9 %28 %29 %30 %5 %31 %9 %28 %8 %14 %9 %14 %28 %17 %30 %32 %14 %9 %5 %30 %31 %7 %10 %7 %11 %15 %16 %15 %4 %17 %12 %19 %20
+         %78 = OpConstant %21 0
+         %88 = OpConstant %21 1
+        %122 = OpConstant %21 24
+        %125 = OpConstant %21 16
+         %26 = OpVariable %25 UniformConstant %24
+         %37 = OpVariable %36 UniformConstant %35
+         %40 = OpVariable %39 UniformConstant
+         %43 = OpFunction %41 Pure %42
+         %44 = OpFunctionParameter %41
+         %45 = OpFunctionParameter %41
+         %46 = OpFunctionParameter %41
+               OpFunctionEnd
+         %49 = OpFunction %41 None %48
+         %50 = OpFunctionParameter %47
+         %51 = OpFunctionParameter %47
+         %52 = OpLabel
+         %53 = OpCompositeExtract %41 %50 0
+         %54 = OpCompositeExtract %41 %51 0
+         %55 = OpFSub %41 %53 %54
+         %56 = OpCompositeExtract %41 %50 0
+         %57 = OpCompositeExtract %41 %51 0
+         %58 = OpFSub %41 %56 %57
+         %59 = OpCompositeExtract %41 %50 1
+         %60 = OpCompositeExtract %41 %51 1
+         %61 = OpFSub %41 %59 %60
+         %62 = OpCompositeExtract %41 %50 1
+         %63 = OpCompositeExtract %41 %51 1
+         %64 = OpFSub %41 %62 %63
+         %65 = OpFMul %41 %61 %64
+         %66 = OpFunctionCall %41 %43 %55 %58 %65
+         %67 = OpExtInst %41 %1 sqrt %66
+               OpReturnValue %67
+               OpFunctionEnd
+         %74 = OpFunction %68 None %73
+         %75 = OpFunctionParameter %71
+         %76 = OpFunctionParameter %72
+         %77 = OpLabel
+         %80 = OpInBoundsPtrAccessChain %79 %26 %78 %78
+         %81 = OpInBoundsPtrAccessChain %72 %75 %78 %78
+         %83 = OpInBoundsPtrAccessChain %82 %81 %78 %78
+         %84 = OpLoad %47 %83 Aligned 8
+         %85 = OpInBoundsPtrAccessChain %82 %76 %78 %78
+         %86 = OpLoad %47 %85 Aligned 8
+         %87 = OpFunctionCall %41 %49 %84 %86
+         %90 = OpInBoundsPtrAccessChain %89 %75 %78 %88
+               OpStore %90 %87 Aligned 4
+         %91 = OpInBoundsPtrAccessChain %89 %75 %78 %88
+         %92 = OpLoad %41 %91 Aligned 4
+         %94 = OpFConvert %93 %92
+         %95 = OpInBoundsPtrAccessChain %72 %75 %78 %78
+         %96 = OpInBoundsPtrAccessChain %82 %95 %78 %78
+         %97 = OpLoad %47 %96 Aligned 8
+         %98 = OpInBoundsPtrAccessChain %82 %76 %78 %78
+         %99 = OpLoad %47 %98 Aligned 8
+        %100 = OpExtInst %21 %1 printf %80 %94 %97 %99
+               OpReturn
+               OpFunctionEnd
+        %104 = OpFunction %68 None %103
+        %105 = OpFunctionParameter %101
+        %106 = OpFunctionParameter %102
+        %107 = OpFunctionParameter %21
+        %108 = OpLabel
+        %109 = OpInBoundsPtrAccessChain %79 %37 %78 %78
+        %110 = OpVariable %71 Function
+        %111 = OpVariable %72 Function
+        %112 = OpLoad %38 %40 Aligned 0
+        %113 = OpCompositeExtract %21 %112 0
+        %114 = OpLoad %38 %40 Aligned 0
+        %115 = OpCompositeExtract %21 %114 1
+        %116 = OpInBoundsPtrAccessChain %101 %105 %113
+        %117 = OpInBoundsPtrAccessChain %102 %106 %115
+        %119 = OpBitcast %118 %110
+        %121 = OpBitcast %120 %116
+               OpCopyMemorySized %119 %121 %122 Aligned 8
+        %123 = OpBitcast %118 %111
+        %124 = OpBitcast %120 %117
+               OpCopyMemorySized %123 %124 %125 Aligned 8
+        %126 = OpFunctionCall %68 %74 %110 %111
+        %127 = OpInBoundsPtrAccessChain %102 %106 %78
+        %129 = OpInBoundsPtrAccessChain %128 %127 %78 %78
+        %130 = OpLoad %47 %129 Aligned 8
+        %131 = OpExtInst %21 %1 printf %109 %130
+               OpReturn
+               OpFunctionEnd

@@ -10,7 +10,6 @@
 #include <fstream> 
 
 #include "ocl_utils.h"
-
 #include <malloc.h> 
 
 #define CL_USE_DEPRECATED_OPENCL_1_2_APIS 
@@ -23,14 +22,13 @@
 using namespace std;
 
 // TODO: define host-side struct
-struct s1 {
-	cl_int2 ui2;
+typedef struct s1 {
+	cl_uint2 ui2;
 	cl_float4 fl4;
 	cl_char8 ch8;
-};
-
+} struct_my;
 // TODO: declare pointer instance of struct
-struct s1* p_str1;
+struct_my* p_str1;
 
 // get platform id of Intel OpenCL platform 
 cl_platform_id get_intel_platform();
@@ -53,8 +51,8 @@ int main(int argc, char** argv)
 	cl_command_queue commands = NULL;   // compute device's queue 
 	cl_program       program = NULL;   // compute program 
 	cl_kernel        kernel = NULL;   // compute kernel 
-
 									  // get Intel OpenCL platform 
+
 	platform = get_intel_platform();
 	if (NULL == platform)
 	{
@@ -67,12 +65,22 @@ int main(int argc, char** argv)
 
 	// TODO: allocate aligned memory for struct pointer
 #define NUM_STRUCTS 1
-	p_str1 = (struct s1*)_aligned_malloc(sizeof(struct s1), 4096);
+	p_str1 = (struct_my*)_aligned_malloc(NUM_STRUCTS * sizeof(struct_my), 4096);
 
 	// TODO: initialize struct members
-	p_str1->ch8 = {'a', 'b','c','d','e','f','g','h'};
-	p_str1->fl4 = {1.0f, 2.0f, 3.0f, 4.0f };
-	p_str1->ui2 = {11, 22 };
+	p_str1->ch8 = { 'a','b','c','d','e','f','g','h' };
+	p_str1->fl4 = { 1.0f, 2.0f, 3.0f };
+	p_str1->ui2 = { 11,12 };
+
+	// Print host-side structure size & alignment info to console
+	printf("sizeof(struct_my) = %d\n", sizeof(struct_my));
+	printf("base address of p_str1 = %d\n", p_str1);
+	printf("base address of &p_str1->ui2.s0 = %d\n", &p_str1->ui2.s0);
+	printf("base address of &p_str1->ui2.s1 = %d\n", &p_str1->ui2.s1);
+	printf("base address of &p_str1->fl4.s0 = %d\n", &p_str1->fl4.s0);
+	printf("base address of &p_str1->fl4.s1 = %d\n", &p_str1->fl4.s1);
+	printf("base address of &p_str1->ch8.s0 = %d\n", &p_str1->ch8.s0);
+	printf("base address of &p_str1->ch8.s1 = %d\n", &p_str1->ch8.s1);
 
 	// Getting the compute device for the processor graphic (GPU) on our platform by function 
 	printf("Selected device: GPU\n");
@@ -169,7 +177,7 @@ int main(int argc, char** argv)
 	printf(SEPARATOR);
 
 	// TODO: specify correct kernel function name
-	kernel = clCreateKernel(program, "myEx2akernel", &err);
+	kernel = clCreateKernel(program, "mykernel", &err);
 	if (CL_SUCCESS != err || NULL == kernel)
 	{
 		printf("Error: Failed to create compute kernel!\n");
@@ -185,12 +193,11 @@ int main(int argc, char** argv)
 	//Creating buffer: buffer_1
 
 	// TODO: define and create buffer memory object for host-side struct memory
-	cl_mem buffer_structbuf = clCreateBuffer(context, CL_MEM_USE_HOST_PTR, sizeof(struct s1), &p_str1, &err);
-
-	if ((CL_SUCCESS != err))
+	cl_mem buffer_structbuf = clCreateBuffer(context, CL_MEM_USE_HOST_PTR, sizeof(struct_my), p_str1, &err);
+	if (CL_SUCCESS != err)
 	{
-		LogError("BAD");
-		return err;
+		LogError("BAD!");
+		return 0;
 	}
 
 	// Setting the arguments to our compute kernel in order to execute it. 
@@ -200,22 +207,20 @@ int main(int argc, char** argv)
 
 	// TODO: define and init vector variable type for kernel parameter
 	cl_float4 cl_fl4 = { 1.0f, 2.0f, 3.0f, 4.0f };
-	
+
 	// TODO: set kernel arguments
 	err = clSetKernelArg(kernel, 0, sizeof(cl_float4), &cl_fl4);
-
-	if ((CL_SUCCESS != err))
+	if (CL_SUCCESS != err)
 	{
-		LogError("Error: Failed to set kernel arg0 '%s'.\n", TranslateOpenCLError(err));
-		return err;
+		LogError("Error: Failed to set kernel argument! Error %s\n", TranslateOpenCLError(err));
+		return EXIT_FAILURE;
 	}
 
 	err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &buffer_structbuf);
-
-	if ((CL_SUCCESS != err))
+	if (CL_SUCCESS != err)
 	{
-		LogError("Error: Failed to set kernel arg1 '%s'.\n", TranslateOpenCLError(err));
-		return err;
+		LogError("Error: Failed to set kernel argument! Error %s\n", TranslateOpenCLError(err));
+		return EXIT_FAILURE;
 	}
 
 	// Execute the kernel over the entire range of our logically 1d configuration 
@@ -226,7 +231,7 @@ int main(int argc, char** argv)
 
 	// TODO: define NDRange
 	int dim = 2;
-	size_t global[] = { 8, 8, 0 };
+	size_t global[] = { 2, 2, 0 };
 	size_t local[] = { 1, 1, 0 };
 	err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, NULL);
 	if (CL_SUCCESS != err)
@@ -282,6 +287,8 @@ cl_platform_id get_intel_platform()
 
 	cl_platform_id platforms[10] = { NULL };
 	cl_uint num_platforms = 0;
+	unsigned int uiIntel = 0;
+	bool bFoundPlatform = false;
 
 	cl_int err = clGetPlatformIDs(10, platforms, &num_platforms);
 
@@ -331,7 +338,10 @@ cl_platform_id get_intel_platform()
 			return NULL;
 		}
 
-		// check for Intel platform 
+		printf("Found platform: %s\n", (char *)platform_name);
+
+		// check for Intel platform
+		// or "NVIDIA CUDA"
 		if (!strcmp((char*)platform_name, INTEL_PLATFORM)) {
 			printf("\nPlatform information: %d\n", ui);
 			printf(SEPARATOR);
@@ -339,11 +349,15 @@ cl_platform_id get_intel_platform()
 			printf("Platform version:    %s\n", (char *)platform_vers);
 			printf("Platform profile:    %s\n", (char *)platform_prof);
 			printf("Platform extensions: %s\n", ((char)platform_exts[0] != '\0') ? (char *)platform_exts : "NONE");
-			return platforms[ui];
+			bFoundPlatform = true;
+			uiIntel = ui;
 		}
 	}
 
-	return NULL;
+	if (true == bFoundPlatform)
+		return platforms[uiIntel];
+	else
+		return NULL;
 }
 
 char* read_source(const char *file_name)

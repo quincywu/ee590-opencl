@@ -5,16 +5,16 @@ struct s1 {
 	char8 ch8;
 }; 
 
-struct point { 
+typedef struct  __attribute__ ((packed)) point_str { 
 	float2 location;
 	int category;
-};
+} point;
 
-struct ref_point{
-	struct point p;
+typedef struct  __attribute__ ((packed)) ref_point_str{
+	point p;
 	float dist;
 	//int order;
-};
+} ref_point;
 
 __kernel void myEx2akernel(float4 fl4, __global struct s1* p_str1) 
 {
@@ -40,40 +40,109 @@ __kernel void hw2_4_3kernel(__global float4* fl4a, __global float4* pC)
 	//printf("fl4a =%.2v4hlf, sqrt =%.2v4hlf\n", fl4a[id], pC[id]);
 
 }
-/*
+
 float my_dist(const float2 pointA, const float2 pointB) {
 	return (float)(sqrt((pointA.x - pointB.x) * (pointA.x - pointB.x) + (pointA.y - pointB.y) * (pointA.y - pointB.y)));
 }
 
-void calc_distance(struct ref_point refpoints, const struct point pointB) {
+float calc_distance(ref_point refpoints, const point pointB) {
 	
 	//for (int i = 0; i < ref_size; ++i) {
-	refpoints.dist = my_dist(refpoints.p.location, pointB.location);
-	printf("This is dist=%f, a=%f, b=%f\n", refpoints.dist, refpoints.p.location, pointB.location);
+	return my_dist(refpoints.p.location, pointB.location);
+	//printf("This is dist=%f, a=%.4v2hlf, b=%.4v2hlf\n", refpoints->dist, refpoints->p.location, pointB.location);
 	//}
 	
-	return;
-}*/
+	//return;
+}
 
-__kernel void knn_kernel (__global struct ref_point* ref_data,__global struct point* test_point_data, const uint k)
+void parallelBitonicSort_helper(__global ref_point* ref_data, const uint stage, const uint substage){ 
+	const int threadId = get_global_id(0);
+	uint sortIncreasing = 1; 
+	
+	uint distanceBetweenPairs = 1 << (stage - substage);
+    uint blockWidth   = distanceBetweenPairs << 1;
+
+	//left half
+	uint leftId = (threadId % distanceBetweenPairs) + (threadId / distanceBetweenPairs) * blockWidth;
+
+	//right half
+    uint rightId = leftId + distanceBetweenPairs;
+
+	//ref_point leftElement = ref_data[leftId];
+    //ref_point rightElement = ref_data[rightId];
+
+	uint sameDirectionBlockWidth = 1 << stage;
+
+	if((threadId/sameDirectionBlockWidth) % 2 == 1)
+        sortIncreasing = 1 - sortIncreasing;
+
+    //uint greater;
+    //uint lesser;
+
+    if(ref_data[leftId].dist > ref_data[rightId].dist && sortIncreasing) {
+        // greater = leftElement;
+        // lesser  = rightElement;
+		// swap
+		ref_point temp = ref_data[leftId];
+		ref_data[leftId] = ref_data[rightId];
+		ref_data[rightId] = temp;
+    } else if(ref_data[leftId].dist < ref_data[rightId].dist && !sortIncreasing) {
+        // greater = rightElement;
+        // lesser  = leftElement;
+		ref_point temp = ref_data[leftId];
+		ref_data[leftId] = ref_data[rightId];
+		ref_data[rightId] = temp;
+    }
+    /*
+    if(sortIncreasing) {
+        data[leftId]  = lesser;
+        data[rightId] = greater;
+    } else {
+        data[leftId]  = greater;
+        data[rightId] = lesser;
+    }*/
+
+}
+
+void parallelBitonicSort (__global ref_point* ref_data) {
+	int ref_size = sizeof(ref_data);
+	//printf("print ref size = %d\n", ref_size);
+	uint stages = 0;
+	for(unsigned int i = ref_size; i > 1; i >>= 1){
+		// calculate how many helper function to call
+		stages ++;
+	}
+
+	for(uint stage = 0; stage < stages; ++stage){ 
+		
+		for(uint substage = 0; substage < stage + 1; substage ++){
+			parallelBitonicSort_helper(ref_data, stage, substage);
+		}
+	}
+
+}
+
+__kernel void knn_kernel (__global ref_point* ref_data,__global point* test_point_data, const uint k)
 { 
-	const int id = get_global_id(0);
+	const int ref_id = get_global_id(0);
+	const int test_id = get_global_id(1);
 
-	printf("id=%d\n", id);
-	/*calc_dist, parallel
-	calc_distance(ref_data[ref_id], test_point_data[test_id]);*/
-	printf("print sizeof = %f\n", (float)sizeof(test_point_data));
-	printf("print sizeof2 = %f\n", (float)sizeof(struct point*));
-	printf("test_point_data_location = %2v2hlf\n", test_point_data[0].location);
-	//ref_data[ref_id].dist = (float)sqrt((ref_data[ref_id].p.location.x - test_point_data[test_id].location.x) * (ref_data[ref_id].p.location.x - test_point_data[test_id].location.x) + (ref_data[ref_id].p.location.y - test_point_data[test_id].location.y) * (ref_data[ref_id].p.location.y - test_point_data[test_id].location.y) );
-	//printf("This is dist=%f, a=%f, b=%f\n", ref_data[ref_id].dist, ref_data[ref_id].p.location.x, test_point_data[test_id].location.x);
-	//printf("no_idea_at_all\n");
-	// CLK_GLOBAL_MEM_FENCE   CLK_LOCAL_MEM_FENCE
-	barrier(CLK_LOCAL_MEM_FENCE); // came from barrier() got renamed work_group_barrier
+	printf("ref_id=%d, test_id = %d\n", ref_id, test_id);
+	printf("base address of test_point_data = %d\n", test_point_data);
+
+	/*calc_dist, parallel*/
+	ref_data[ref_id].dist = calc_distance(ref_data[ref_id], test_point_data[test_id]);	
+	barrier(CLK_LOCAL_MEM_FENCE); // came from barrier() got renamed work_group_barrier // CLK_GLOBAL_MEM_FENCE   CLK_LOCAL_MEM_FENCE
 
 	//sort, parallel
+	parallelBitonicSort(ref_data);
+	barrier(CLK_LOCAL_MEM_FENCE);
 
-	//work_group_barrier(CLK_LOCAL_MEM_FENCE);
+	int ref_size = sizeof(ref_data);
+	//printf("print ref size here = %d\n", ref_size);
+	//for(int i = 0; i < ref_size; ++i){ 
+		printf("this is i=%d, ref_data[i].dist=%f\n", ref_id, ref_data[ref_id].dist);
+	//}
 
 	//find majority
 }

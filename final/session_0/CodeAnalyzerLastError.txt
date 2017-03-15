@@ -1,0 +1,1 @@
+execution analysis error: No variable assigned to kernel argument #0 (ref_data)

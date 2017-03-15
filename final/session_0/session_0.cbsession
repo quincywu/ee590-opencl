@@ -1,0 +1,36 @@
+[General]
+ActiveTab=session_0
+
+[KBSession]
+KBTabs\2\TabFile=session_0
+KBTabs\2\TabName=session_0
+KBTabs\2\KBCache="&knn_kernel$ref_data;test_point_data;k$struct ref_point*;struct point*;uint$__global;__global;__private$NONE;NONE;NONE"
+KBTabs\2\KBVarsByKernel="knn_kernel#ref_data&&;test_point_data&&;k&&"
+KBTabs\2\KBRefsByKernel="knn_kernel#ref_data&;test_point_data&;k&"
+KBTabs\2\KBGroupSizes=8#8#0#1#1#0
+KBTabs\2\KBIterations=1
+KBTabs\2\KBConfigurationNames=config_0
+KBTabs\2\KBSelectedKernel=knn_kernel
+KBTabs\2\TabCode="\r\nstruct point { \r\n\tfloat2 location;\r\n\tint category;\r\n};\r\n\r\nstruct ref_point{\r\n\tstruct point p;\r\n\tfloat dist;\r\n\t//int order;\r\n};\r\n\r\nfloat my_dist(const float2 pointA, const float2 pointB) {\r\n\treturn (float)(sqrt((pointA.x - pointB.x) * (pointA.x - pointB.x) + (pointA.y - pointB.y) * (pointA.y - pointB.y)));\r\n}\r\n\r\nvoid calc_distance(struct ref_point refpoints, const struct point pointB) {\r\n\t\r\n\t//for (int i = 0; i < ref_size; ++i) {\r\n\trefpoints.dist = my_dist(refpoints.p.location, pointB.location);\r\n\tprintf(\"This is dist=%f, a=%2v2hlf, b=%2v2hlf\\n\", refpoints.dist, refpoints.p.location, pointB.location);\r\n\t//}\r\n\t\r\n\treturn;\r\n}\r\n\r\n__kernel void knn_kernel (__global struct ref_point* ref_data,__global struct point* test_point_data, const uint k)\r\n{ \r\n\tconst int ref_id = get_global_id(0);\r\n\tconst int test_id = get_global_id(1);\r\n\r\n\t/*calc_dist, parallel*/\r\n\tcalc_distance(ref_data[ref_id], test_point_data[test_id]);\r\n\r\n\tprintf(\"test_point_data_location = %2v2hlf\\n\", test_point_data[0].location);\r\n\t//ref_data[ref_id].dist = (float)sqrt((ref_data[ref_id].p.location.x - test_point_data[test_id].location.x) * (ref_data[ref_id].p.location.x - test_point_data[test_id].location.x) + (ref_data[ref_id].p.location.y - test_point_data[test_id].location.y) * (ref_data[ref_id].p.location.y - test_point_data[test_id].location.y) );\r\n\t//printf(\"This is dist=%f, a=%f, b=%f\\n\", ref_data[ref_id].dist, ref_data[ref_id].p.location.x, test_point_data[test_id].location.x);\r\n\t//printf(\"no_idea_at_all\\n\");\r\n\t// CLK_GLOBAL_MEM_FENCE   CLK_LOCAL_MEM_FENCE\r\n\t//barrier(CLK_LOCAL_MEM_FENCE); // came from barrier() got renamed work_group_barrier\r\n\r\n\t//sort, parallel\r\n\r\n\t//work_group_barrier(CLK_LOCAL_MEM_FENCE);\r\n\r\n\t//find majority\r\n}"
+KBTabs\2\KBFacadeVisible=true
+KBTabs\2\IsValidation=false
+KBTabs\2\KBServerActive=true
+KBTabs\2\Artifacts="C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program.ir;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program_knn_kernel.gen;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program.ll;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program_x64.ll;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program_x64.spir;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program_x86.ll;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program_x86.spir;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program_x86.spirv;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program_x64.spirv;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program_x86.txtspirv;C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program_x64.txtspirv;"
+KBTabs\2\Reports=
+KBTabs\2\CLFiles=C:\\Users\\quincywu\\Documents\\GitHub\\ee590-opencl\\final\\session_0\\program.cl
+KBTabs\2\IsBinary=false
+KBTabs\2\TabOpt6=
+KBTabs\2\TabOpt7=2
+KBTabs\2\TabOpt10=(local) EE-361PC09
+KBTabs\2\TabOpt17=Intel(R) OpenCL
+KBTabs\2\TabOpt18=GPU: Intel(R) HD Graphics 530
+KBTabs\2\TabOpt1=true
+KBTabs\2\TabOpt3=false
+KBTabs\2\TabOpt9=Current Operating System
+KBTabs\2\TabOpt11=
+KBTabs\2\TabOpt4=false
+KBTabs\2\TabOpt13=5010
+KBTabs\2\TabOpt14=5999
+KBTabs\2\TabOpt15=true
+KBTabs\2\TabOpt16=20000
+KBTabs\size=2

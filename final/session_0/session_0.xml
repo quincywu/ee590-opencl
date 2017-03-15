@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--  Kernel Builder Variables Database  -->
+<KernelBuilderBuffers>
+    <BufferDetails>
+        <Name>ref_data</Name>
+        <DataType>float</DataType>
+        <MemoryFlags>CL_MEM_USE_HOST_PTR</MemoryFlags>
+        <AccessQualifier>READ_ONLY</AccessQualifier>
+        <I_O_Mode>2</I_O_Mode>
+        <Source>C:\Users\quincywu\Documents\GitHub\ee590-opencl\final\session_0\bin_ref_data.bin</Source>
+        <ReadOutput>true</ReadOutput>
+        <BufferSize>1</BufferSize>
+        <InitByRandom>true</InitByRandom>
+        <InitByZero>false</InitByZero>
+        <UseAsSVM>false</UseAsSVM>
+    </BufferDetails>
+</KernelBuilderBuffers>
+
+<KernelBuilderImages/>
+
+<KernelBuilderSamplers/>
+
+<KernelBuilderPipes/>
