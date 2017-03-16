@@ -46,19 +46,13 @@ float my_dist(const float2 pointA, const float2 pointB) {
 }
 
 float calc_distance(ref_point refpoints, const point pointB) {
-	//printf("This is a=%.4v2hlf, b=%.4v2hlf\n", refpoints.p.location, pointB.location);
+	
 	//for (int i = 0; i < ref_size; ++i) {
 	return my_dist(refpoints.p.location, pointB.location);
 	//printf("This is dist=%f, a=%.4v2hlf, b=%.4v2hlf\n", refpoints->dist, refpoints->p.location, pointB.location);
 	//}
 	
 	//return;
-}
-
-void swap(ref_point* r1, ref_point* r2){ 
-	ref_point temp = *r1;
-	*r1 = *r2;
-	*r2 = temp;
 }
 
 void parallelBitonicSort_helper(__global ref_point* ref_data, const uint stage, const uint substage){ 
@@ -89,7 +83,9 @@ void parallelBitonicSort_helper(__global ref_point* ref_data, const uint stage, 
         // greater = leftElement;
         // lesser  = rightElement;
 		// swap
-		swap(&ref_data[leftId], &ref_data[rightId]);
+		ref_point temp = ref_data[leftId];
+		ref_data[leftId] = ref_data[rightId];
+		ref_data[rightId] = temp;
     } else if(ref_data[leftId].dist < ref_data[rightId].dist && !sortIncreasing) {
         // greater = rightElement;
         // lesser  = leftElement;
@@ -126,16 +122,16 @@ void parallelBitonicSort (__global ref_point* ref_data) {
 
 }
 
-__kernel void knn_kernel (__global ref_point* ref_data,__global point* p_test_point_data, const uint k)
+__kernel void knn_kernel (__global ref_point* ref_data,__global point* test_point_data, const uint k)
 { 
 	const int ref_id = get_global_id(0);
 	const int test_id = get_global_id(1);
 
 	printf("ref_id=%d, test_id = %d\n", ref_id, test_id);
-	printf("base address of p_test_point_data = %d\n", p_test_point_data);
+	printf("base address of test_point_data = %d\n", test_point_data);
 
 	/*calc_dist, parallel*/
-	ref_data[ref_id].dist = calc_distance(ref_data[ref_id], *p_test_point_data);	
+	ref_data[ref_id].dist = calc_distance(ref_data[ref_id], test_point_data[test_id]);	
 	barrier(CLK_LOCAL_MEM_FENCE); // came from barrier() got renamed work_group_barrier // CLK_GLOBAL_MEM_FENCE   CLK_LOCAL_MEM_FENCE
 
 	printf("this is i=%d, ref_data[i].dist=%f, ref_data[i].p.location=%.4v2hlf\n", ref_id, ref_data[ref_id].dist, ref_data[ref_id].p.location);

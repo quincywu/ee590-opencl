@@ -268,7 +268,7 @@ int main(int argc, char** argv)
 #if PARALLEL_BITONIC
 	//final proj 
 	// input/output buffer
-	cl_mem buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point), p_test_point, &err);
+	cl_mem buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point) * test_point_size, p_test_point, &err);
 	cl_mem buffer_struct_ref_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct ref_point) * ref_point_size, p_ref_point, &err);
 
 	if ((CL_SUCCESS != err))
@@ -314,6 +314,14 @@ int main(int argc, char** argv)
 			return err;
 		}
 
+		err = clSetKernelArg(knn_kernel, 1, sizeof(cl_mem), (void *)&buffer_struct_test_points);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set knn_kernel arg1 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+
 		err = clSetKernelArg(knn_kernel, 2, sizeof(cl_uint), (void *)&k);
 
 		if ((CL_SUCCESS != err))
@@ -322,16 +330,23 @@ int main(int argc, char** argv)
 			return err;
 		}
 	}
+#endif
+
+	// Execute the kernel over the entire range of our logically 1d configuration 
+	// using the maximum kernel work group size 
+	printf("\n");
+	printf(SEPARATOR);
+	printf("Executing NDRange \n");
 
 	// TODO: define NDRange
-	/*int dim = 2;
-	size_t global[] = { 8, 8, 0 };
-	size_t local[] = { 1, 1, 0 };*/
+	//int dim = 2;
+	//size_t global[] = { 8, 8, 0 };
+	//size_t local[] = { 1, 1, 0 };
 
 	//final proj
-	int dim = 1;
-	size_t global[] = { ref_point_size, 0, 0 }; // vector_size // assumming ref_point is way larger than test point
-	size_t local[] = { 1, 0, 0 };
+	int dim = 2;
+	size_t global[] = { ref_point_size,test_point_size, 0 }; // vector_size // assumming ref_point is way larger than test point
+	size_t local[] = { 1, 1, 0 };
 
 	//choosing best local size
 	bool first_itr = true;
@@ -348,28 +363,14 @@ int main(int argc, char** argv)
 	float runSum = 0;
 	float runNum = 0;
 
-	for (int i = 0; i < test_point_size; ++i) {
-		if (knn_kernel) {
-			buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point), (p_test_point + i), &err);
-			err = clSetKernelArg(knn_kernel, 1, sizeof(cl_mem), (void *)&buffer_struct_test_points);
-			if ((CL_SUCCESS != err)){
-				LogError("Error: Failed to set knn_kernel arg1 '%s'.\n", TranslateOpenCLError(err));
-				return err;
-			}
-			// Execute the kernel over the entire range of our logically 1d configuration 
-			// using the maximum kernel work group size 
-			printf("\n");
-			printf(SEPARATOR);
-			printf("Executing NDRange \n");
+	if (openclqueueProfilingEnable)
+		iterations = 1; // 50;
 
-			if (openclqueueProfilingEnable)
-				iterations = 1; // 50;
-
-			//CL_DEVICE_MAX_WORK_GROUP_SIZE
-
-			//local[0] = (size_t)(counter + 1);
-			LogInfo("%d %d %d\n", local[0], local[1], local[2]);
-			//if (global[0] % local[0] == 0) {
+	//CL_DEVICE_MAX_WORK_GROUP_SIZE
+	
+		//local[0] = (size_t)(counter + 1);
+		LogInfo("%d %d %d\n", local[0], local[1], local[2]);
+		//if (global[0] % local[0] == 0) {
 			for (unsigned int i = 0; i < iterations; ++i) {
 				//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
 				if (knn_kernel) err = clEnqueueNDRangeKernel(commands, knn_kernel, dim, NULL, global, local, 0, NULL, &prof_event);
@@ -377,7 +378,9 @@ int main(int argc, char** argv)
 				if (CL_SUCCESS != err)
 				{
 					printf("Error: Failed to execute kernel!\n");
+					//clReleaseKernel(kernel);
 					if (knn_kernel) clReleaseKernel(knn_kernel);
+					//if (kernel1_2) clReleaseKernel(kernel1_2);
 					clReleaseProgram(program);
 					clReleaseCommandQueue(commands);
 					clReleaseContext(context);
@@ -403,30 +406,24 @@ int main(int argc, char** argv)
 			current_time = runSum / runNum;
 			runSum = 0;
 			runNum = 0;
-			//}
-			if (current_time < best_time || first_itr) { //current time is faster therefore better local size
-				best_time = current_time;
-				ideal_local_size = local[0];
-				first_itr = false;
-			}
-			LogInfo("Best local size is %d, best time is %f, current_time is %f.\n", ideal_local_size, best_time, current_time);
-
-
-
-			//opencl profiling timing 
-			if (openclqueueProfilingEnable)
-				LogInfo("After %d iterations, average running time for kernel is %f ms.\n", iterations, best_time);
-
-			printf("\n");
-			printf("\n***** NDRange is finished ***** \n");
-			printf(SEPARATOR);
-
+		//}
+		if (current_time < best_time || first_itr) { //current time is faster therefore better local size
+			best_time = current_time;
+			ideal_local_size = local[0];
+			first_itr = false;
 		}
-	}
+		LogInfo("Best local size is %d, best time is %f, current_time is %f.\n", ideal_local_size, best_time, current_time);
 	
-#endif
 
-	
+
+	//opencl profiling timing 
+	if (openclqueueProfilingEnable)
+		LogInfo("After %d iterations, average running time for kernel is %f ms.\n", iterations, best_time);
+
+	printf("\n");
+	printf("\n***** NDRange is finished ***** \n");
+	printf(SEPARATOR);
+
 	printf("\nRead output memory \n");
 	printf(SEPARATOR);
 
