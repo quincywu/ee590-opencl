@@ -72,7 +72,8 @@ void generateRefPoints(ref_point* inputArray, cl_uint arrayWidth, cl_uint arrayH
 	for (cl_uint i = 0; i < array_size; ++i)
 	{
 		inputArray[i].p.location = { (cl_float)(rand() % 1000), (cl_float)(rand() % 1000) };
-		inputArray[i].p.category = (cl_int) abs((rand() % NUM_CATEGORY));
+		inputArray[i].p.category = (cl_uint)abs((rand()));
+		inputArray[i].p.category = (cl_uint) abs((rand() % NUM_CATEGORY));
 		//cout << i << ", " << inputArray[i].p.category << endl;
 	}
 }
