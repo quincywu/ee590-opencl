@@ -24,8 +24,8 @@
 #define BUF_SIZE 1048576
 
 #define PARALLEL_BITONIC 1
-#define NUM_CATEGORY 2
-#define K 2
+#define NUM_CATEGORY 50
+#define K 10
 
 const cl_uint k = K; // used defined value
 
@@ -86,15 +86,20 @@ int main(int argc, char** argv)
 	cl_context       context = NULL;   // compute context 
 	cl_command_queue commands = NULL;   // compute device's queue 
 	cl_program       program = NULL;   // compute program 
-	//cl_kernel        kernel = NULL;   // compute kernel 
 
-									  //final proj
+	//final proj
 	cl_kernel        knn_kernel = NULL;   // compute kernel 
+
+	cl_kernel        knn_dist = NULL;
+	cl_kernel        knn_sort = NULL;
+	cl_kernel        knn_majority = NULL;
+	cl_kernel        knn_majority_helper = NULL;
+
 	cl_event		 prof_event;
 
-	int			 vector_size = 4;
+	int			 vector_size = 1024*1024;
 	int			 ref_point_size = vector_size;
-	int			 test_point_size = vector_size;
+	int			 test_point_size = 16;
 
 	// get Intel OpenCL platform 
 	platform = get_intel_platform();
@@ -130,16 +135,6 @@ int main(int argc, char** argv)
 
 #if PARALLEL_BITONIC
 	//final proj
-	/*cl_float4* inputA = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
-	cl_float4* inputB = (cl_float4*)_aligned_malloc(sizeof(cl_float4) * vector_size, 4096);
-	cl_float* outputC = (cl_float*)_aligned_malloc(sizeof(cl_float) * vector_size, 4096);
-	if (NULL == inputA || NULL == inputB || NULL == outputC)
-	{
-		LogError("Error: _aligned_malloc failed to allocate buffers.\n");
-		return -1;
-	}*/
-
-	//generateInput(inputA, vector_size, 1);
 	generatetestPointsLocation(p_test_point, test_point_size, 1);
 	generateRefPoints(p_ref_point, ref_point_size, 1);
 #endif
@@ -240,9 +235,13 @@ int main(int argc, char** argv)
 
 	// TODO: specify correct kernel function name
 #if PARALLEL_BITONIC 
-	knn_kernel = clCreateKernel(program, "knn_kernel", &err);
+	// knn_kernel = clCreateKernel(program, "knn_kernel", &err); // deprecated unused kernel
+	knn_dist = clCreateKernel(program, "knn_dist", &err);
+	knn_sort = clCreateKernel(program, "knn_sort", &err);
+	//knn_majority = clCreateKernel(program, "knn_majority", &err); // deprecated unused kernel
+	//knn_majority_helper = clCreateKernel(program, "knn_majority_helper", &err); // deprecated unused kernel
 
-	if (CL_SUCCESS != err || NULL == knn_kernel)
+	if (CL_SUCCESS != err || NULL == knn_dist || NULL == knn_sort)
 	{
 		printf("Error: Failed to create compute kernel!\n");
 		clReleaseProgram(program);
@@ -288,25 +287,9 @@ int main(int argc, char** argv)
 	//cl_float4 cl_fl4 = { 1.0f, 2.0f, 3.0f, 4.0f };
 
 	// TODO: set kernel arguments
-	/*err = clSetKernelArg(kernel, 0, sizeof(cl_float4), &cl_fl4);
-
-	if ((CL_SUCCESS != err))
-	{
-	LogError("Error: Failed to set kernel arg0 '%s'.\n", TranslateOpenCLError(err));
-	return err;
-	}
-
-	err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &buffer_structbuf);
-
-	if ((CL_SUCCESS != err))
-	{
-	LogError("Error: Failed to set kernel arg1 '%s'.\n", TranslateOpenCLError(err));
-	return err;
-	}*/
-
 	//final proj
 #if PARALLEL_BITONIC
-	if (knn_kernel) {
+	if (knn_kernel) { // deprecated unused kernel
 		err = clSetKernelArg(knn_kernel, 0, sizeof(cl_mem), (void *)&buffer_struct_ref_points);
 
 		if ((CL_SUCCESS != err))
@@ -324,20 +307,46 @@ int main(int argc, char** argv)
 		}
 	}
 
-	// TODO: define NDRange
-	/*int dim = 2;
-	size_t global[] = { 8, 8, 0 };
-	size_t local[] = { 1, 1, 0 };*/
+	if (knn_dist) {
+		err = clSetKernelArg(knn_dist, 0, sizeof(cl_mem), (void *)&buffer_struct_ref_points);
 
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set knn_dist arg0 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+	}
+
+	if (knn_sort) {
+		err = clSetKernelArg(knn_sort, 0, sizeof(cl_mem), (void *)&buffer_struct_ref_points);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set knn_sort arg0 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+	}
+
+	if (knn_majority) { // deprecated unused kernel
+		err = clSetKernelArg(knn_majority, 0, sizeof(cl_mem), (void *)&buffer_struct_ref_points);
+
+		if ((CL_SUCCESS != err))
+		{
+			LogError("Error: Failed to set knn_majority arg0 '%s'.\n", TranslateOpenCLError(err));
+			return err;
+		}
+	}
+
+	// TODO: define NDRange
 	//final proj
 	int dim = 1;
-	size_t global[] = { ref_point_size, 0, 0 }; // vector_size // assumming ref_point is way larger than test point
+	size_t global[] = { ref_point_size, 0, 0 }; // assumming ref_point is way larger than test point
 	size_t local[] = { 1, 0, 0 };
 
 	//choosing best local size
 	bool first_itr = true;
 	cl_float best_time = 0.0f, current_time;
-	unsigned int counter = 0;
+	unsigned int counter = 64;
 	int ideal_local_size = 1;
 
 	//opencl profiling timing
@@ -349,92 +358,362 @@ int main(int argc, char** argv)
 	float runSum = 0;
 	float runNum = 0;
 
-	for (int i = 0; i < test_point_size; ++i) {
-		if (knn_kernel) {
-			buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point), (p_test_point + i), &err);
-			err = clSetKernelArg(knn_kernel, 1, sizeof(cl_mem), (void *)&buffer_struct_test_points);
-			if ((CL_SUCCESS != err)){
-				LogError("Error: Failed to set knn_kernel arg1 '%s'.\n", TranslateOpenCLError(err));
-				return err;
-			}
-			// Execute the kernel over the entire range of our logically 1d configuration 
-			// using the maximum kernel work group size 
-			printf("\n");
-			printf(SEPARATOR);
-			printf("Executing NDRange \n");
+	// resultPtr
+	struct point *resultPtr = (struct point*)_aligned_malloc(sizeof(struct point) * test_point_size, 4096);
+	//for (; counter <= 512; counter <<= 1) { // then local[0] would be less than global size
+		local[0] = (size_t)(counter);
+		LogInfo("%d %d %d\n", local[0], local[1], local[2]);
+		if (global[0] % local[0] == 0 ) {
+			for (int i = 0; i < iterations; ++i) {
 
-			if (openclqueueProfilingEnable)
-				iterations = 1; // 50;
+				for (int i = 0; i < test_point_size; ++i) {
+					if (knn_kernel) { // deprecated unused kernel
+						buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point), (p_test_point + i), &err);
+						err = clSetKernelArg(knn_kernel, 1, sizeof(cl_mem), (void *)&buffer_struct_test_points);
+						if ((CL_SUCCESS != err)) {
+							LogError("Error: Failed to set knn_kernel arg1 '%s'.\n", TranslateOpenCLError(err));
+							return err;
+						}
+						// Execute the kernel over the entire range of our logically 1d configuration 
+						// using the maximum kernel work group size 
+						printf("\n");
+						printf(SEPARATOR);
+						printf("Executing NDRange \n");
 
-			//CL_DEVICE_MAX_WORK_GROUP_SIZE
+						if (openclqueueProfilingEnable)
+							iterations = 1; // 50;
 
-			//local[0] = (size_t)(counter + 1);
-			LogInfo("%d %d %d\n", local[0], local[1], local[2]);
-			//if (global[0] % local[0] == 0) {
-			for (unsigned int i = 0; i < iterations; ++i) {
-				//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
-				if (knn_kernel) err = clEnqueueNDRangeKernel(commands, knn_kernel, dim, NULL, global, local, 0, NULL, &prof_event);
+						//CL_DEVICE_MAX_WORK_GROUP_SIZE
 
-				if (CL_SUCCESS != err)
-				{
-					printf("Error: Failed to execute kernel!\n");
-					if (knn_kernel) clReleaseKernel(knn_kernel);
-					clReleaseProgram(program);
-					clReleaseCommandQueue(commands);
-					clReleaseContext(context);
-					return EXIT_FAILURE;
+						//local[0] = (size_t)(counter + 1);
+						LogInfo("%d %d %d\n", local[0], local[1], local[2]);
+						//if (global[0] % local[0] == 0) {
+						for (unsigned int i = 0; i < iterations; ++i) {
+							//err = clEnqueueNDRangeKernel(commands, kernel, dim, NULL, global, local, 0, NULL, &prof_event);
+							if (knn_kernel) err = clEnqueueNDRangeKernel(commands, knn_kernel, dim, NULL, global, local, 0, NULL, &prof_event);
+
+							if (CL_SUCCESS != err)
+							{
+								printf("Error: Failed to execute kernel!\n");
+								if (knn_kernel) clReleaseKernel(knn_kernel);
+								clReleaseProgram(program);
+								clReleaseCommandQueue(commands);
+								clReleaseContext(context);
+								return EXIT_FAILURE;
+							}
+
+							err = clFinish(commands);
+							err = clWaitForEvents(1, &prof_event);
+							if (err != CL_SUCCESS)
+							{
+								printf("Error: clEnqueueNDRangeKernel failed to finish\n");
+								return EXIT_FAILURE;
+							}
+
+							err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
+								&start_time, &return_bytes);
+							err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
+								&end_time, &return_bytes);
+							runSum += (double)(end_time - start_time) / 1000000; //nano
+							runNum++;
+
+						}
+						current_time = runSum / runNum;
+						runSum = 0;
+						runNum = 0;
+						//}
+						if (current_time < best_time || first_itr) { //current time is faster therefore better local size
+							best_time = current_time;
+							ideal_local_size = local[0];
+							first_itr = false;
+						}
+						LogInfo("Best local size is %d, best time is %f, current_time is %f.\n", ideal_local_size, best_time, current_time);
+
+
+
+						//opencl profiling timing 
+						if (openclqueueProfilingEnable)
+							LogInfo("After %d iterations, average running time for kernel is %f ms.\n", iterations, best_time);
+
+						printf("\n");
+						printf("\n***** NDRange is finished ***** \n");
+						printf(SEPARATOR);
+
+					}
+
+					// different buffer value every loop
+					buffer_struct_test_points = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(struct point), (p_test_point + i), &err);
+
+					if (knn_dist) {
+						dim = 1;
+						global[0] = ref_point_size;
+
+						err = clSetKernelArg(knn_dist, 1, sizeof(cl_mem), (void *)&buffer_struct_test_points);
+						if ((CL_SUCCESS != err)) {
+							LogError("Error: Failed to set knn_dist arg1 '%s'.\n", TranslateOpenCLError(err));
+							return err;
+						}
+
+						//printf("\n");
+						//printf(SEPARATOR);
+						//printf("Executing dist NDRange \n");
+
+						err = clEnqueueNDRangeKernel(commands, knn_dist, dim, NULL, global, local, 0, NULL, &prof_event);
+						if (CL_SUCCESS != err) {
+							printf("Error: Failed to execute kernel!\n");
+							clReleaseKernel(knn_dist);
+							clReleaseProgram(program);
+							clReleaseCommandQueue(commands);
+							clReleaseContext(context);
+							return EXIT_FAILURE;
+						}
+
+						// Call clFinish to guarantee that output region is updated
+						err = clFinish(commands);
+						err = clWaitForEvents(1, &prof_event);
+						if (err != CL_SUCCESS) {
+							printf("Error: clEnqueueNDRangeKernel failed to finish\n");
+							return EXIT_FAILURE;
+						}
+
+						err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
+							&start_time, &return_bytes);
+						err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
+							&end_time, &return_bytes);
+						runSum += (double)(end_time - start_time) / 1000000; //nano
+
+						//printf("\n");
+						//printf("\n***** dist NDRange is finished ***** \n");
+						//printf(SEPARATOR);
+					}
+
+					if (knn_sort) {
+						dim = 1;
+						global[0] = ref_point_size;
+
+						//printf("\n");
+						//printf(SEPARATOR);
+						//printf("Executing NDRange \n");
+
+						cl_uint sortOrder = 1; // descending order else 1 for ascending order
+						cl_uint stages = 0;
+						err = clSetKernelArg(knn_sort, 3, sizeof(cl_uint), (void *)&sortOrder);
+						if ((CL_SUCCESS != err)) {
+							LogError("Error: Failed to set knn_dist arg3 '%s'.\n", TranslateOpenCLError(err));
+							return err;
+						}
+
+						for (unsigned int i = ref_point_size; i > 1; i >>= 1)
+							++stages;
+
+						for (cl_uint stage = 0; stage < stages; ++stage) {
+							err = clSetKernelArg(knn_sort, 1, sizeof(cl_uint), (void *)&stage);
+							if ((CL_SUCCESS != err)) {
+								LogError("Error: Failed to set knn_dist arg1 '%s'.\n", TranslateOpenCLError(err));
+								return err;
+							}
+
+							for (cl_uint subStage = 0; subStage < stage + 1; subStage++) {
+								err = clSetKernelArg(knn_sort, 2, sizeof(cl_uint), (void *)&subStage);
+								if ((CL_SUCCESS != err)) {
+									LogError("Error: Failed to set knn_dist arg2 '%s'.\n", TranslateOpenCLError(err));
+									return err;
+								}
+
+								err = clEnqueueNDRangeKernel(commands, knn_sort, dim, NULL, global, local, 0, NULL, &prof_event);
+								if (CL_SUCCESS != err)
+								{
+									printf("Error: Failed to execute kernel!\n");
+									clReleaseKernel(knn_sort);
+									clReleaseProgram(program);
+									clReleaseCommandQueue(commands);
+									clReleaseContext(context);
+									return EXIT_FAILURE;
+								}
+
+								err = clFinish(commands);
+								err = clWaitForEvents(1, &prof_event);
+								if (err != CL_SUCCESS) {
+									printf("Error: clEnqueueNDRangeKernel failed to finish\n");
+									return EXIT_FAILURE;
+								}
+
+								err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
+									&start_time, &return_bytes);
+								err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
+									&end_time, &return_bytes);
+								runSum += (double)(end_time - start_time) / 1000000; //nano
+
+								//printf("\n");
+								//printf("\n***** NDRange is finished ***** \n");
+								//printf(SEPARATOR);
+
+							}
+						}
+
+						//printf(SEPARATOR);
+						err = clFinish(commands);
+
+						//printf("k = %d\n", k);
+						//for (int i = 0; i < ref_point_size; ++i)
+						//	printf("this is result ref_point[%d].dist = %f, category=%d\n", i, p_ref_point[i].dist, p_ref_point[i].p.category);
+						/*
+						cl_uint* aux = (cl_uint*)_aligned_malloc(sizeof(cl_uint) * NUM_CATEGORY, 4096);
+						for (int i = 0; i < NUM_CATEGORY; ++i) {
+							aux[i] = 0;
+						}
+
+						cl_mem buff_aux = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(cl_uint) * NUM_CATEGORY, aux, &err);
+
+						if (knn_majority) {
+							dim = 1;
+							global[0] = ref_point_size;
+							local[0] = 1;
+
+							err = clSetKernelArg(knn_majority, 1, sizeof(cl_uint), (void *)&k);
+							if ((CL_SUCCESS != err))
+							{
+								LogError("Error: Failed to set knn_majority arg1 '%s'.\n", TranslateOpenCLError(err));
+								return err;
+							}
+							*
+							cl_uint majority = 0;
+							err = clSetKernelArg(knn_majority, 2, sizeof(cl_uint), (void *)&majority);
+							if ((CL_SUCCESS != err))
+							{
+								LogError("Error: Failed to set knn_majority arg2 '%s'.\n", TranslateOpenCLError(err));
+								return err;
+							}
+							*
+
+							err = clSetKernelArg(knn_majority, 2, sizeof(cl_mem), (void *)&buff_aux);
+							if ((CL_SUCCESS != err))
+							{
+								LogError("Error: Failed to set knn_majority arg2 '%s'.\n", TranslateOpenCLError(err));
+								return err;
+							}
+
+							printf("\n");
+							printf(SEPARATOR);
+
+							printf("Executing NDRange \n");
+							err = clEnqueueNDRangeKernel(commands, knn_majority, dim, NULL, global, local, 0, NULL, &prof_event);
+							if (CL_SUCCESS != err) {
+								printf("Error: Failed to execute kernel!\n");
+								clReleaseKernel(knn_majority);
+								clReleaseProgram(program);
+								clReleaseCommandQueue(commands);
+								clReleaseContext(context);
+								return EXIT_FAILURE;
+							}
+
+							err = clFinish(commands);
+							err = clWaitForEvents(1, &prof_event);
+							if (err != CL_SUCCESS) {
+								printf("Error: clEnqueueNDRangeKernel failed to finish\n");
+								return EXIT_FAILURE;
+							}
+
+							cl_uint *resultPtr_2 = (cl_uint *)clEnqueueMapBuffer(commands, buff_aux, true, CL_MAP_READ, 0, sizeof(buff_aux) * NUM_CATEGORY, 0, NULL, NULL, &err);
+							for (int i = 0; i < NUM_CATEGORY; ++i)
+								printf("this is resultPtr_2[%d]=%d\n", i, aux[i]);
+
+							err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
+								&start_time, &return_bytes);
+							err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
+								&end_time, &return_bytes);
+							runSum += (double)(end_time - start_time) / 1000000; //nano
+							runNum++;
+
+							printf("\n");
+							printf("\n***** NDRange is finished ***** \n");
+							printf(SEPARATOR);
+						}
+
+						if (knn_majority_helper) {
+							dim = 1;
+							global[0] = NUM_CATEGORY;
+							local[0] = 1;
+
+							err = clSetKernelArg(knn_majority_helper, 0, sizeof(cl_mem), (void *)&buff_aux);
+							if ((CL_SUCCESS != err))
+							{
+								LogError("Error: Failed to set knn_majority_helper arg0 '%s'.\n", TranslateOpenCLError(err));
+								return err;
+							}
+
+							cl_uint max_cat = 0;
+							err = clSetKernelArg(knn_majority_helper, 1, sizeof(cl_mem), (void *)&max_cat);
+							if ((CL_SUCCESS != err))
+							{
+								LogError("Error: Failed to set knn_majority_helper arg1 '%s'.\n", TranslateOpenCLError(err));
+								return err;
+							}
+
+							printf("\n");
+							printf(SEPARATOR);
+							printf("Executing NDRange \n");
+
+							err = clEnqueueNDRangeKernel(commands, knn_majority_helper, dim, NULL, global, local, 0, NULL, &prof_event);
+							if (CL_SUCCESS != err) {
+								printf("Error: Failed to execute kernel!\n");
+								clReleaseKernel(knn_majority_helper);
+								clReleaseProgram(program);
+								clReleaseCommandQueue(commands);
+								clReleaseContext(context);
+								return EXIT_FAILURE;
+							}
+
+							err = clFinish(commands);
+							err = clWaitForEvents(1, &prof_event);
+							if (err != CL_SUCCESS) {
+								printf("Error: clEnqueueNDRangeKernel failed to finish\n");
+								return EXIT_FAILURE;
+							}
+
+							p_test_point[i].category = max_cat;
+							printf("this is category = %d\n", p_test_point[i].category );
+
+							err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
+								&start_time, &return_bytes);
+							err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
+								&end_time, &return_bytes);
+							runSum += (double)(end_time - start_time) / 1000000; //nano
+							runNum++;
+
+							printf("\n");
+							printf("\n***** NDRange is finished ***** \n");
+							printf(SEPARATOR);
+
+						}
+						*/
+
+					}
+
+					resultPtr[i].category = majority(p_ref_point);
+
 				}
-
-				err = clFinish(commands);
-				err = clWaitForEvents(1, &prof_event);
-				if (err != CL_SUCCESS)
-				{
-					printf("Error: clEnqueueNDRangeKernel failed to finish\n");
-					return EXIT_FAILURE;
-				}
-
-				err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong),
-					&start_time, &return_bytes);
-				err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),
-					&end_time, &return_bytes);
-				runSum += (double)(end_time - start_time) / 1000000; //nano
 				runNum++;
-
 			}
+
 			current_time = runSum / runNum;
 			runSum = 0;
 			runNum = 0;
-			//}
-			if (current_time < best_time || first_itr) { //current time is faster therefore better local size
-				best_time = current_time;
-				ideal_local_size = local[0];
-				first_itr = false;
-			}
-			LogInfo("Best local size is %d, best time is %f, current_time is %f.\n", ideal_local_size, best_time, current_time);
-
-
-
-			//opencl profiling timing 
-			if (openclqueueProfilingEnable)
-				LogInfo("After %d iterations, average running time for kernel is %f ms.\n", iterations, best_time);
-
-			printf("\n");
-			printf("\n***** NDRange is finished ***** \n");
-			printf(SEPARATOR);
-
 		}
-	}
-	
+		if (current_time < best_time || first_itr) { //current time is faster therefore better local size
+			best_time = current_time;
+			ideal_local_size = local[0];
+			first_itr = false;
+		}
+	//}
+	LogInfo("Best local size is %d, best time is %f.\n", ideal_local_size, best_time);
 #endif
 
-	
 	printf("\nRead output memory \n");
 	printf(SEPARATOR);
 
 	//final proj
 	bool result = true;
-
-	point *resultPtr = (point *)clEnqueueMapBuffer(commands, buffer_struct_test_points, true, CL_MAP_READ, 0, sizeof(struct point) * test_point_size, 0, NULL, NULL, &err);
 
 	if (CL_SUCCESS != err)
 	{
@@ -476,7 +755,7 @@ int main(int argc, char** argv)
 		}
 
 		if (result)
-			LogInfo("Verification passed");
+			LogInfo("Verification passed\n");
 	}
 
 	if (windowqueueProfilingEnable)
@@ -484,6 +763,12 @@ int main(int argc, char** argv)
 
 
 	// Unmapped the output buffer before releasing it
+	err = clEnqueueUnmapMemObject(commands, buffer_struct_ref_points, resultPtr, 0, NULL, NULL);
+	if (CL_SUCCESS != err)
+	{
+		LogError("Error: clEnqueueUnmapMemObject returned %s\n", TranslateOpenCLError(err));
+	}
+
 	err = clEnqueueUnmapMemObject(commands, buffer_struct_test_points, resultPtr, 0, NULL, NULL);
 	if (CL_SUCCESS != err)
 	{
@@ -494,15 +779,15 @@ int main(int argc, char** argv)
 	// TODO: release memory object and host memory
 	err = clReleaseMemObject(buffer_struct_ref_points);
 	err = clReleaseMemObject(buffer_struct_test_points);
-	//err = clReleaseMemObject(buffer_structbuf);
 
 	_aligned_free(p_str1);
 	_aligned_free(p_test_point);
 	_aligned_free(p_ref_point);
+	_aligned_free(resultPtr);
 
-	//clReleaseKernel(kernel);
-	//clReleaseKernel(kernel1_1);
-	clReleaseKernel(knn_kernel);
+	if (knn_kernel) clReleaseKernel(knn_kernel);
+	if (knn_dist) clReleaseKernel(knn_dist);
+	if (knn_sort) clReleaseKernel(knn_sort);
 	clReleaseProgram(program);
 	clReleaseCommandQueue(commands);
 	clReleaseContext(context);
@@ -609,7 +894,7 @@ bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point
 
 		// verify
 		// resultPtr is same size as test_point_size
-		if (resultPtr[i] != test_point_data[i]) {
+		if (resultPtr[i].category != test_point_data[i].category) {
 			LogError("Verification failed at %d, resultPtr[i].category=%d, test_point_data[i].category=%d\n", i, resultPtr[i].category, test_point_data[i].category);
 			//output file
 			ofstream myfile;
