@@ -1,1 +1,0 @@
-tried using struct, doesnt allow passing struct pointers

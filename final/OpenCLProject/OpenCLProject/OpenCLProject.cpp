@@ -97,9 +97,9 @@ int main(int argc, char** argv)
 
 	cl_event		 prof_event;
 
-	int			 vector_size = 1024*1024;
+	int			 vector_size = 1024*16;
 	int			 ref_point_size = vector_size;
-	int			 test_point_size = 16;
+	int			 test_point_size = 64;
 
 	// get Intel OpenCL platform 
 	platform = get_intel_platform();
@@ -796,7 +796,8 @@ int main(int argc, char** argv)
 }
 
 cl_float my_dist(const cl_float2& pointA, const cl_float2& pointB) {
-	return (cl_float)(sqrt((pointA.x - pointB.x) * (pointA.x - pointB.x) + (pointA.y - pointB.y) * (pointA.y - pointB.y)));
+	return (cl_float)(sqrt((pointA.x - pointB.x) * (pointA.x - pointB.x) 
+		+ (pointA.y - pointB.y) * (pointA.y - pointB.y)));
 }
 
 // double check dist is accessable
@@ -877,7 +878,8 @@ cl_uint majority(ref_point* ref_data ) {
 	return maj;
 }
 
-bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point_data, const int ref_point_size, const int test_point_size) {
+bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point_data, 
+	const int ref_point_size, const int test_point_size) {
 	// build distance matrix 
 	for (int i = 0; i < test_point_size; ++i) {
 		// for every test_point, get distance to all ref_point
@@ -886,7 +888,6 @@ bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point
 		//sort ref_point 0 is the first order
 		//bitonicSort(ref_point_data, ref_point_size);
 		oddeven_sort(ref_point_data, ref_point_size);
-// TODO check resulttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt	
 
 		//determine test_point category based on k
 		test_point_data[i].category = majority(ref_point_data);
@@ -895,13 +896,15 @@ bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point
 		// verify
 		// resultPtr is same size as test_point_size
 		if (resultPtr[i].category != test_point_data[i].category) {
-			LogError("Verification failed at %d, resultPtr[i].category=%d, test_point_data[i].category=%d\n", i, resultPtr[i].category, test_point_data[i].category);
+			LogError("Verification failed at %d, resultPtr[i].category=%d, test_point_data[i].category=%d\n", 
+				i, resultPtr[i].category, test_point_data[i].category);
 			//output file
 			ofstream myfile;
 			myfile.open("debug.csv");
 			int j = 0;
 			for (int i = 0; i < test_point_size; ++ i) {
-				myfile << "(" << test_point_data[i].location.x << ", " << test_point_data[i].location.y << ", " << (int)test_point_data[i].category << ") ";
+				myfile << "(" << test_point_data[i].location.x << ", " << test_point_data[i].location.y 
+					<< ", " << (int)test_point_data[i].category << ") ";
 				if (20 > j++) {
 					myfile << endl;
 					j = 0;
@@ -912,14 +915,6 @@ bool seq_ref_code(point* resultPtr, ref_point* ref_point_data, point* test_point
 			return false;
 		}
 	}
-
-	/*for (unsigned int i = 0; i < vector_size; ++i) {
-		if (resultPtr[i] != inputA[i].x * inputB[i].x + inputA[i].y * inputB[i].y + inputA[i].z * inputB[i].z + inputA[i].w * inputB[i].w) {
-
-			LogError("Verification failed at %d, resultPtr=%f, inputA[i]=%.2v4hlf, inputB=%.2v4hlf\n", i, resultPtr[i], inputA[i], inputB[i]);
-			return false;
-		}
-	}*/
 
 	return true; // verification passed
 
